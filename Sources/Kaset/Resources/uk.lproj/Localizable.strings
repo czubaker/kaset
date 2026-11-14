@@ -635,3 +635,11 @@
 
 // YouTube recommendation feedback
 "Couldn't send feedback to YouTube." = "Не вдалося надіслати відгук до YouTube.";
+
+// YouTube search history
+"Recent searches" = "Нещодавні запити";
+"YouTube search history" = "Історія пошуку YouTube";
+"Manage" = "Керувати";
+"Review and delete YouTube search history in your Google Account" = "Переглянути й видалити історію пошуку YouTube в обліковому записі Google";
+"Remove from search history" = "Видалити з історії пошуку";
+"Couldn't update YouTube search history." = "Не вдалося оновити історію пошуку YouTube.";

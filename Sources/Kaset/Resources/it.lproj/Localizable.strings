@@ -635,3 +635,11 @@
 
 // YouTube recommendation feedback
 "Couldn't send feedback to YouTube." = "Impossibile inviare il feedback a YouTube.";
+
+// YouTube search history
+"Recent searches" = "Ricerche recenti";
+"YouTube search history" = "Cronologia delle ricerche di YouTube";
+"Manage" = "Gestisci";
+"Review and delete YouTube search history in your Google Account" = "Rivedi ed elimina la cronologia delle ricerche di YouTube nel tuo account Google";
+"Remove from search history" = "Rimuovi dalla cronologia delle ricerche";
+"Couldn't update YouTube search history." = "Impossibile aggiornare la cronologia delle ricerche di YouTube.";

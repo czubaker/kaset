@@ -2105,6 +2105,35 @@ account owner's approval, Not interested, Don't recommend channel, and Undo were
 then sent from the app for low-traffic videos: YouTube accepted each request,
 the card disappeared, and Undo restored it.
 
+#### YouTube search history (verified 2026-11-14)
+
+The account's YouTube search history is what the web search box shows when it
+is focused while empty. It is not an InnerTube call:
+
+```text
+GET https://www.youtube.com/complete/search?ds=yt&hl=<hl>&client=youtube&gs_ri=youtube&tok=<PSUGGEST_TOKEN>&q=&cp=0
+```
+
+- Authentication is the account cookies only (no SAPISIDHASH).
+- `tok` is `ytcfg.SBOX_SETTINGS.PSUGGEST_TOKEN` from any signed-in YouTube page
+  (`/account` is the smallest stable one, about 850 KB). Each page load issues a
+  different token; earlier tokens kept working for at least several minutes.
+  Without `tok` the response is empty, and a made-up token returns only generic
+  suggestions.
+- The body is JSONP: `window.google.ac.h(["", [items…], {…}])`. Each item is
+  `[query, type, [subtypes…], {extras}?]`. History entries are type `35` with
+  subtype `39` (some also carry `631`); extras hold a video thumbnail
+  (`zai`), its size (`zaj`, `zak`), and video ID (`zal`). Generic suggestions
+  are type `0` without subtype `39`.
+- The web client's Remove link sends
+  `GET /complete/deleteitems?client=youtube&delq=<query>&tok=<PSUGGEST_TOKEN>`
+  (read from the shipped player bundle). With the account owner's approval, one
+  junk entry was removed from the app: it disappeared from the next suggest
+  response while a neighboring control entry stayed. Kaset still refetches the
+  list after each removal to confirm it.
+- There is no brand-account selector, so Kaset only reads it for the primary
+  account and falls back to locally recorded searches otherwise.
+
 ### Authenticated Endpoints
 
 For authenticated endpoints (🔐), sign in to the Kaset app first:
@@ -2192,6 +2221,7 @@ The `--brand` flag sets `context.user.onBehalfOfUser` in the request body. See [
 
 | Date | Changes |
 |------|---------|
+| 2026-11-14 | Verified the YouTube search box's search history request, its personalization token, and the web client's removal request |
 | 2026-11-14 | Verified regular YouTube recommendation feedback menus (Home, topic chips, watch-next, subscriptions, history) and live Not interested, Don't recommend channel, and Undo requests |
 | 2026-09-05 | Tightened discovery redaction, JSON scalar validation, and token-file diagnostics and overwrite protection. Rechecked Android with a consistent OS/SDK profile and verified guest hops; corrected Account menu implementation status |
 | 2026-09-04 | Verified signed-in Library filters, sort reloads, pagination, podcast Channels, Profiles, upload empty states, and taste-builder data. Added safe selection-read extraction and blocked taste acceptance in Explorer; recorded Recap and authenticated transcript limits |

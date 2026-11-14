@@ -633,3 +633,11 @@
 
 // YouTube recommendation feedback
 "Couldn't send feedback to YouTube." = "无法向 YouTube 发送反馈。";
+
+// YouTube search history
+"Recent searches" = "最近搜索";
+"YouTube search history" = "YouTube 搜索记录";
+"Manage" = "管理";
+"Review and delete YouTube search history in your Google Account" = "在 Google 账号中查看和删除 YouTube 搜索记录";
+"Remove from search history" = "从搜索记录中移除";
+"Couldn't update YouTube search history." = "无法更新 YouTube 搜索记录。";

@@ -635,3 +635,11 @@
 
 // YouTube recommendation feedback
 "Couldn't send feedback to YouTube." = "YouTube에 피드백을 보낼 수 없습니다.";
+
+// YouTube search history
+"Recent searches" = "최근 검색";
+"YouTube search history" = "YouTube 검색 기록";
+"Manage" = "관리";
+"Review and delete YouTube search history in your Google Account" = "Google 계정에서 YouTube 검색 기록을 검토하고 삭제합니다";
+"Remove from search history" = "검색 기록에서 삭제";
+"Couldn't update YouTube search history." = "YouTube 검색 기록을 업데이트할 수 없습니다.";

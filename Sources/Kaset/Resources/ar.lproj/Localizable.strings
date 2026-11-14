@@ -635,3 +635,11 @@
 
 // YouTube recommendation feedback
 "Couldn't send feedback to YouTube." = "تعذّر إرسال الملاحظات إلى YouTube.";
+
+// YouTube search history
+"Recent searches" = "عمليات البحث الأخيرة";
+"YouTube search history" = "سجل البحث على YouTube";
+"Manage" = "إدارة";
+"Review and delete YouTube search history in your Google Account" = "راجِع سجل البحث على YouTube واحذفه في حسابك على Google";
+"Remove from search history" = "إزالة من سجل البحث";
+"Couldn't update YouTube search history." = "تعذّر تحديث سجل البحث على YouTube.";
