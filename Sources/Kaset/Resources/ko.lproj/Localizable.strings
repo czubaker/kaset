@@ -643,3 +643,7 @@
 "Review and delete YouTube search history in your Google Account" = "Google 계정에서 YouTube 검색 기록을 검토하고 삭제합니다";
 "Remove from search history" = "검색 기록에서 삭제";
 "Couldn't update YouTube search history." = "YouTube 검색 기록을 업데이트할 수 없습니다.";
+
+// YouTube video settings
+"Video settings" = "동영상 설정";
+"Audio track" = "오디오 트랙";

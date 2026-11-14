@@ -643,3 +643,7 @@
 "Review and delete YouTube search history in your Google Account" = "راجِع سجل البحث على YouTube واحذفه في حسابك على Google";
 "Remove from search history" = "إزالة من سجل البحث";
 "Couldn't update YouTube search history." = "تعذّر تحديث سجل البحث على YouTube.";
+
+// YouTube video settings
+"Video settings" = "إعدادات الفيديو";
+"Audio track" = "المسار الصوتي";

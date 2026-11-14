@@ -643,3 +643,7 @@
 "Review and delete YouTube search history in your Google Account" = "Rivedi ed elimina la cronologia delle ricerche di YouTube nel tuo account Google";
 "Remove from search history" = "Rimuovi dalla cronologia delle ricerche";
 "Couldn't update YouTube search history." = "Impossibile aggiornare la cronologia delle ricerche di YouTube.";
+
+// YouTube video settings
+"Video settings" = "Impostazioni video";
+"Audio track" = "Traccia audio";

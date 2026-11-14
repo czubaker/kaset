@@ -641,3 +641,7 @@
 "Review and delete YouTube search history in your Google Account" = "在 Google 帳戶中查看及刪除 YouTube 搜尋紀錄";
 "Remove from search history" = "從搜尋紀錄中移除";
 "Couldn't update YouTube search history." = "無法更新 YouTube 搜尋紀錄。";
+
+// YouTube video settings
+"Video settings" = "影片設定";
+"Audio track" = "音軌";

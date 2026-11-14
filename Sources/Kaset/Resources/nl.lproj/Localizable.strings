@@ -643,3 +643,7 @@
 "Review and delete YouTube search history in your Google Account" = "Bekijk en verwijder je YouTube-zoekgeschiedenis in je Google-account";
 "Remove from search history" = "Verwijderen uit zoekgeschiedenis";
 "Couldn't update YouTube search history." = "Kan YouTube-zoekgeschiedenis niet bijwerken.";
+
+// YouTube video settings
+"Video settings" = "Video-instellingen";
+"Audio track" = "Audiotrack";

@@ -643,3 +643,7 @@
 "Review and delete YouTube search history in your Google Account" = "YouTube arama geçmişini Google Hesabınızda inceleyin ve silin";
 "Remove from search history" = "Arama geçmişinden kaldır";
 "Couldn't update YouTube search history." = "YouTube arama geçmişi güncellenemedi.";
+
+// YouTube video settings
+"Video settings" = "Video ayarları";
+"Audio track" = "Ses parçası";

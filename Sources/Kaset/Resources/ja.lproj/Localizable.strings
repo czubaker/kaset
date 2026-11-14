@@ -638,3 +638,7 @@
 "Review and delete YouTube search history in your Google Account" = "Google アカウントで YouTube の検索履歴を確認・削除します";
 "Remove from search history" = "検索履歴から削除";
 "Couldn't update YouTube search history." = "YouTube の検索履歴を更新できませんでした。";
+
+// YouTube video settings
+"Video settings" = "動画の設定";
+"Audio track" = "音声トラック";
