@@ -151,7 +151,7 @@ The bottom Liquid Glass bar adapts to the active source. In YouTube mode
   current video.
 - Actions: like/dislike, Watch Later, AirPlay (video picker), closed
   captions menu (player tracks + Off), a settings menu (audio track for
-  dubbed videos and quality), full view, and picture in
+  dubbed videos, playback speed, and quality), full view, and picture in
   picture (pop out / pop in; hidden in fullscreen). When chapters are available,
   their break points are drawn directly into the progress bar as Liquid
   Glass-style seams with a material fallback; hovering or dragging near a break
@@ -221,8 +221,11 @@ whenever Kaset's volume target is audible (YouTube persists its own mute
 state). A document-start blackout stylesheet keeps loads black until the
 extraction chain reveals the video.
 
-Audio tracks use the same API: `getAvailableAudioTracks()` /
-`setAudioTrack()`, matched by `getLanguageInfo().id`.
+Audio tracks and playback speed use the same API:
+`getAvailableAudioTracks()` / `setAudioTrack()`, matched by
+`getLanguageInfo().id`, and `getAvailablePlaybackRates()` /
+`setPlaybackRate()`. The chosen speed is kept for the session and re-applied
+when each video's options load.
 
 ### Surface Placement
 

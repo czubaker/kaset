@@ -642,3 +642,5 @@
 // YouTube video settings
 "Video settings" = "動画の設定";
 "Audio track" = "音声トラック";
+"Playback speed" = "再生速度";
+"Normal" = "標準";

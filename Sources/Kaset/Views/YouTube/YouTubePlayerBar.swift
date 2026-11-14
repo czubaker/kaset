@@ -479,10 +479,11 @@ struct YouTubePlayerBar: View {
         .disabled(self.youtubePlayer.currentVideo == nil)
     }
 
-    /// Gear menu in the spirit of YouTube's own: the audio track (when the
-    /// video has dubs) as a submenu, then the quality levels.
+    /// Gear menu in the spirit of YouTube's own: audio track (when the video
+    /// has dubs) and playback speed as submenus, then the quality levels.
     private var compactSettingsMenu: some View {
         PlayerBarIconMenu(
+            isSelected: self.youtubePlayer.playbackRate != 1,
             accessibilityID: AccessibilityID.YouTubeContent.qualityButton,
             accessibilityLabel: String(localized: "Video settings")
         ) {
@@ -495,6 +496,14 @@ struct YouTubePlayerBar: View {
                 .pickerStyle(.menu)
                 .accessibilityIdentifier(AccessibilityID.YouTubeContent.audioTrackMenu)
             }
+
+            Picker(String(localized: "Playback speed"), selection: self.playbackRateSelection) {
+                ForEach(self.youtubePlayer.playbackRateOptions, id: \.self) { rate in
+                    Text(YouTubePlaybackRate.displayName(for: rate)).tag(rate)
+                }
+            }
+            .pickerStyle(.menu)
+            .accessibilityIdentifier(AccessibilityID.YouTubeContent.playbackSpeedMenu)
 
             if !self.youtubePlayer.qualityLevels.isEmpty {
                 Section(String(localized: "Video quality")) {
@@ -515,7 +524,7 @@ struct YouTubePlayerBar: View {
             Image(systemName: "gearshape")
                 .font(.system(size: 16, weight: .regular))
                 .frame(width: 16, height: 16)
-                .foregroundStyle(.primary)
+                .foregroundStyle(self.youtubePlayer.playbackRate == 1 ? .primary : Self.brandAccent)
         }
         .disabled(self.youtubePlayer.currentVideo == nil)
     }
@@ -524,6 +533,13 @@ struct YouTubePlayerBar: View {
         Binding(
             get: { self.youtubePlayer.activeAudioTrackID ?? "" },
             set: { self.youtubePlayer.selectAudioTrack(id: $0) }
+        )
+    }
+
+    private var playbackRateSelection: Binding<Double> {
+        Binding(
+            get: { self.youtubePlayer.playbackRate },
+            set: { self.youtubePlayer.selectPlaybackRate($0) }
         )
     }
 
@@ -841,4 +857,5 @@ extension AccessibilityID.YouTubeContent {
     static let captionsButton = "youtubeContent.captionsButton"
     static let qualityButton = "youtubeContent.qualityButton"
     static let audioTrackMenu = "youtubeContent.audioTrackMenu"
+    static let playbackSpeedMenu = "youtubeContent.playbackSpeedMenu"
 }

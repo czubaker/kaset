@@ -2221,7 +2221,7 @@ The `--brand` flag sets `context.user.onBehalfOfUser` in the request body. See [
 
 | Date | Changes |
 |------|---------|
-| 2026-11-14 | Verified the WebView player's audio-track API |
+| 2026-11-14 | Verified the WebView player's audio-track and playback-speed APIs |
 | 2026-11-14 | Verified the YouTube search box's search history request, its personalization token, and the web client's removal request |
 | 2026-11-14 | Verified regular YouTube recommendation feedback menus (Home, topic chips, watch-next, subscriptions, history) and live Not interested, Don't recommend channel, and Undo requests |
 | 2026-09-05 | Tightened discovery redaction, JSON scalar validation, and token-file diagnostics and overwrite protection. Rechecked Android with a consistent OS/SDK profile and verified guest hops; corrected Account menu implementation status |
@@ -2305,14 +2305,20 @@ The picker reads the WebView player's available quality levels and requests
 the chosen level through `setPlaybackQualityRange`, with a
 `setPlaybackQuality` fallback. A Music video resolution picker is not implemented.
 
-The same gear menu also lists the audio tracks of videos with dubs (verified
-in a signed-in browser on 2026-11-14 with a video that has 24 tracks).
-`player.getAvailableAudioTracks()` returns player objects with minified
-fields. Their public `getLanguageInfo()` gives a stable `id` (`en-US.4` for
-the original, `ru.3` for a dub), a localized `name` ("English (US) original"),
-`isDefault`, and `isAutoDubbed`. `getAudioTrack()` returns the active track,
-and `setAudioTrack(track)` with a track object from the list switched audio
-immediately.
+The same gear menu also offers playback speed and, for videos with dubs, the
+audio track (verified in a signed-in browser on 2026-11-14 with a video that
+has 24 tracks):
+
+- `player.getAvailablePlaybackRates()` returned `0.25` through `4`;
+  `setPlaybackRate(rate)` changes both the player state and the `<video>`
+  element's `playbackRate`. Kaset keeps the chosen speed for the session and
+  re-applies it when the next video's options load.
+- `player.getAvailableAudioTracks()` returns player objects with minified
+  fields. Their public `getLanguageInfo()` gives a stable `id` (`en-US.4` for
+  the original, `ru.3` for a dub), a localized `name` ("English (US) original"),
+  `isDefault`, and `isAutoDubbed`. `getAudioTrack()` returns the active track,
+  and `setAudioTrack(track)` with a track object from the list switched audio
+  immediately.
 
 Historical `player` responses exposed formats in `streamingData.adaptiveFormats`.
 Kaset uses WebView playback rather than those URLs. Guest responses may omit

@@ -39,6 +39,9 @@ protocol YouTubeWatchPlaybackControlling: AnyObject {
     func availableAudioTracks() async -> [YouTubeAudioTrack]
     func currentAudioTrackID() async -> String?
     func setAudioTrack(id: String)
+    func availablePlaybackRates() async -> [Double]
+    func currentPlaybackRate() async -> Double?
+    func setPlaybackRate(_ rate: Double)
     func storyboardSpec(expectedVideoId: String?) async -> String?
     func tearDown()
 }
@@ -284,6 +287,13 @@ final class YouTubePlayerService {
 
     /// Language-track ID of the active audio track.
     private(set) var activeAudioTrackID: String?
+
+    /// Playback speeds the player offers for the current video.
+    private(set) var playbackRates: [Double] = []
+
+    /// The playback speed the user picked. Kept across videos for the session
+    /// and re-applied when each new video starts.
+    private(set) var playbackRate: Double = 1
 
     /// YouTube storyboard spec for the current video (drives the ambient
     /// backdrop's fine-grained live color). `nil` until fetched / unavailable.
@@ -925,6 +935,7 @@ final class YouTubePlayerService {
         self.userPinnedQuality = nil
         self.audioTracks = []
         self.activeAudioTrackID = nil
+        self.playbackRates = []
         self.currentMediaIsLive = false
         self.storyboardSpec = nil
         self.storyboardFetchVideoId = nil
@@ -988,7 +999,7 @@ final class YouTubePlayerService {
                 : levels + ["auto"]
             self.currentQuality = await self.playbackController.currentQualityLevel()
             self.activeCaptionLanguageCode = await self.playbackController.currentCaptionLanguageCode()
-            await self.refreshAudioTrackOptions(videoId: videoId)
+            await self.refreshAudioAndSpeedOptions(videoId: videoId)
             guard self.currentVideo?.videoId == videoId else { return }
 
             if !tracks.isEmpty || attempt == 2 {
@@ -1804,17 +1815,24 @@ extension YouTubePlayerService {
     }
 }
 
-// MARK: - Audio Tracks
+// MARK: - Audio Tracks & Playback Speed
 
 extension YouTubePlayerService {
-    /// Reads the current video's audio tracks and which one is active.
-    private func refreshAudioTrackOptions(videoId: String?) async {
+    /// Reads the audio tracks and speeds for the current video, and re-applies
+    /// the session's chosen speed when the player came up at a different one.
+    private func refreshAudioAndSpeedOptions(videoId: String?) async {
         let audioTracks = await self.playbackController.availableAudioTracks()
         let activeAudioTrackID = await self.playbackController.currentAudioTrackID()
+        let rates = await self.playbackController.availablePlaybackRates()
+        let currentRate = await self.playbackController.currentPlaybackRate()
         guard self.currentVideo?.videoId == videoId else { return }
 
         self.audioTracks = audioTracks
         self.activeAudioTrackID = activeAudioTrackID
+        self.playbackRates = rates
+        if let currentRate, currentRate != self.playbackRate {
+            self.playbackController.setPlaybackRate(self.playbackRate)
+        }
     }
 
     /// Switches the current video to an audio track (original or a dub).
@@ -1823,5 +1841,26 @@ extension YouTubePlayerService {
         self.activeAudioTrackID = id
         self.playbackController.setAudioTrack(id: id)
         HapticService.toggle()
+    }
+
+    /// Sets the playback speed for this and later videos in the session.
+    func selectPlaybackRate(_ rate: Double) {
+        guard rate.isFinite, rate > 0 else { return }
+        self.playbackRate = rate
+        if self.currentVideo != nil {
+            self.playbackController.setPlaybackRate(rate)
+        }
+        HapticService.toggle()
+    }
+
+    /// Speeds to offer: the player's list, or a standard set before it loads,
+    /// always including the speed currently selected.
+    var playbackRateOptions: [Double] {
+        var rates = self.playbackRates.isEmpty ? YouTubePlaybackRate.fallbackRates : self.playbackRates
+        if !rates.contains(self.playbackRate) {
+            rates.append(self.playbackRate)
+            rates.sort()
+        }
+        return rates
     }
 }

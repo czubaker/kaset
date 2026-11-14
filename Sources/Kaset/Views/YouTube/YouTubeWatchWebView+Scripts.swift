@@ -1089,7 +1089,7 @@ extension YouTubeWatchWebView {
         self.webView?.evaluateJavaScript(script, completionHandler: nil)
     }
 
-    // MARK: Audio Tracks
+    // MARK: Audio Tracks & Playback Speed
 
     /// Fetches the audio tracks (original and dubs) the player offers.
     ///
@@ -1182,6 +1182,67 @@ extension YouTubeWatchWebView {
                 });
                 if (match) { player.setAudioTrack(match); }
             } catch (e) {}
+        })();
+        """
+    }
+
+    /// Fetches the playback speeds the player offers.
+    func availablePlaybackRates() async -> [Double] {
+        let script = """
+        (function() {
+            try {
+                const player = document.getElementById('movie_player');
+                if (!player || typeof player.getAvailablePlaybackRates !== 'function') { return '[]'; }
+                return JSON.stringify(player.getAvailablePlaybackRates() || []);
+            } catch (e) { return '[]'; }
+        })();
+        """
+        guard let json = await self.evaluateForString(script),
+              let data = json.data(using: .utf8),
+              let rates = try? JSONSerialization.jsonObject(with: data) as? [Double]
+        else {
+            return []
+        }
+        return rates.filter { $0.isFinite && $0 > 0 }
+    }
+
+    /// The player's current playback speed.
+    func currentPlaybackRate() async -> Double? {
+        let script = """
+        (function() {
+            try {
+                const player = document.getElementById('movie_player');
+                if (!player || typeof player.getPlaybackRate !== 'function') { return ''; }
+                return String(player.getPlaybackRate());
+            } catch (e) { return ''; }
+        })();
+        """
+        guard let text = await self.evaluateForString(script),
+              let rate = Double(text),
+              rate.isFinite, rate > 0
+        else {
+            return nil
+        }
+        return rate
+    }
+
+    /// Sets the playback speed through the player API (which keeps YouTube's
+    /// own speed state in sync), falling back to the video element.
+    func setPlaybackRate(_ rate: Double) {
+        self.webView?.evaluateJavaScript(Self.setPlaybackRateScript(rate), completionHandler: nil)
+    }
+
+    static func setPlaybackRateScript(_ rate: Double) -> String {
+        let clamped = rate.isFinite ? min(max(rate, 0.0625), 16) : 1
+        return """
+        (function() {
+            const rate = \(clamped);
+            const player = document.getElementById('movie_player');
+            if (player && typeof player.setPlaybackRate === 'function') {
+                try { player.setPlaybackRate(rate); return; } catch (e) {}
+            }
+            const video = document.querySelector('#movie_player video') || document.querySelector('video');
+            if (video) { video.playbackRate = rate; }
         })();
         """
     }

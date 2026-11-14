@@ -339,6 +339,22 @@ struct YouTubeAudioTrack: Identifiable, Hashable {
     let isAutoDubbed: Bool
 }
 
+// MARK: - YouTubePlaybackRate
+
+/// Playback-speed helpers for the YouTube player.
+enum YouTubePlaybackRate {
+    /// Speeds offered when the player does not report its own list.
+    static let fallbackRates: [Double] = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
+
+    /// Display name for a speed: "Normal" for 1×, otherwise e.g. "1.5×".
+    static func displayName(for rate: Double) -> String {
+        if rate == 1 {
+            return String(localized: "Normal")
+        }
+        return "\(rate.formatted(.number.precision(.fractionLength(0 ... 2))))×"
+    }
+}
+
 // MARK: - YouTubeQuality
 
 /// Display helpers for YouTube's quality-level identifiers.

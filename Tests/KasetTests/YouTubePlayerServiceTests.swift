@@ -146,6 +146,23 @@ final class MockYouTubeWatchPlaybackController: YouTubeWatchPlaybackControlling 
         self.activeAudioTrackID = id
     }
 
+    var playbackRates: [Double] = []
+    var reportedPlaybackRate: Double? = 1
+    private(set) var setPlaybackRates: [Double] = []
+
+    func availablePlaybackRates() async -> [Double] {
+        self.playbackRates
+    }
+
+    func currentPlaybackRate() async -> Double? {
+        self.reportedPlaybackRate
+    }
+
+    func setPlaybackRate(_ rate: Double) {
+        self.setPlaybackRates.append(rate)
+        self.reportedPlaybackRate = rate
+    }
+
     var storyboardSpecResponse: String?
     private(set) var storyboardSpecRequests: [String?] = []
 
@@ -1661,6 +1678,41 @@ extension YouTubePlayerServiceTests {
         self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "xyz"))
         #expect(self.sut.audioTracks.isEmpty)
         #expect(self.sut.activeAudioTrackID == nil)
+    }
+
+    @Test("Playback speed applies now and carries over to the next video")
+    func playbackSpeedCarriesOver() async {
+        self.controller.captionTracks = [YouTubeCaptionTrack(languageCode: "en", displayName: "English")]
+        self.controller.playbackRates = [0.5, 1, 1.5, 2]
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))
+        await self.sut.refreshPlaybackOptions()
+        #expect(self.sut.playbackRateOptions == [0.5, 1, 1.5, 2])
+
+        self.sut.selectPlaybackRate(1.5)
+        #expect(self.sut.playbackRate == 1.5)
+        #expect(self.controller.setPlaybackRates == [1.5])
+
+        // A new page starts at the player's default speed; the session's
+        // choice is re-applied once its options load.
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "xyz"))
+        self.controller.reportedPlaybackRate = 1
+        await self.sut.refreshPlaybackOptions()
+        #expect(self.sut.playbackRate == 1.5)
+        #expect(self.controller.setPlaybackRates == [1.5, 1.5])
+
+        // Already at the chosen speed: nothing to re-apply.
+        await self.sut.refreshPlaybackOptions()
+        #expect(self.controller.setPlaybackRates == [1.5, 1.5])
+    }
+
+    @Test("Speed options fall back to standard rates and include the current one")
+    func playbackSpeedOptionsFallback() {
+        #expect(self.sut.playbackRateOptions == YouTubePlaybackRate.fallbackRates)
+
+        self.sut.selectPlaybackRate(3)
+        #expect(self.sut.playbackRateOptions.last == 3)
+        #expect(self.controller.setPlaybackRates.isEmpty)
+        #expect(YouTubePlaybackRate.displayName(for: 1) == String(localized: "Normal"))
     }
 
     @Test("Playback options do not duplicate Auto and remain unavailable when empty")
