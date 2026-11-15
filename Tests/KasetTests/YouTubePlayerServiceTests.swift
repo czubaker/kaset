@@ -133,12 +133,25 @@ final class MockYouTubeWatchPlaybackController: YouTubeWatchPlaybackControlling 
     var activeAudioTrackID: String?
     private(set) var selectedAudioTrackIDs: [String] = []
 
+    /// Replies for successive `availableAudioTracks()` calls before falling
+    /// back to `audioTracks`.
+    var queuedAudioTrackReplies: [[YouTubeAudioTrack]] = []
+    private(set) var audioTrackReadCount = 0
+    /// Runs inside `currentAudioTrackID()` after it captured its reply.
+    var beforeCurrentAudioTrackIDReturn: (@MainActor () async -> Void)?
+
     func availableAudioTracks() async -> [YouTubeAudioTrack] {
-        self.audioTracks
+        self.audioTrackReadCount += 1
+        if !self.queuedAudioTrackReplies.isEmpty {
+            return self.queuedAudioTrackReplies.removeFirst()
+        }
+        return self.audioTracks
     }
 
     func currentAudioTrackID() async -> String? {
-        self.activeAudioTrackID
+        let id = self.activeAudioTrackID
+        await self.beforeCurrentAudioTrackIDReturn?()
+        return id
     }
 
     func setAudioTrack(id: String) {
@@ -1664,7 +1677,7 @@ extension YouTubePlayerServiceTests {
         self.controller.activeAudioTrackID = "en-US.4"
         self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))
 
-        await self.sut.refreshPlaybackOptions()
+        await self.sut.refreshAudioAndSpeedOptions()
         #expect(self.sut.audioTracks.map(\.id) == ["en-US.4", "ru.3"])
         #expect(self.sut.activeAudioTrackID == "en-US.4")
 
@@ -1682,10 +1695,12 @@ extension YouTubePlayerServiceTests {
 
     @Test("Playback speed applies now and carries over to the next video")
     func playbackSpeedCarriesOver() async {
-        self.controller.captionTracks = [YouTubeCaptionTrack(languageCode: "en", displayName: "English")]
+        self.controller.audioTracks = [
+            YouTubeAudioTrack(id: "en.4", displayName: "English original", isOriginal: true, isAutoDubbed: false),
+        ]
         self.controller.playbackRates = [0.5, 1, 1.5, 2]
         self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))
-        await self.sut.refreshPlaybackOptions()
+        await self.sut.refreshAudioAndSpeedOptions()
         #expect(self.sut.playbackRateOptions == [0.5, 1, 1.5, 2])
 
         self.sut.selectPlaybackRate(1.5)
@@ -1696,12 +1711,12 @@ extension YouTubePlayerServiceTests {
         // choice is re-applied once its options load.
         self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "xyz"))
         self.controller.reportedPlaybackRate = 1
-        await self.sut.refreshPlaybackOptions()
+        await self.sut.refreshAudioAndSpeedOptions()
         #expect(self.sut.playbackRate == 1.5)
         #expect(self.controller.setPlaybackRates == [1.5, 1.5])
 
         // Already at the chosen speed: nothing to re-apply.
-        await self.sut.refreshPlaybackOptions()
+        await self.sut.refreshAudioAndSpeedOptions()
         #expect(self.controller.setPlaybackRates == [1.5, 1.5])
     }
 
@@ -1713,6 +1728,75 @@ extension YouTubePlayerServiceTests {
         #expect(self.sut.playbackRateOptions.last == 3)
         #expect(self.controller.setPlaybackRates.isEmpty)
         #expect(YouTubePlaybackRate.displayName(for: 1) == String(localized: "Normal"))
+    }
+
+    @Test("Audio tracks retry until the player reports them")
+    func audioTracksRetryWhileEmpty() async {
+        let original = YouTubeAudioTrack(id: "en.4", displayName: "English original", isOriginal: true, isAutoDubbed: false)
+        self.controller.queuedAudioTrackReplies = [[]]
+        self.controller.audioTracks = [original]
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))
+
+        await self.sut.refreshAudioAndSpeedOptions()
+
+        #expect(self.controller.audioTrackReadCount == 2)
+        #expect(self.sut.audioTracks == [original])
+    }
+
+    @Test("A selection made while the active track is read is kept")
+    func audioSelectionDuringReadWins() async {
+        self.controller.audioTracks = [
+            YouTubeAudioTrack(id: "en-US.4", displayName: "English (US) original", isOriginal: true, isAutoDubbed: false),
+            YouTubeAudioTrack(id: "ru.3", displayName: "Russian", isOriginal: false, isAutoDubbed: false),
+        ]
+        self.controller.activeAudioTrackID = "en-US.4"
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))
+        await self.sut.refreshAudioAndSpeedOptions()
+
+        self.controller.beforeCurrentAudioTrackIDReturn = { [sut = self.sut] in
+            sut.selectAudioTrack(id: "ru.3")
+        }
+        await self.sut.refreshAudioAndSpeedOptions()
+
+        #expect(self.sut.activeAudioTrackID == "ru.3")
+    }
+
+    @Test("Audio tracks are read once content plays, not during a preroll ad")
+    func audioTracksWaitForContent() async {
+        self.controller.audioTracks = [
+            YouTubeAudioTrack(id: "en.4", displayName: "English original", isOriginal: true, isAutoDubbed: false),
+        ]
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))
+
+        // Same shape as the content update below except for `isAd`, so only the
+        // ad gate keeps this update from reading audio tracks.
+        self.sut.updatePlaybackState(.init(
+            isPlaying: true,
+            progress: 1,
+            duration: 600,
+            hasReadyMedia: true,
+            videoId: "abc",
+            boundVideoId: "abc",
+            isAd: true
+        ))
+        for _ in 0 ..< 20 {
+            await Task.yield()
+        }
+        #expect(self.controller.audioTrackReadCount == 0)
+
+        self.sut.updatePlaybackState(.init(
+            isPlaying: true,
+            progress: 1,
+            duration: 600,
+            hasReadyMedia: true,
+            videoId: "abc",
+            boundVideoId: "abc"
+        ))
+        for _ in 0 ..< 200 where self.sut.audioTracks.isEmpty {
+            await Task.yield()
+        }
+        #expect(self.controller.audioTrackReadCount == 1)
+        #expect(self.sut.audioTracks.count == 1)
     }
 
     @Test("Playback options do not duplicate Auto and remain unavailable when empty")
