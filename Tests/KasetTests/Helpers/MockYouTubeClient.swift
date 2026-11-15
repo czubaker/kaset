@@ -44,6 +44,11 @@ final class MockYouTubeClient: YouTubeClientProtocol {
     /// Runs inside `sendFeedback` before it returns, to simulate UI changes
     /// while a feedback request is in flight.
     var beforeFeedbackReturn: (@MainActor () async -> Void)?
+    /// When set, only `getSearchHistory` throws this error.
+    var searchHistoryLoadError: Error?
+    /// Runs at the start of `removeSearchHistoryEntry` with the query, to hold
+    /// removals in flight.
+    var beforeSearchHistoryRemoval: (@MainActor (String) async -> Void)?
 
     // MARK: - Call Tracking
 
@@ -557,7 +562,7 @@ final class MockYouTubeClient: YouTubeClientProtocol {
 
     func getSearchHistory() async throws -> [String] {
         self.searchHistoryCallCount += 1
-        if let error = self.searchHistoryError ?? self.error {
+        if let error = self.searchHistoryLoadError ?? self.searchHistoryError ?? self.error {
             throw error
         }
         let history = self.accountSearchHistory
@@ -566,6 +571,7 @@ final class MockYouTubeClient: YouTubeClientProtocol {
     }
 
     func removeSearchHistoryEntry(query: String) async throws {
+        await self.beforeSearchHistoryRemoval?(query)
         if let error = self.searchHistoryError ?? self.error {
             throw error
         }
