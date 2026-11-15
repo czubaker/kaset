@@ -710,3 +710,10 @@
 // Navigation swipe back
 "Swipe to Go Back" = "Deslizar para voltar";
 "Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings" = "Deslize para a direita no trackpad para voltar à página anterior, com o gesto Deslizar entre páginas dos Ajustes do Sistema";
+
+// Comment replies
+"Reply" = "Responder";
+"Reply to comment" = "Responder ao comentário";
+"Add a reply…" = "Adicionar resposta…";
+"Post reply" = "Publicar resposta";
+"You" = "Você";

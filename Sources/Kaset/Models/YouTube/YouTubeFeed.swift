@@ -268,6 +268,11 @@ struct YouTubeComment: Identifiable, Hashable {
     var undislikeAction: String?
     /// Continuation token for this comment's reply thread.
     var repliesContinuation: String?
+    /// Params for replying to this comment (nil when replies are off).
+    var replyParams: String?
+    /// The mention YouTube starts a reply to this comment with, such as
+    /// "@author", when it is itself a reply.
+    var replyMention: String?
 
     init(
         id: String,
@@ -281,7 +286,9 @@ struct YouTubeComment: Identifiable, Hashable {
         unlikeAction: String? = nil,
         dislikeAction: String? = nil,
         undislikeAction: String? = nil,
-        repliesContinuation: String? = nil
+        repliesContinuation: String? = nil,
+        replyParams: String? = nil,
+        replyMention: String? = nil
     ) {
         self.id = id
         self.author = author
@@ -295,6 +302,8 @@ struct YouTubeComment: Identifiable, Hashable {
         self.dislikeAction = dislikeAction
         self.undislikeAction = undislikeAction
         self.repliesContinuation = repliesContinuation
+        self.replyParams = replyParams
+        self.replyMention = replyMention
     }
 }
 

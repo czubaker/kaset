@@ -710,3 +710,10 @@
 // Navigation swipe back
 "Swipe to Go Back" = "Veeg om terug te gaan";
 "Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings" = "Veeg naar rechts op het trackpad om terug te gaan naar de vorige pagina, met het gebaar 'Veeg tussen pagina's' uit Systeeminstellingen";
+
+// Comment replies
+"Reply" = "Beantwoorden";
+"Reply to comment" = "Reactie beantwoorden";
+"Add a reply…" = "Antwoord toevoegen…";
+"Post reply" = "Antwoord plaatsen";
+"You" = "Jij";

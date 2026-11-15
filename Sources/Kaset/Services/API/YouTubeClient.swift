@@ -392,6 +392,16 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         _ = try await self.request("comment/create_comment", body: body, retry: false)
     }
 
+    func postCommentReply(text: String, createReplyParams: String) async throws {
+        self.logger.info("Posting YouTube comment reply")
+
+        let body: [String: Any] = [
+            "commentText": text,
+            "createReplyParams": createReplyParams,
+        ]
+        _ = try await self.request("comment/create_comment_reply", body: body, retry: false)
+    }
+
     func performCommentAction(_ action: String) async throws {
         self.logger.info("Performing comment action")
 
@@ -878,6 +888,7 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         "subscription/unsubscribe",
         "browse/edit_playlist",
         "comment/create_comment",
+        "comment/create_comment_reply",
         "comment/perform_comment_action",
         "feedback",
     ]

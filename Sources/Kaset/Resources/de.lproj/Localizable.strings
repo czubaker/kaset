@@ -710,3 +710,10 @@
 // Navigation swipe back
 "Swipe to Go Back" = "Zum Zurückgehen wischen";
 "Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings" = "Auf dem Trackpad nach rechts wischen, um zur vorherigen Seite zurückzukehren – mit der Geste „Zwischen Seiten blättern“ aus den Systemeinstellungen";
+
+// Comment replies
+"Reply" = "Antworten";
+"Reply to comment" = "Auf Kommentar antworten";
+"Add a reply…" = "Antwort hinzufügen…";
+"Post reply" = "Antwort posten";
+"You" = "Du";

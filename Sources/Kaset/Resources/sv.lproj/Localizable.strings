@@ -710,3 +710,10 @@
 // Navigation swipe back
 "Swipe to Go Back" = "Svep för att gå tillbaka";
 "Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings" = "Svep åt höger på styrplattan för att gå tillbaka till föregående sida med gesten Svep mellan sidor i Systeminställningar";
+
+// Comment replies
+"Reply" = "Svara";
+"Reply to comment" = "Svara på kommentar";
+"Add a reply…" = "Lägg till ett svar…";
+"Post reply" = "Publicera svar";
+"You" = "Du";

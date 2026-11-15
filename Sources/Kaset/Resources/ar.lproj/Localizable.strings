@@ -710,3 +710,10 @@
 // Navigation swipe back
 "Swipe to Go Back" = "اسحب للرجوع";
 "Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings" = "اسحب إلى اليمين على لوحة التتبع للعودة إلى الصفحة السابقة، باستخدام إيماءة التنقل بين الصفحات من إعدادات النظام";
+
+// Comment replies
+"Reply" = "رد";
+"Reply to comment" = "الرد على التعليق";
+"Add a reply…" = "إضافة رد…";
+"Post reply" = "نشر الرد";
+"You" = "أنت";

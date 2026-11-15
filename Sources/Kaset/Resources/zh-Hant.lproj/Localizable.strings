@@ -708,3 +708,10 @@
 // Navigation swipe back
 "Swipe to Go Back" = "滑動以返回";
 "Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings" = "使用「系統設定」中的「在頁面之間滑動」手勢，在觸控式軌跡板上向右滑動即可返回上一頁";
+
+// Comment replies
+"Reply" = "回覆";
+"Reply to comment" = "回覆留言";
+"Add a reply…" = "新增回覆…";
+"Post reply" = "發布回覆";
+"You" = "你";
