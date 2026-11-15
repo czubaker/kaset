@@ -701,3 +701,7 @@
 "Audio track" = "音声トラック";
 "Playback speed" = "再生速度";
 "Normal" = "標準";
+
+// Navigation swipe back
+"Swipe to Go Back" = "スワイプで戻る";
+"Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings" = "システム設定の「ページ間をスワイプ」ジェスチャで、トラックパッドを右にスワイプして前のページに戻ります";

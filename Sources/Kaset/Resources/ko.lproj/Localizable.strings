@@ -706,3 +706,7 @@
 "Audio track" = "오디오 트랙";
 "Playback speed" = "재생 속도";
 "Normal" = "보통";
+
+// Navigation swipe back
+"Swipe to Go Back" = "쓸어서 뒤로 가기";
+"Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings" = "시스템 설정의 '페이지 간 쓸어넘기기' 제스처로 트랙패드에서 오른쪽으로 쓸어 이전 페이지로 돌아갑니다";

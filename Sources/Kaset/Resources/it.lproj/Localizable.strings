@@ -706,3 +706,7 @@
 "Audio track" = "Traccia audio";
 "Playback speed" = "Velocità di riproduzione";
 "Normal" = "Normale";
+
+// Navigation swipe back
+"Swipe to Go Back" = "Scorri per tornare indietro";
+"Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings" = "Scorri verso destra sul trackpad per tornare alla pagina precedente, con il gesto «Scorri tra le pagine» di Impostazioni di Sistema";

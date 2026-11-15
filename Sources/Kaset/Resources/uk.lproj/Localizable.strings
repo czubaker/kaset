@@ -706,3 +706,7 @@
 "Audio track" = "Звукова доріжка";
 "Playback speed" = "Швидкість відтворення";
 "Normal" = "Звичайна";
+
+// Navigation swipe back
+"Swipe to Go Back" = "Свайп для повернення назад";
+"Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings" = "Змахніть праворуч на трекпеді, щоб повернутися на попередню сторінку, жестом «Змахування між сторінками» із Системних параметрів";
