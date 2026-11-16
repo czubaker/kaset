@@ -741,3 +741,9 @@
 "Go to Channel" = "チャンネルへ移動";
 "Space" = "スペース";
 "Flexible Space" = "フレキシブルスペース";
+
+// YouTube video context menu
+"Added to Watch Later" = "後で見るに追加しました";
+"Added to %@" = "%@ に追加しました";
+"Couldn't add the video to Watch Later." = "動画を後で見るに追加できませんでした。";
+"Couldn't add the video to the playlist." = "動画をプレイリストに追加できませんでした。";

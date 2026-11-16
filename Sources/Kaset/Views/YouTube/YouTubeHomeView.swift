@@ -134,7 +134,7 @@ struct YouTubeHomeView: View {
                     .frame(width: 284)
             }
             .buttonStyle(.interactiveCard)
-            .youtubeFeedbackContextMenu(for: video) { action in
+            .youtubeVideoContextMenu(for: video) { action in
                 self.sendFeedback(action, for: video)
             }
         }
@@ -159,7 +159,7 @@ struct YouTubeHomeView: View {
                         VideoCard(video: video)
                     }
                     .buttonStyle(.interactiveCard)
-                    .youtubeFeedbackContextMenu(for: video) { action in
+                    .youtubeVideoContextMenu(for: video) { action in
                         self.sendFeedback(action, for: video)
                     }
                 }

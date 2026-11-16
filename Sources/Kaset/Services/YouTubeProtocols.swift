@@ -146,6 +146,13 @@ protocol YouTubeClientProtocol: Sendable {
     /// Removes a video from Watch Later.
     func removeFromWatchLater(videoId: String) async throws
 
+    /// The signed-in user's playlists a video can be saved to (Watch Later
+    /// first), each marked when it already holds the video.
+    func getAddToPlaylistOptions(videoId: String) async throws -> AddToPlaylistMenu
+
+    /// Adds a video to one of the user's playlists.
+    func addToPlaylist(videoId: String, playlistId: String) async throws
+
     // MARK: Recommendation feedback
 
     /// Sends a token from a video's overflow menu ("Not interested",

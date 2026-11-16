@@ -746,3 +746,9 @@
 "Go to Channel" = "Zum Kanal";
 "Space" = "Abstand";
 "Flexible Space" = "Flexibler Abstand";
+
+// YouTube video context menu
+"Added to Watch Later" = "Zu „Später ansehen“ hinzugefügt";
+"Added to %@" = "Zu „%@“ hinzugefügt";
+"Couldn't add the video to Watch Later." = "Das Video konnte nicht zu „Später ansehen“ hinzugefügt werden.";
+"Couldn't add the video to the playlist." = "Das Video konnte nicht zur Playlist hinzugefügt werden.";

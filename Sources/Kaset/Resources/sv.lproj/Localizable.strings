@@ -746,3 +746,9 @@
 "Go to Channel" = "Gå till kanal";
 "Space" = "Mellanrum";
 "Flexible Space" = "Flexibelt mellanrum";
+
+// YouTube video context menu
+"Added to Watch Later" = "Tillagd i Titta senare";
+"Added to %@" = "Tillagd i %@";
+"Couldn't add the video to Watch Later." = "Det gick inte att lägga till videon i Titta senare.";
+"Couldn't add the video to the playlist." = "Det gick inte att lägga till videon i spellistan.";

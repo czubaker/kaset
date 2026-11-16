@@ -268,6 +268,7 @@ struct YouTubeSearchView: View {
                             VideoRowView(video: video)
                         }
                         .buttonStyle(.interactiveRow)
+                        .youtubeVideoContextMenu(for: video)
                     }
                 }
 

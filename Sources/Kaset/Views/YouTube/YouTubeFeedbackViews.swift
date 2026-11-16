@@ -1,41 +1,5 @@
 import SwiftUI
 
-// MARK: - YouTubeFeedbackContextMenu
-
-/// Adds YouTube's "Not interested" / "Don't recommend channel" entries to a
-/// video card's context menu. Cards without feedback actions (signed out,
-/// Continue Watching) get no menu.
-struct YouTubeFeedbackContextMenu: ViewModifier {
-    let video: YouTubeVideo
-    let send: (YouTubeFeedbackAction) -> Void
-
-    func body(content: Content) -> some View {
-        if self.video.feedbackActions.isEmpty {
-            content
-        } else {
-            content.contextMenu {
-                ForEach(self.video.feedbackActions, id: \.kind) { action in
-                    Button {
-                        self.send(action)
-                    } label: {
-                        Label(action.title, systemImage: action.systemImage)
-                    }
-                }
-            }
-        }
-    }
-}
-
-extension View {
-    /// Attaches the recommendation-feedback context menu for `video`.
-    func youtubeFeedbackContextMenu(
-        for video: YouTubeVideo,
-        send: @escaping (YouTubeFeedbackAction) -> Void
-    ) -> some View {
-        self.modifier(YouTubeFeedbackContextMenu(video: video, send: send))
-    }
-}
-
 // MARK: - YouTubeFeedbackToastOverlay
 
 /// Confirms a dismissal ("Video removed · Undo") and reports feedback

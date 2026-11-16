@@ -744,3 +744,9 @@
 "Go to Channel" = "前往頻道";
 "Space" = "空格";
 "Flexible Space" = "彈性空格";
+
+// YouTube video context menu
+"Added to Watch Later" = "已加入稍後觀看";
+"Added to %@" = "已加入「%@」";
+"Couldn't add the video to Watch Later." = "無法將影片加入稍後觀看。";
+"Couldn't add the video to the playlist." = "無法將影片加入播放清單。";

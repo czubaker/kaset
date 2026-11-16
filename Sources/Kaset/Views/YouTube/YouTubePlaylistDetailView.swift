@@ -72,6 +72,7 @@ struct YouTubePlaylistDetailView: View {
                                 VideoCard(video: video)
                             }
                             .buttonStyle(.interactiveCard)
+                            .youtubeVideoContextMenu(for: video)
                         }
                     }
                 }

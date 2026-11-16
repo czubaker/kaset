@@ -68,6 +68,7 @@ struct YouTubeExploreView: View {
                         VideoCard(video: video)
                     }
                     .buttonStyle(.interactiveCard)
+                    .youtubeVideoContextMenu(for: video)
                 }
             }
             .padding(.vertical, 20)

@@ -2105,6 +2105,33 @@ account owner's approval, Not interested, Don't recommend channel, and Undo were
 then sent from the app for low-traffic videos: YouTube accepted each request,
 the card disappeared, and Undo restored it.
 
+#### YouTube Save dialog (verified 2026-11-16)
+
+The web client's "Save" dialog, which video context menus use for Add to
+Playlist, is the same call as on YouTube Music, sent to `www.youtube.com`:
+
+```text
+POST /youtubei/v1/playlist/get_add_to_playlist
+{"videoIds": [videoId], "excludeWatchLater": false}
+```
+
+- It needs the account cookies; Kaset marks it auth-required.
+- `contents[0].addToPlaylistRenderer.playlists[]` are
+  `playlistAddToOptionRenderer`s, Watch Later (`WL`) first, then the account's
+  playlists. Each has `playlistId`, `title.simpleText`, `privacy`
+  (`PRIVATE`/`PUBLIC`/`UNLISTED`), and `containsSelectedVideos`: `ALL` when the
+  playlist holds the video, `NONE` otherwise. `PlaylistParser` reads it as the
+  option's selected state.
+- `addToPlaylistServiceEndpoint` and `removeFromPlaylistServiceEndpoint` are
+  `playlistEditEndpoint`s for `/youtubei/v1/browse/edit_playlist` with
+  `ACTION_ADD_VIDEO` (`addedVideoId`) and `ACTION_REMOVE_VIDEO_BY_VIDEO_ID`
+  (`removedVideoId`), the body Kaset already sends for Watch Later.
+- Unlike YouTube Music, the renderer carries no `createPlaylistEndpoint`, so the
+  YouTube submenu offers no Create Playlist.
+- The shape was read with `api-explorer --youtube action
+  playlist/get_add_to_playlist` (read-only). Adding to a playlist reuses the
+  verified Watch Later edit call with another `playlistId`.
+
 #### YouTube search history (verified 2026-11-14)
 
 The account's YouTube search history is what the web search box shows when it

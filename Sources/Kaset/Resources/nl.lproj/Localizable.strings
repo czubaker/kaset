@@ -746,3 +746,9 @@
 "Go to Channel" = "Naar kanaal";
 "Space" = "Spatie";
 "Flexible Space" = "Flexibele spatie";
+
+// YouTube video context menu
+"Added to Watch Later" = "Toegevoegd aan Later bekijken";
+"Added to %@" = "Toegevoegd aan %@";
+"Couldn't add the video to Watch Later." = "Kan de video niet toevoegen aan Later bekijken.";
+"Couldn't add the video to the playlist." = "Kan de video niet toevoegen aan de afspeellijst.";

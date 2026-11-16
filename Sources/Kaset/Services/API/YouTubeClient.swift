@@ -577,9 +577,36 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
 
     private func editWatchLater(actions: [[String: Any]]) async throws {
         self.logger.info("Editing Watch Later")
+        try await self.editPlaylist(playlistId: "WL", actions: actions)
+    }
 
+    func getAddToPlaylistOptions(videoId: String) async throws -> AddToPlaylistMenu {
+        self.logger.info("Fetching YouTube add-to-playlist options")
+
+        // The web client's Save dialog: the same `playlistAddToOptionRenderer`
+        // entries as YouTube Music, with Watch Later first and
+        // `containsSelectedVideos` marking playlists that hold the video.
         let body: [String: Any] = [
-            "playlistId": "WL",
+            "videoIds": [videoId],
+            "excludeWatchLater": false,
+        ]
+        let data = try await self.request("playlist/get_add_to_playlist", body: body)
+        return PlaylistParser.parseAddToPlaylistMenu(data)
+    }
+
+    func addToPlaylist(videoId: String, playlistId: String) async throws {
+        self.logger.info("Adding a video to a YouTube playlist")
+        try await self.editPlaylist(
+            playlistId: playlistId,
+            actions: [["addedVideoId": videoId, "action": "ACTION_ADD_VIDEO"]]
+        )
+    }
+
+    /// Sends `browse/edit_playlist`, the endpoint behind each Save dialog
+    /// entry, then drops cached pages that list the playlist.
+    private func editPlaylist(playlistId: String, actions: [[String: Any]]) async throws {
+        let body: [String: Any] = [
+            "playlistId": playlistId,
             "actions": actions,
         ]
         _ = try await self.request("browse/edit_playlist", body: body, retry: false)
@@ -887,6 +914,7 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         "subscription/subscribe",
         "subscription/unsubscribe",
         "browse/edit_playlist",
+        "playlist/get_add_to_playlist",
         "comment/create_comment",
         "comment/create_comment_reply",
         "comment/perform_comment_action",

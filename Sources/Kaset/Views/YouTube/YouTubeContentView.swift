@@ -36,9 +36,15 @@ struct YouTubeContentView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .environment(self.store)
+        // Above the stack, so it shows over every page, pushed ones included.
+        .overlay(alignment: .top) {
+            YouTubeVideoActionsToast()
+        }
         .onAppear {
             // Refresh requests go to the page on top of this store's stack.
             YouTubePageRefresh.shared.store = self.store
+            // Video context menus save through the pages' client.
+            YouTubeVideoActions.shared.client = self.store.client
         }
         // Reconcile on (re)mount: switching to the Music source unmounts this
         // view, so the observers below can't see a floating video that finishes

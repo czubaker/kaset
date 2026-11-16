@@ -746,3 +746,9 @@
 "Go to Channel" = "الانتقال إلى القناة";
 "Space" = "مسافة";
 "Flexible Space" = "مسافة مرنة";
+
+// YouTube video context menu
+"Added to Watch Later" = "تمت الإضافة إلى المشاهدة لاحقًا";
+"Added to %@" = "تمت الإضافة إلى %@";
+"Couldn't add the video to Watch Later." = "تعذّرت إضافة الفيديو إلى المشاهدة لاحقًا.";
+"Couldn't add the video to the playlist." = "تعذّرت إضافة الفيديو إلى قائمة التشغيل.";

@@ -60,6 +60,7 @@ struct YouTubeChannelView: View {
                                 VideoCard(video: video)
                             }
                             .buttonStyle(.interactiveCard)
+                            .youtubeVideoContextMenu(for: video)
                         }
                     }
                 }

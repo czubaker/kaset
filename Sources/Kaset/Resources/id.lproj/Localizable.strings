@@ -746,3 +746,9 @@
 "Go to Channel" = "Buka Saluran";
 "Space" = "Spasi";
 "Flexible Space" = "Spasi Fleksibel";
+
+// YouTube video context menu
+"Added to Watch Later" = "Ditambahkan ke Tonton Nanti";
+"Added to %@" = "Ditambahkan ke %@";
+"Couldn't add the video to Watch Later." = "Tidak dapat menambahkan video ke Tonton Nanti.";
+"Couldn't add the video to the playlist." = "Tidak dapat menambahkan video ke playlist.";

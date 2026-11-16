@@ -746,3 +746,9 @@
 "Go to Channel" = "Перейти на канал";
 "Space" = "Пропуск";
 "Flexible Space" = "Гнучкий пропуск";
+
+// YouTube video context menu
+"Added to Watch Later" = "Додано до «Переглянути пізніше»";
+"Added to %@" = "Додано до «%@»";
+"Couldn't add the video to Watch Later." = "Не вдалося додати відео до «Переглянути пізніше».";
+"Couldn't add the video to the playlist." = "Не вдалося додати відео до плейлиста.";

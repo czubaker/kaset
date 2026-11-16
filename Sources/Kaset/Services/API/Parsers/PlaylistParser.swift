@@ -1296,6 +1296,11 @@ enum PlaylistParser {
         if let selected = data["selected"] as? Bool ?? data["isSelected"] as? Bool ?? data["checked"] as? Bool {
             return selected
         }
+        // `playlistAddToOptionRenderer`: ALL when the playlist holds every
+        // requested video, NONE (or SOME, for several) otherwise.
+        if let containsSelectedVideos = data["containsSelectedVideos"] as? String {
+            return containsSelectedVideos.uppercased() == "ALL"
+        }
         if let checkStatus = data["checkStatus"] as? String {
             let normalized = checkStatus.uppercased()
 

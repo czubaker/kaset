@@ -746,3 +746,9 @@
 "Go to Channel" = "채널로 이동";
 "Space" = "공백";
 "Flexible Space" = "유동 공백";
+
+// YouTube video context menu
+"Added to Watch Later" = "나중에 볼 동영상에 추가됨";
+"Added to %@" = "%@에 추가됨";
+"Couldn't add the video to Watch Later." = "동영상을 나중에 볼 동영상에 추가할 수 없습니다.";
+"Couldn't add the video to the playlist." = "동영상을 재생목록에 추가할 수 없습니다.";

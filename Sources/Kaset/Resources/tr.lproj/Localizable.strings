@@ -746,3 +746,9 @@
 "Go to Channel" = "Kanala Git";
 "Space" = "Boşluk";
 "Flexible Space" = "Esnek Boşluk";
+
+// YouTube video context menu
+"Added to Watch Later" = "Daha Sonra İzle'ye eklendi";
+"Added to %@" = "%@ listesine eklendi";
+"Couldn't add the video to Watch Later." = "Video Daha Sonra İzle'ye eklenemedi.";
+"Couldn't add the video to the playlist." = "Video çalma listesine eklenemedi.";

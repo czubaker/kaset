@@ -453,6 +453,7 @@ struct YouTubeWatchView: View {
                             RelatedVideoRow(video: related)
                         }
                         .buttonStyle(.interactiveRow)
+                        .youtubeVideoContextMenu(for: related)
                     }
                 }
             }
