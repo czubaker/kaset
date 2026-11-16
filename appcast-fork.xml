@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>Kaset (czubaker fork) Updates</title>
+        <link>https://github.com/czubaker/kaset/releases</link>
+        <description>Update feed for the czubaker/kaset fork. Fork releases aren't published here yet; download new versions from the Releases page.</description>
+        <language>en</language>
+    </channel>
+</rss>

@@ -23,6 +23,15 @@ else
   BUNDLE_ID="$RELEASE_BUNDLE_ID"
 fi
 DEVELOPMENT_LOCALIZATION="en"
+# Sparkle update feed. A fork that publishes its own builds points these at its
+# own feed, so the app doesn't offer to replace itself with an upstream release.
+SPARKLE_FEED_URL=${KASET_SPARKLE_FEED_URL:-https://raw.githubusercontent.com/sozercan/kaset/main/appcast.xml}
+SPARKLE_PUBLIC_ED_KEY=${KASET_SPARKLE_PUBLIC_ED_KEY:-qa2zoeXHqn+pluxQSGjn5HyIYA/iFtrEJz7S1BoslpI=}
+SPARKLE_AUTOMATIC_UPDATES=${KASET_SPARKLE_AUTOMATIC_UPDATES:-true}
+if [[ "$SPARKLE_AUTOMATIC_UPDATES" != "true" && "$SPARKLE_AUTOMATIC_UPDATES" != "false" ]]; then
+  echo "ERROR: KASET_SPARKLE_AUTOMATIC_UPDATES must be true or false" >&2
+  exit 1
+fi
 MIN_MACOS_VERSION="15.4"
 BUILD_DIR="$ROOT/.build/app"
 APP_BUNDLE="$BUILD_DIR/$APP_NAME.app"
@@ -685,15 +694,15 @@ ${APP_LOCALIZATIONS_PLIST}
 
     <!-- Sparkle Auto-Update Configuration -->
     <key>SUFeedURL</key>
-    <string>https://raw.githubusercontent.com/sozercan/kaset/main/appcast.xml</string>
+    <string>${SPARKLE_FEED_URL}</string>
     <key>SUPublicEDKey</key>
-    <string>qa2zoeXHqn+pluxQSGjn5HyIYA/iFtrEJz7S1BoslpI=</string>
+    <string>${SPARKLE_PUBLIC_ED_KEY}</string>
     <key>SUEnableAutomaticChecks</key>
-    <true/>
+    <${SPARKLE_AUTOMATIC_UPDATES}/>
     <key>SUScheduledCheckInterval</key>
     <integer>86400</integer>
     <key>SUAllowsAutomaticUpdates</key>
-    <true/>
+    <${SPARKLE_AUTOMATIC_UPDATES}/>
     <key>SUEnableInstallerLauncherService</key>
     <true/>
 
