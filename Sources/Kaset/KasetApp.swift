@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import AppKit
 import SwiftUI
 
@@ -277,6 +278,7 @@ struct KasetApp: App {
                     // Drain any cold-launch URLs once `onReceive` below is subscribed.
                     self.appDelegate.beginOpenURLDelivery()
                     AppIntentsBridge.shared.setShowMainWindowHandler { self.showMainWindow() }
+                    PlayerBarCustomization.shared.showMainWindow = { self.showMainWindow() }
                     // Reference notificationService to keep SwiftUI from deallocating it
                     _ = self.notificationService
                 }
@@ -384,6 +386,7 @@ struct KasetApp: App {
                 .environment(self.equalizerService)
         }
         .commands {
+            PlayerBarCustomizationCommands()
             // Check for Updates command in app menu
             CommandGroup(after: .appInfo) {
                 Button(String(localized: "Check for Updates...")) {

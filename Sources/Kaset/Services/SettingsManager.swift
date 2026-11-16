@@ -37,6 +37,8 @@ final class SettingsManager {
         static let popOutVideoOnNavigateAway = "settings.popOutVideoOnNavigateAway"
         static let showYouTubeControlsOnVideo = "settings.showYouTubeControlsOnVideo"
         static let swipeToGoBackEnabled = "settings.swipeToGoBackEnabled"
+        static let musicPlayerBar = "settings.playerBar.music"
+        static let youtubePlayerBar = "settings.playerBar.youtube"
         #if DEBUG
             static let useLegacyMacOS15UI = "settings.debug.useLegacyMacOS15UI"
         #endif
@@ -470,6 +472,20 @@ final class SettingsManager {
         }
     }
 
+    /// Which items the YouTube Music player bar shows, and where.
+    var musicPlayerBar: PlayerBarConfiguration<MusicPlayerBarItem> {
+        didSet {
+            Self.save(self.musicPlayerBar, forKey: Keys.musicPlayerBar, to: UserDefaults.standard)
+        }
+    }
+
+    /// Which items the YouTube player bar shows, and where.
+    var youtubePlayerBar: PlayerBarConfiguration<YouTubePlayerBarItem> {
+        didSet {
+            Self.save(self.youtubePlayerBar, forKey: Keys.youtubePlayerBar, to: UserDefaults.standard)
+        }
+    }
+
     /// Whether the YouTube player controls overlay the docked watch-page video,
     /// auto-hiding like a regular video player, instead of sitting in the bar at
     /// the bottom of the window. Applies to regular YouTube videos only, not the
@@ -534,6 +550,26 @@ final class SettingsManager {
         defaults.object(forKey: Keys.swipeToGoBackEnabled) as? Bool ?? true
     }
 
+    /// A saved player bar layout, or the standard one when there is none or
+    /// it can't be read.
+    static func loadPlayerBar<Item>(
+        forKey key: String,
+        from defaults: UserDefaults,
+        standard: PlayerBarConfiguration<Item>
+    ) -> PlayerBarConfiguration<Item> {
+        guard let data = defaults.data(forKey: key),
+              let configuration = try? JSONDecoder().decode(PlayerBarConfiguration<Item>.self, from: data)
+        else {
+            return standard
+        }
+        return configuration
+    }
+
+    static func save(_ configuration: PlayerBarConfiguration<some PlayerBarItemKind>, forKey key: String, to defaults: UserDefaults) {
+        guard let data = try? JSONEncoder().encode(configuration) else { return }
+        defaults.set(data, forKey: key)
+    }
+
     static func loadAppearance(from defaults: UserDefaults) -> AppAppearance {
         defaults.string(forKey: Keys.appearance).flatMap(AppAppearance.init(rawValue:)) ?? .system
     }
@@ -578,6 +614,16 @@ final class SettingsManager {
         self.popOutVideoOnNavigateAway = UserDefaults.standard.object(forKey: Keys.popOutVideoOnNavigateAway) as? Bool ?? true
         self.showYouTubeControlsOnVideo = Self.loadShowYouTubeControlsOnVideo(from: UserDefaults.standard)
         self.swipeToGoBackEnabled = Self.loadSwipeToGoBackEnabled(from: UserDefaults.standard)
+        self.musicPlayerBar = Self.loadPlayerBar(
+            forKey: Keys.musicPlayerBar,
+            from: UserDefaults.standard,
+            standard: .standard
+        )
+        self.youtubePlayerBar = Self.loadPlayerBar(
+            forKey: Keys.youtubePlayerBar,
+            from: UserDefaults.standard,
+            standard: .standard
+        )
         #if DEBUG
             self.useLegacyMacOS15UI = UserDefaults.standard.object(forKey: Keys.useLegacyMacOS15UI) as? Bool ?? false
         #endif

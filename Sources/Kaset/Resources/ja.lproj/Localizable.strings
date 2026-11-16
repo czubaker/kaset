@@ -715,3 +715,29 @@
 
 // YouTube page refresh
 "Refresh Page (⇧⌘R)" = "ページを更新 (⇧⌘R)";
+
+// Player bar customization
+"Customize Player Bar…" = "プレーヤーバーをカスタマイズ…";
+"Customize Player Bar" = "プレーヤーバーをカスタマイズ";
+"Drag items into the player bar, or drag them out to remove them." = "項目をプレーヤーバーにドラッグして追加し、外にドラッグして削除します。";
+"Restore Defaults" = "デフォルトに戻す";
+"Available Items" = "使用可能な項目";
+"Video Settings Menu" = "ビデオ設定メニュー";
+"Left Side" = "左側";
+"Center" = "中央";
+"Right Side" = "右側";
+"Move Left" = "左へ移動";
+"Move Right" = "右へ移動";
+"Add To" = "追加先";
+"Move To" = "移動先";
+"Remove from Player Bar" = "プレーヤーバーから削除";
+"Artwork" = "アートワーク";
+"Title and Artist" = "タイトルとアーティスト";
+"Play/Pause" = "再生/一時停止";
+"Mini Player" = "ミニプレーヤー";
+"Thumbnail" = "サムネイル";
+"Title and Channel" = "タイトルとチャンネル";
+"Avatar, Title, and Channel" = "アバター、タイトル、チャンネル";
+"Go to Channel" = "チャンネルへ移動";
+"Space" = "スペース";
+"Flexible Space" = "フレキシブルスペース";

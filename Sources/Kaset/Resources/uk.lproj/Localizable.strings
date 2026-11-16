@@ -720,3 +720,29 @@
 
 // YouTube page refresh
 "Refresh Page (⇧⌘R)" = "Оновити сторінку (⇧⌘R)";
+
+// Player bar customization
+"Customize Player Bar…" = "Налаштувати панель плеєра…";
+"Customize Player Bar" = "Налаштування панелі плеєра";
+"Drag items into the player bar, or drag them out to remove them." = "Перетягніть елементи на панель плеєра або приберіть їх, перетягнувши за її межі.";
+"Restore Defaults" = "Відновити типові";
+"Available Items" = "Доступні елементи";
+"Video Settings Menu" = "Меню налаштувань відео";
+"Left Side" = "Ліва частина";
+"Center" = "Центр";
+"Right Side" = "Права частина";
+"Move Left" = "Посунути вліво";
+"Move Right" = "Посунути вправо";
+"Add To" = "Додати до";
+"Move To" = "Перемістити до";
+"Remove from Player Bar" = "Прибрати з панелі плеєра";
+"Artwork" = "Обкладинка";
+"Title and Artist" = "Назва й виконавець";
+"Play/Pause" = "Відтворення/пауза";
+"Mini Player" = "Мініплеєр";
+"Thumbnail" = "Мініатюра";
+"Title and Channel" = "Назва й канал";
+"Avatar, Title, and Channel" = "Аватар, назва й канал";
+"Go to Channel" = "Перейти на канал";
+"Space" = "Пропуск";
+"Flexible Space" = "Гнучкий пропуск";

@@ -720,3 +720,29 @@
 
 // YouTube page refresh
 "Refresh Page (⇧⌘R)" = "Muat ulang halaman (⇧⌘R)";
+
+// Player bar customization
+"Customize Player Bar…" = "Sesuaikan Bilah Pemutar…";
+"Customize Player Bar" = "Sesuaikan Bilah Pemutar";
+"Drag items into the player bar, or drag them out to remove them." = "Seret item ke bilah pemutar, atau seret keluar untuk menghapusnya.";
+"Restore Defaults" = "Pulihkan Default";
+"Available Items" = "Item yang Tersedia";
+"Video Settings Menu" = "Menu Pengaturan Video";
+"Left Side" = "Sisi Kiri";
+"Center" = "Tengah";
+"Right Side" = "Sisi Kanan";
+"Move Left" = "Pindahkan ke Kiri";
+"Move Right" = "Pindahkan ke Kanan";
+"Add To" = "Tambahkan ke";
+"Move To" = "Pindahkan ke";
+"Remove from Player Bar" = "Hapus dari Bilah Pemutar";
+"Artwork" = "Sampul";
+"Title and Artist" = "Judul dan Artis";
+"Play/Pause" = "Putar/Jeda";
+"Mini Player" = "Pemutar Mini";
+"Thumbnail" = "Thumbnail";
+"Title and Channel" = "Judul dan Saluran";
+"Avatar, Title, and Channel" = "Avatar, Judul, dan Saluran";
+"Go to Channel" = "Buka Saluran";
+"Space" = "Spasi";
+"Flexible Space" = "Spasi Fleksibel";

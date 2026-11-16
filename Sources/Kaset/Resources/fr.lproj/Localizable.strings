@@ -720,3 +720,29 @@
 
 // YouTube page refresh
 "Refresh Page (⇧⌘R)" = "Actualiser la page (⇧⌘R)";
+
+// Player bar customization
+"Customize Player Bar…" = "Personnaliser la barre du lecteur…";
+"Customize Player Bar" = "Personnaliser la barre du lecteur";
+"Drag items into the player bar, or drag them out to remove them." = "Faites glisser des éléments dans la barre du lecteur, ou faites-les glisser hors de celle-ci pour les supprimer.";
+"Restore Defaults" = "Rétablir les valeurs par défaut";
+"Available Items" = "Éléments disponibles";
+"Video Settings Menu" = "Menu Réglages vidéo";
+"Left Side" = "Côté gauche";
+"Center" = "Centre";
+"Right Side" = "Côté droit";
+"Move Left" = "Déplacer à gauche";
+"Move Right" = "Déplacer à droite";
+"Add To" = "Ajouter à";
+"Move To" = "Déplacer vers";
+"Remove from Player Bar" = "Retirer de la barre du lecteur";
+"Artwork" = "Illustration";
+"Title and Artist" = "Titre et artiste";
+"Play/Pause" = "Lecture/Pause";
+"Mini Player" = "Mini-lecteur";
+"Thumbnail" = "Miniature";
+"Title and Channel" = "Titre et chaîne";
+"Avatar, Title, and Channel" = "Avatar, titre et chaîne";
+"Go to Channel" = "Aller à la chaîne";
+"Space" = "Espace";
+"Flexible Space" = "Espace flexible";

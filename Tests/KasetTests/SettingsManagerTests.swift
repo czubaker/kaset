@@ -108,6 +108,25 @@ struct SettingsManagerTests {
         #expect(SettingsManager.loadSwipeToGoBackEnabled(from: defaults) == true)
     }
 
+    @Test("Player bar layouts load the standard one until a saved one exists")
+    func playerBarLayoutLoading() throws {
+        let suiteName = "SettingsManagerTests.playerBar.\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suiteName))
+        defer { defaults.removePersistentDomain(forName: suiteName) }
+        let key = SettingsManager.Keys.youtubePlayerBar
+
+        #expect(SettingsManager.loadPlayerBar(forKey: key, from: defaults, standard: .standard) == PlayerBarConfiguration<YouTubePlayerBarItem>.standard)
+
+        var custom = PlayerBarConfiguration<YouTubePlayerBarItem>.standard
+        custom.add(.channelInfo, to: .leading, at: 0)
+        custom.add(.space, to: .center)
+        SettingsManager.save(custom, forKey: key, to: defaults)
+        #expect(SettingsManager.loadPlayerBar(forKey: key, from: defaults, standard: .standard) == custom)
+
+        defaults.set(Data("not json".utf8), forKey: key)
+        #expect(SettingsManager.loadPlayerBar(forKey: key, from: defaults, standard: .standard) == PlayerBarConfiguration<YouTubePlayerBarItem>.standard)
+    }
+
     @Test("Missing showYouTubeControlsOnVideo value loads as false")
     func missingShowYouTubeControlsOnVideoLoadsAsFalse() throws {
         let suiteName = "SettingsManagerTests.showYouTubeControlsOnVideo.missing.\(UUID().uuidString)"

@@ -720,3 +720,29 @@
 
 // YouTube page refresh
 "Refresh Page (⇧⌘R)" = "Sayfayı yenile (⇧⌘R)";
+
+// Player bar customization
+"Customize Player Bar…" = "Oynatıcı Çubuğunu Özelleştir…";
+"Customize Player Bar" = "Oynatıcı Çubuğunu Özelleştir";
+"Drag items into the player bar, or drag them out to remove them." = "Öğeleri oynatıcı çubuğuna sürükleyin veya kaldırmak için dışarı sürükleyin.";
+"Restore Defaults" = "Varsayılanlara Dön";
+"Available Items" = "Kullanılabilir Öğeler";
+"Video Settings Menu" = "Video Ayarları Menüsü";
+"Left Side" = "Sol Taraf";
+"Center" = "Orta";
+"Right Side" = "Sağ Taraf";
+"Move Left" = "Sola Taşı";
+"Move Right" = "Sağa Taşı";
+"Add To" = "Şuraya Ekle";
+"Move To" = "Şuraya Taşı";
+"Remove from Player Bar" = "Oynatıcı Çubuğundan Kaldır";
+"Artwork" = "Kapak";
+"Title and Artist" = "Başlık ve Sanatçı";
+"Play/Pause" = "Oynat/Duraklat";
+"Mini Player" = "Mini Oynatıcı";
+"Thumbnail" = "Küçük Resim";
+"Title and Channel" = "Başlık ve Kanal";
+"Avatar, Title, and Channel" = "Avatar, Başlık ve Kanal";
+"Go to Channel" = "Kanala Git";
+"Space" = "Boşluk";
+"Flexible Space" = "Esnek Boşluk";

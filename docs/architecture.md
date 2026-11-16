@@ -1272,6 +1272,31 @@ GlassEffectContainer(spacing: 0) {
 - Only shows functional buttons (no placeholder buttons)
 - Thumbnail and track info in center section
 
+### Player Bar Customization
+
+**Files**: `Sources/Kaset/Models/PlayerBarConfiguration.swift`, `PlayerBarItems.swift`,
+`Sources/Kaset/Views/PlayerBarCustomizationSheet.swift`, `PlayerBarItemRow.swift`
+
+Each source's bar has a `PlayerBarConfiguration` in `SettingsManager`
+(`musicPlayerBar`, `youtubePlayerBar`): the items on the leading side, in the
+row above the timeline, on the trailing side, and, for YouTube, in the video
+settings menu. The standard layouts match the bars as they shipped
+(ADR-0042).
+
+- The bars render each area through `PlayerBarItemRow`, after dropping items
+  that draw nothing right now, so a hidden item leaves no gap.
+- The YouTube bar sizes its sides with `YouTubePlayerBarMetrics`; the
+  standard layout keeps the previous widths and the 580pt breakpoint below
+  which the leading side drops the video's details and rating.
+- The sheet opens from the bar's context menu and View → Customize Player
+  Bar…, through `PlayerBarCustomization.shared`, and edits the bar of the
+  source requested. The main window hosts it, so presenting it brings that
+  window forward, also from the detached video window.
+- To add a control: add an item case with its title, symbol, and allowed
+  areas, then a case in the bar's `itemView`. If it can hide, add it to the
+  bar's visibility filter, and to `YouTubePlayerBarMetrics` if it isn't a
+  28pt button.
+
 ### PlayerBar Integration
 
 The `PlayerBar` must be added to **every navigable view** via `safeAreaInset`:

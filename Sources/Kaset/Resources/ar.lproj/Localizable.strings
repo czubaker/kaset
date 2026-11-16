@@ -720,3 +720,29 @@
 
 // YouTube page refresh
 "Refresh Page (⇧⌘R)" = "تحديث الصفحة (⇧⌘R)";
+
+// Player bar customization
+"Customize Player Bar…" = "تخصيص شريط المشغل…";
+"Customize Player Bar" = "تخصيص شريط المشغل";
+"Drag items into the player bar, or drag them out to remove them." = "اسحب العناصر إلى شريط المشغل، أو اسحبها خارجه لإزالتها.";
+"Restore Defaults" = "استعادة الإعدادات الافتراضية";
+"Available Items" = "العناصر المتاحة";
+"Video Settings Menu" = "قائمة إعدادات الفيديو";
+"Left Side" = "الجانب الأيسر";
+"Center" = "الوسط";
+"Right Side" = "الجانب الأيمن";
+"Move Left" = "نقل لليسار";
+"Move Right" = "نقل لليمين";
+"Add To" = "إضافة إلى";
+"Move To" = "نقل إلى";
+"Remove from Player Bar" = "إزالة من شريط المشغل";
+"Artwork" = "العمل الفني";
+"Title and Artist" = "العنوان والفنان";
+"Play/Pause" = "تشغيل/إيقاف مؤقت";
+"Mini Player" = "المشغل المصغر";
+"Thumbnail" = "الصورة المصغرة";
+"Title and Channel" = "العنوان والقناة";
+"Avatar, Title, and Channel" = "الصورة الرمزية والعنوان والقناة";
+"Go to Channel" = "الانتقال إلى القناة";
+"Space" = "مسافة";
+"Flexible Space" = "مسافة مرنة";

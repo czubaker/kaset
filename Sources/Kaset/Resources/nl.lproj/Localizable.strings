@@ -720,3 +720,29 @@
 
 // YouTube page refresh
 "Refresh Page (⇧⌘R)" = "Pagina vernieuwen (⇧⌘R)";
+
+// Player bar customization
+"Customize Player Bar…" = "Spelerbalk aanpassen…";
+"Customize Player Bar" = "Spelerbalk aanpassen";
+"Drag items into the player bar, or drag them out to remove them." = "Sleep onderdelen naar de spelerbalk, of sleep ze eruit om ze te verwijderen.";
+"Restore Defaults" = "Standaardwaarden herstellen";
+"Available Items" = "Beschikbare onderdelen";
+"Video Settings Menu" = "Menu Video-instellingen";
+"Left Side" = "Linkerkant";
+"Center" = "Midden";
+"Right Side" = "Rechterkant";
+"Move Left" = "Naar links verplaatsen";
+"Move Right" = "Naar rechts verplaatsen";
+"Add To" = "Toevoegen aan";
+"Move To" = "Verplaatsen naar";
+"Remove from Player Bar" = "Verwijderen uit spelerbalk";
+"Artwork" = "Illustratie";
+"Title and Artist" = "Titel en artiest";
+"Play/Pause" = "Afspelen/Pauzeren";
+"Mini Player" = "Minispeler";
+"Thumbnail" = "Miniatuur";
+"Title and Channel" = "Titel en kanaal";
+"Avatar, Title, and Channel" = "Avatar, titel en kanaal";
+"Go to Channel" = "Naar kanaal";
+"Space" = "Spatie";
+"Flexible Space" = "Flexibele spatie";

@@ -71,6 +71,7 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
     @State private var youtubeStore: YouTubeViewModelStore
 
     @State private var showLoginSheet = false
+    @State private var playerBarCustomization = PlayerBarCustomization.shared
     @State private var isCommandBarPresented = false
     @State private var whatsNewToPresent: PresentedWhatsNew?
     @State private var selectedSidebarPinnedItem: SidebarPinnedItem?
@@ -285,6 +286,9 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
         }
         .sheet(isPresented: self.$showLoginSheet) {
             LoginSheet()
+        }
+        .sheet(isPresented: self.$playerBarCustomization.isPresented) {
+            PlayerBarCustomizationSheet(source: self.playerBarCustomization.source)
         }
         .sheet(item: self.$whatsNewToPresent) { presentedWhatsNew in
             WhatsNewView(whatsNew: presentedWhatsNew.whatsNew) {

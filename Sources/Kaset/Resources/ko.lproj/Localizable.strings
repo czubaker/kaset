@@ -720,3 +720,29 @@
 
 // YouTube page refresh
 "Refresh Page (⇧⌘R)" = "페이지 새로 고침 (⇧⌘R)";
+
+// Player bar customization
+"Customize Player Bar…" = "플레이어 막대 사용자화…";
+"Customize Player Bar" = "플레이어 막대 사용자화";
+"Drag items into the player bar, or drag them out to remove them." = "항목을 플레이어 막대로 드래그하거나, 밖으로 드래그하여 제거하세요.";
+"Restore Defaults" = "기본값으로 복원";
+"Available Items" = "사용 가능한 항목";
+"Video Settings Menu" = "비디오 설정 메뉴";
+"Left Side" = "왼쪽";
+"Center" = "가운데";
+"Right Side" = "오른쪽";
+"Move Left" = "왼쪽으로 이동";
+"Move Right" = "오른쪽으로 이동";
+"Add To" = "추가할 위치";
+"Move To" = "이동할 위치";
+"Remove from Player Bar" = "플레이어 막대에서 제거";
+"Artwork" = "아트워크";
+"Title and Artist" = "제목 및 아티스트";
+"Play/Pause" = "재생/일시 정지";
+"Mini Player" = "미니 플레이어";
+"Thumbnail" = "썸네일";
+"Title and Channel" = "제목 및 채널";
+"Avatar, Title, and Channel" = "아바타, 제목 및 채널";
+"Go to Channel" = "채널로 이동";
+"Space" = "공백";
+"Flexible Space" = "유동 공백";

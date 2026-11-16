@@ -720,3 +720,29 @@
 
 // YouTube page refresh
 "Refresh Page (⇧⌘R)" = "Uppdatera sidan (⇧⌘R)";
+
+// Player bar customization
+"Customize Player Bar…" = "Anpassa spelarfältet…";
+"Customize Player Bar" = "Anpassa spelarfältet";
+"Drag items into the player bar, or drag them out to remove them." = "Dra objekt till spelarfältet, eller dra ut dem för att ta bort dem.";
+"Restore Defaults" = "Återställ standard";
+"Available Items" = "Tillgängliga objekt";
+"Video Settings Menu" = "Menyn Videoinställningar";
+"Left Side" = "Vänster sida";
+"Center" = "Mitten";
+"Right Side" = "Höger sida";
+"Move Left" = "Flytta åt vänster";
+"Move Right" = "Flytta åt höger";
+"Add To" = "Lägg till i";
+"Move To" = "Flytta till";
+"Remove from Player Bar" = "Ta bort från spelarfältet";
+"Artwork" = "Omslag";
+"Title and Artist" = "Titel och artist";
+"Play/Pause" = "Spela/Pausa";
+"Mini Player" = "Miniuppspelare";
+"Thumbnail" = "Miniatyr";
+"Title and Channel" = "Titel och kanal";
+"Avatar, Title, and Channel" = "Avatar, titel och kanal";
+"Go to Channel" = "Gå till kanal";
+"Space" = "Mellanrum";
+"Flexible Space" = "Flexibelt mellanrum";

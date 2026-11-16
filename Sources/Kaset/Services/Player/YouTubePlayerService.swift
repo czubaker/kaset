@@ -245,6 +245,10 @@ final class YouTubePlayerService {
     /// companion `next` response.
     private(set) var chapters: [YouTubeChapter] = []
 
+    /// The channel a watch page loaded, with the video it's for. Read
+    /// through `currentChannel`, which drops it once another video plays.
+    private(set) var loadedChannel: (videoId: String, channel: YouTubeChannel)?
+
     /// Videos played earlier this session, for skip-backward.
     private var history: [YouTubeVideo] = []
 
@@ -1909,5 +1913,25 @@ extension YouTubePlayerService {
             rates.sort()
         }
         return rates
+    }
+}
+
+// MARK: - Current Channel
+
+extension YouTubePlayerService {
+    /// The current video's channel, with its avatar, from its watch page.
+    /// Nil until that page has loaded.
+    var currentChannel: YouTubeChannel? {
+        guard let loadedChannel, loadedChannel.videoId == self.currentVideo?.videoId else { return nil }
+        return loadedChannel.channel
+    }
+
+    /// Supplies the current video's channel, from its watch page.
+    func setCurrentChannel(_ channel: YouTubeChannel?) {
+        guard let videoId = self.currentVideo?.videoId else {
+            self.loadedChannel = nil
+            return
+        }
+        self.loadedChannel = channel.map { (videoId, $0) }
     }
 }

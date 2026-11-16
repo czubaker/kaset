@@ -718,3 +718,29 @@
 
 // YouTube page refresh
 "Refresh Page (⇧⌘R)" = "重新整理頁面 (⇧⌘R)";
+
+// Player bar customization
+"Customize Player Bar…" = "自訂播放列…";
+"Customize Player Bar" = "自訂播放列";
+"Drag items into the player bar, or drag them out to remove them." = "將項目拖入播放列，或將其拖出以移除。";
+"Restore Defaults" = "回復預設值";
+"Available Items" = "可用項目";
+"Video Settings Menu" = "影片設定選單";
+"Left Side" = "左側";
+"Center" = "中間";
+"Right Side" = "右側";
+"Move Left" = "左移";
+"Move Right" = "右移";
+"Add To" = "加入至";
+"Move To" = "移至";
+"Remove from Player Bar" = "從播放列中移除";
+"Artwork" = "插圖";
+"Title and Artist" = "標題和藝人";
+"Play/Pause" = "播放/暫停";
+"Mini Player" = "迷你播放器";
+"Thumbnail" = "縮圖";
+"Title and Channel" = "標題和頻道";
+"Avatar, Title, and Channel" = "頭像、標題和頻道";
+"Go to Channel" = "前往頻道";
+"Space" = "空格";
+"Flexible Space" = "彈性空格";

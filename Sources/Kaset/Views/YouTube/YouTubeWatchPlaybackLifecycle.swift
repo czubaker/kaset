@@ -33,5 +33,6 @@ enum YouTubeWatchPlaybackLifecycle {
         guard player.currentVideo?.videoId == videoId else { return }
         player.setUpNext(data.related)
         player.setChapters(data.chapters)
+        player.setCurrentChannel(data.channel)
     }
 }

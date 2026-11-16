@@ -38,30 +38,68 @@ struct YouTubePlayerBarTests {
         ))
     }
 
-    @Test("Float on Top control width extends the details-hiding breakpoint")
-    func floatOnTopControlWidthExtendsDetailsHidingBreakpoint() {
-        let standardBreakpoint = YouTubePlayerBar.hiddenVideoDetailsBreakpoint(
-            showsFloatOnTopControl: false
-        )
-        let pinnedWindowBreakpoint = YouTubePlayerBar.hiddenVideoDetailsBreakpoint(
-            showsFloatOnTopControl: true
-        )
+    @Test("The standard layout keeps the bar's widths and details-hiding breakpoint")
+    func standardLayoutKeepsWidths() {
+        let layout = PlayerBarConfiguration<YouTubePlayerBarItem>.standard
+        let leading = layout.items(in: .leading)
+        // Float on Top shows only in the detached window.
+        let trailing = layout.items(in: .trailing).filter { $0 != .floatOnTop }
+        let pinnedTrailing = layout.items(in: .trailing)
+        // Compact details drop the title; signed out drops the rating and
+        // Watch Later buttons.
+        let compactLeading = leading.filter { $0 != .videoInfo }
+        let signedOutTrailing = trailing.filter { $0 != .watchLater }
 
-        #expect(standardBreakpoint == 580)
-        #expect(pinnedWindowBreakpoint - standardBreakpoint == 34)
+        #expect(YouTubePlayerBarMetrics.sideWidth(leading, area: .leading, compact: false) == 294)
+        #expect(YouTubePlayerBarMetrics.sideWidth(compactLeading, area: .leading, compact: true) == 141)
+        #expect(YouTubePlayerBarMetrics.sideWidth(trailing, area: .trailing, compact: false) == 210)
+        #expect(YouTubePlayerBarMetrics.sideWidth(pinnedTrailing, area: .trailing, compact: false) == 244)
+        #expect(YouTubePlayerBarMetrics.sideWidth(signedOutTrailing, area: .trailing, compact: false) == 176)
+
+        let center = layout.items(in: .center)
+        let liveCenter = center.filter { $0 != .skipBack && $0 != .skipForward }
+        let breakpoint = YouTubePlayerBarMetrics.hiddenDetailsBreakpoint(
+            leading: compactLeading, trailing: trailing, center: center
+        )
+        let pinnedBreakpoint = YouTubePlayerBarMetrics.hiddenDetailsBreakpoint(
+            leading: compactLeading, trailing: pinnedTrailing, center: center
+        )
+        let liveBreakpoint = YouTubePlayerBarMetrics.hiddenDetailsBreakpoint(
+            leading: compactLeading, trailing: trailing, center: liveCenter
+        )
+        #expect(breakpoint == 580)
+        #expect(pinnedBreakpoint - breakpoint == 34)
+        #expect(liveBreakpoint == breakpoint)
+        // Below it the standard leading side hides entirely.
+        #expect(YouTubePlayerBarMetrics.narrowLeading(leading).isEmpty)
     }
 
-    @Test("Options width tracks the buttons actually shown")
-    func optionsWidthTracksShownButtons() {
-        let signedIn = YouTubePlayerBar.optionsWidth(showsFloatOnTopControl: false, showsWatchLaterControl: true)
-        let signedOut = YouTubePlayerBar.optionsWidth(showsFloatOnTopControl: false, showsWatchLaterControl: false)
-        let pinnedSignedIn = YouTubePlayerBar.optionsWidth(showsFloatOnTopControl: true, showsWatchLaterControl: true)
-        let pinnedSignedOut = YouTubePlayerBar.optionsWidth(showsFloatOnTopControl: true, showsWatchLaterControl: false)
+    @Test("A wider center row raises the breakpoint, and narrowing keeps placed controls")
+    func narrowLayoutFollowsItems() {
+        let center: [YouTubePlayerBarItem] = [.skipBack, .playPause, .skipForward, .volume]
+        let widerCenter = center + [.airPlay, .captions]
+        let added: CGFloat = 2 * (28 + 6)
+        let breakpoint = YouTubePlayerBarMetrics.hiddenDetailsBreakpoint(leading: [], trailing: [], center: center)
+        let widerBreakpoint = YouTubePlayerBarMetrics.hiddenDetailsBreakpoint(leading: [], trailing: [], center: widerCenter)
+        #expect(widerBreakpoint - breakpoint == added)
 
-        #expect(signedIn == 210)
-        #expect(signedIn - signedOut == 34)
-        #expect(pinnedSignedIn - signedIn == 34)
-        #expect(pinnedSignedOut == signedIn)
+        let expectedLeading: [YouTubePlayerBarItem] = [.playPause, .space, .pictureInPicture]
+        let leading: [YouTubePlayerBarItem] = [.thumbnail, .channelInfo, .playPause, .space, .like, .pictureInPicture]
+        #expect(YouTubePlayerBarMetrics.narrowLeading(leading) == expectedLeading)
+        #expect(YouTubePlayerBarMetrics.narrowLeading([.thumbnail, .space, .videoInfo]).isEmpty)
+    }
+
+    @Test("Side widths follow the items placed, and an empty side takes none")
+    func sideWidthsFollowItems() {
+        // Channel block: avatar, its gap, and the title; 16pt of room after it.
+        let channelBlock: CGFloat = 14 + 24 + 6 + 129 + 16
+        let compactChannelBlock: CGFloat = 14 + 24
+        // A space between two buttons: 6pt gaps on both sides of its 12pt.
+        let spacedButtons: CGFloat = 12 + 28 + 6 + 12 + 6 + 28
+        #expect(YouTubePlayerBarMetrics.sideWidth([.channelInfo], area: .leading, compact: false) == channelBlock)
+        #expect(YouTubePlayerBarMetrics.sideWidth([.channelInfo], area: .leading, compact: true) == compactChannelBlock)
+        #expect(YouTubePlayerBarMetrics.sideWidth([.airPlay, .space, .captions], area: .trailing, compact: false) == spacedButtons)
+        #expect(YouTubePlayerBarMetrics.sideWidth([], area: .trailing, compact: false) == 0)
     }
 
     @Test("Detached controls stay visible while the volume overlay is presented")
