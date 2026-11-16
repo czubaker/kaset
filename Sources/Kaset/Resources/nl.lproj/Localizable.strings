@@ -717,3 +717,6 @@
 "Add a reply…" = "Antwoord toevoegen…";
 "Post reply" = "Antwoord plaatsen";
 "You" = "Jij";
+
+// YouTube page refresh
+"Refresh Page (⇧⌘R)" = "Pagina vernieuwen (⇧⌘R)";

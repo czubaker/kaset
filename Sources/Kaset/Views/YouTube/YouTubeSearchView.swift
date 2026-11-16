@@ -42,6 +42,14 @@ struct YouTubeSearchView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .navigationTitle(Text("Search", comment: "YouTube search title"))
+        // Runs the search again; with no query, refetches the search history.
+        .youtubePageRefreshable {
+            if self.viewModel.query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                _ = await self.viewModel.loadAccountSearchHistory(force: true)
+            } else {
+                await self.viewModel.search()
+            }
+        }
         .task(id: self.isIdle) {
             guard self.isIdle else { return }
             await self.viewModel.loadAccountSearchHistory()

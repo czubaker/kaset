@@ -169,6 +169,21 @@ extension View {
         )
     }
 
+    /// `navigationSwipeBack(path:)` for a stack whose path is a typed array,
+    /// like YouTube's `[YouTubeRoute]`.
+    func navigationSwipeBack(path: Binding<[some Any]>) -> some View {
+        self.environment(
+            \.navigationSwipeBackAction,
+            NavigationSwipeBackAction(
+                canGoBack: { !path.wrappedValue.isEmpty },
+                goBack: {
+                    guard !path.wrappedValue.isEmpty else { return }
+                    path.wrappedValue.removeLast()
+                }
+            )
+        )
+    }
+
     /// Tracks the trackpad swipe back on a pushed page and shows its indicator.
     /// Applied by the navigation destination builders to every pushed page,
     /// and passed on to destinations the page declares itself.

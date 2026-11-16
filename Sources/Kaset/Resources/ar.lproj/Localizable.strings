@@ -717,3 +717,6 @@
 "Add a reply…" = "إضافة رد…";
 "Post reply" = "نشر الرد";
 "You" = "أنت";
+
+// YouTube page refresh
+"Refresh Page (⇧⌘R)" = "تحديث الصفحة (⇧⌘R)";

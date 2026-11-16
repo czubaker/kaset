@@ -30,6 +30,8 @@ private struct YouTubeNavigationDestinationsModifier: ViewModifier {
         content.navigationDestination(for: YouTubeRoute.self) { route in
             YouTubeRouteDestination(route: route, client: self.client)
                 .navigationSwipeBackTarget(self.swipeBackAction)
+                // Tells the page's refresh which route it is.
+                .environment(\.youtubePageRoute, route)
         }
     }
 }

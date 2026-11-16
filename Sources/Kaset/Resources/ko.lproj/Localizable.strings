@@ -717,3 +717,6 @@
 "Add a reply…" = "답글 추가…";
 "Post reply" = "답글 게시";
 "You" = "나";
+
+// YouTube page refresh
+"Refresh Page (⇧⌘R)" = "페이지 새로 고침 (⇧⌘R)";

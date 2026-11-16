@@ -717,3 +717,6 @@
 "Add a reply…" = "Lägg till ett svar…";
 "Post reply" = "Publicera svar";
 "You" = "Du";
+
+// YouTube page refresh
+"Refresh Page (⇧⌘R)" = "Uppdatera sidan (⇧⌘R)";

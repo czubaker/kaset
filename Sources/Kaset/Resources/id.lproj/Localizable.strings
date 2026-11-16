@@ -717,3 +717,6 @@
 "Add a reply…" = "Tambahkan balasan…";
 "Post reply" = "Posting balasan";
 "You" = "Anda";
+
+// YouTube page refresh
+"Refresh Page (⇧⌘R)" = "Muat ulang halaman (⇧⌘R)";

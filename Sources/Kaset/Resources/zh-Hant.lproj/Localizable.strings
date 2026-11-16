@@ -715,3 +715,6 @@
 "Add a reply…" = "新增回覆…";
 "Post reply" = "發布回覆";
 "You" = "你";
+
+// YouTube page refresh
+"Refresh Page (⇧⌘R)" = "重新整理頁面 (⇧⌘R)";

@@ -717,3 +717,6 @@
 "Add a reply…" = "Aggiungi una risposta…";
 "Post reply" = "Pubblica risposta";
 "You" = "Tu";
+
+// YouTube page refresh
+"Refresh Page (⇧⌘R)" = "Aggiorna pagina (⇧⌘R)";

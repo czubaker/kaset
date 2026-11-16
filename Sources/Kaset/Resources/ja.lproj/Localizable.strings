@@ -712,3 +712,6 @@
 "Add a reply…" = "返信を追加…";
 "Post reply" = "返信を投稿";
 "You" = "あなた";
+
+// YouTube page refresh
+"Refresh Page (⇧⌘R)" = "ページを更新 (⇧⌘R)";

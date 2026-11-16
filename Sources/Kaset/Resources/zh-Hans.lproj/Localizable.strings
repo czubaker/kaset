@@ -715,3 +715,6 @@
 "Add a reply…" = "添加回复…";
 "Post reply" = "发布回复";
 "You" = "你";
+
+// YouTube page refresh
+"Refresh Page (⇧⌘R)" = "刷新页面 (⇧⌘R)";
