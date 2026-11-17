@@ -741,8 +741,6 @@
 "Play/Pause" = "Odtwarzaj/Pauza";
 "Mini Player" = "Miniodtwarzacz";
 "Thumbnail" = "Miniatura";
-"Title and Channel" = "Tytuł i kanał";
-"Avatar, Title, and Channel" = "Awatar, tytuł i kanał";
 "Go to Channel" = "Przejdź do kanału";
 "Space" = "Odstęp";
 "Flexible Space" = "Elastyczny odstęp";
@@ -759,3 +757,31 @@
 "Actual Size" = "Rzeczywisty rozmiar";
 "Zoom" = "Powiększenie";
 "Zoom Home's videos (⌘+ / ⌘−)" = "Powiększ lub pomniejsz filmy na stronie głównej (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "Tytuł filmu";
+"Channel" = "Kanał";
+"Views" = "Wyświetlenia";
+"Upload Date" = "Data przesłania";
+"Views and Date" = "Wyświetlenia i data";
+"Subscribers" = "Subskrybenci";
+"Channel Avatar and Name" = "Awatar i nazwa kanału";
+"Subscribe Button" = "Przycisk Subskrybuj";
+"Related Videos" = "Podobne filmy";
+"Channel Avatar" = "Awatar kanału";
+"Details" = "Szczegóły";
+"Avatar and Details" = "Awatar i szczegóły";
+"First Line" = "Pierwszy wiersz";
+"Second Line" = "Drugi wiersz";
+"None" = "Brak";
+"Customize Watch Page…" = "Dostosuj stronę filmu…";
+"Customize Watch Page" = "Dostosuj stronę filmu";
+"Choose what shows around the video." = "Wybierz, co ma się wyświetlać wokół filmu.";
+"Customize" = "Dostosuj";
+"Player Bar" = "Pasek odtwarzacza";
+"Watch Page" = "Strona filmu";
+"Below the Video" = "Pod filmem";
+"Beside the Video" = "Obok filmu";
+"Hide What the Player Bar Shows" = "Ukryj to, co pokazuje pasek odtwarzacza";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "Na przykład przycisk Subskrybuj znika ze strony, gdy jest na pasku odtwarzacza.";
+"On the player bar" = "Na pasku odtwarzacza";

@@ -741,8 +741,6 @@
 "Play/Pause" = "Oynat/Duraklat";
 "Mini Player" = "Mini Oynatıcı";
 "Thumbnail" = "Küçük Resim";
-"Title and Channel" = "Başlık ve Kanal";
-"Avatar, Title, and Channel" = "Avatar, Başlık ve Kanal";
 "Go to Channel" = "Kanala Git";
 "Space" = "Boşluk";
 "Flexible Space" = "Esnek Boşluk";
@@ -759,3 +757,31 @@
 "Actual Size" = "Gerçek Boyut";
 "Zoom" = "Yakınlaştırma";
 "Zoom Home's videos (⌘+ / ⌘−)" = "Ana sayfadaki videoları yakınlaştır veya uzaklaştır (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "Video Başlığı";
+"Channel" = "Kanal";
+"Views" = "Görüntülenme";
+"Upload Date" = "Yükleme Tarihi";
+"Views and Date" = "Görüntülenme ve Tarih";
+"Subscribers" = "Aboneler";
+"Channel Avatar and Name" = "Kanal Avatarı ve Adı";
+"Subscribe Button" = "Abone Ol Düğmesi";
+"Related Videos" = "İlgili Videolar";
+"Channel Avatar" = "Kanal Avatarı";
+"Details" = "Ayrıntılar";
+"Avatar and Details" = "Avatar ve Ayrıntılar";
+"First Line" = "Birinci Satır";
+"Second Line" = "İkinci Satır";
+"None" = "Yok";
+"Customize Watch Page…" = "İzleme Sayfasını Özelleştir…";
+"Customize Watch Page" = "İzleme Sayfasını Özelleştir";
+"Choose what shows around the video." = "Videonun çevresinde nelerin görüneceğini seçin.";
+"Customize" = "Özelleştir";
+"Player Bar" = "Oynatıcı Çubuğu";
+"Watch Page" = "İzleme Sayfası";
+"Below the Video" = "Videonun Altında";
+"Beside the Video" = "Videonun Yanında";
+"Hide What the Player Bar Shows" = "Oynatıcı Çubuğunun Gösterdiklerini Gizle";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "Örneğin, Abone Ol düğmesi oynatıcı çubuğuna eklendiğinde sayfadan kalkar.";
+"On the player bar" = "Oynatıcı çubuğunda";

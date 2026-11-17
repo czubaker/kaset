@@ -83,24 +83,37 @@ struct YouTubeWatchView: View {
 
                 // Below the video: title/metadata + chapters/comments down the
                 // left, the related rail down the right.
+                // Each part shows unless the user hid it (Customize Watch Page).
                 HStack(alignment: .top, spacing: 24) {
+                    let showsMetadata = self.showsMetadata
+                    let showsChapters = self.shows(.chapters) && !self.viewModel.data.chapters.isEmpty
                     VStack(alignment: .leading, spacing: 16) {
-                        self.metadataSection
+                        if showsMetadata {
+                            self.metadataSection
+                        }
 
-                        if !self.viewModel.data.chapters.isEmpty {
-                            Divider()
+                        if showsChapters {
+                            if showsMetadata {
+                                Divider()
+                            }
 
                             self.chaptersSection
                         }
 
-                        Divider()
+                        if self.shows(.comments) {
+                            if showsMetadata || showsChapters {
+                                Divider()
+                            }
 
-                        self.commentsSection
+                            self.commentsSection
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                    self.relatedColumn
-                        .frame(width: 360)
+                    if self.shows(.related) {
+                        self.relatedColumn
+                            .frame(width: 360)
+                    }
                 }
             }
             .padding(.horizontal, 16)
@@ -288,15 +301,31 @@ struct YouTubeWatchView: View {
 
     // MARK: - Metadata
 
+    /// Whether the user's watch page layout shows `element`, given what the
+    /// player bar shows.
+    private func shows(_ element: YouTubeWatchPageElement) -> Bool {
+        self.settings.youtubeWatchPage.shows(
+            element,
+            playerBar: self.settings.youtubePlayerBar,
+            details: self.settings.youtubePlayerBarDetails
+        )
+    }
+
+    private var showsMetadata: Bool {
+        [YouTubeWatchPageElement.title, .views, .date, .channel, .subscriberCount, .subscribeButton].contains(where: self.shows)
+    }
+
     private var metadataSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(self.viewModel.data.videoTitle ?? self.video.title)
-                .font(.title2.bold())
-                .lineLimit(3)
+            if self.shows(.title) {
+                Text(self.viewModel.data.videoTitle ?? self.video.title)
+                    .font(.title2.bold())
+                    .lineLimit(3)
+            }
 
             let meta = [
-                self.viewModel.data.viewCountText ?? self.video.viewCountText,
-                self.viewModel.data.publishedText ?? self.video.publishedText,
+                self.shows(.views) ? self.viewModel.data.viewCountText ?? self.video.viewCountText : nil,
+                self.shows(.date) ? self.viewModel.data.publishedText ?? self.video.publishedText : nil,
             ].compactMap(\.self)
             if !meta.isEmpty {
                 Text(meta.joined(separator: " · "))
@@ -305,45 +334,74 @@ struct YouTubeWatchView: View {
             }
 
             if let channel = self.viewModel.data.channel {
-                HStack(spacing: 12) {
-                    NavigationLink(value: YouTubeRoute.channel(channelId: channel.channelId)) {
-                        HStack(spacing: 10) {
-                            CachedAsyncImage(
-                                url: channel.thumbnailURL,
-                                targetSize: CGSize(width: 36, height: 36)
-                            ) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            } placeholder: {
-                                Circle().fill(.quaternary)
-                            }
-                            .frame(width: 36, height: 36)
-                            .clipShape(.circle)
-
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(channel.name)
-                                    .font(.system(size: 13, weight: .semibold))
-                                    .foregroundStyle(.primary)
-                                if let subscriberCountText = channel.subscriberCountText {
-                                    Text(subscriberCountText)
-                                        .font(.system(size: 11))
-                                        .foregroundStyle(.secondary)
-                                }
-                            }
-                        }
-                        .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-
-                    if self.hasPersonalAccount {
-                        self.subscribeButton
-                    }
-
-                    Spacer(minLength: 0)
-                }
+                self.channelRow(channel)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(.rect)
+        .contextMenu {
+            Button(String(localized: "Customize Watch Page…")) {
+                PlayerBarCustomization.shared.presentWatchPage()
+            }
+        }
+    }
+
+    /// The channel's avatar and name, its subscriber count, and Subscribe,
+    /// each shown unless the layout hides it.
+    @ViewBuilder
+    private func channelRow(_ channel: YouTubeChannel) -> some View {
+        let showsChannel = self.shows(.channel)
+        let showsSubscribers = self.shows(.subscriberCount)
+        let showsSubscribe = self.shows(.subscribeButton) && self.hasPersonalAccount
+        if showsChannel || (showsSubscribers && channel.subscriberCountText != nil) || showsSubscribe {
+            HStack(spacing: 12) {
+                if showsChannel {
+                    self.channelLink(channel, showsSubscribers: showsSubscribers)
+                } else if showsSubscribers, let subscriberCountText = channel.subscriberCountText {
+                    Text(subscriberCountText)
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+                }
+
+                if showsSubscribe {
+                    self.subscribeButton
+                }
+
+                Spacer(minLength: 0)
+            }
+        }
+    }
+
+    private func channelLink(_ channel: YouTubeChannel, showsSubscribers: Bool) -> some View {
+        NavigationLink(value: YouTubeRoute.channel(channelId: channel.channelId)) {
+            HStack(spacing: 10) {
+                CachedAsyncImage(
+                    url: channel.thumbnailURL,
+                    targetSize: CGSize(width: 36, height: 36)
+                ) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    Circle().fill(.quaternary)
+                }
+                .frame(width: 36, height: 36)
+                .clipShape(.circle)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(channel.name)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(.primary)
+                    if showsSubscribers, let subscriberCountText = channel.subscriberCountText {
+                        Text(subscriberCountText)
+                            .font(.system(size: 11))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
     private var subscribeButton: some View {

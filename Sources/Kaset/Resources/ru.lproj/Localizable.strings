@@ -741,8 +741,6 @@
 "Play/Pause" = "Воспроизведение/пауза";
 "Mini Player" = "Мини-плеер";
 "Thumbnail" = "Обложка видео";
-"Title and Channel" = "Название и канал";
-"Avatar, Title, and Channel" = "Аватар, название и канал";
 "Go to Channel" = "Перейти на канал";
 "Space" = "Пробел";
 "Flexible Space" = "Гибкий пробел";
@@ -759,3 +757,31 @@
 "Actual Size" = "Фактический размер";
 "Zoom" = "Масштаб";
 "Zoom Home's videos (⌘+ / ⌘−)" = "Масштаб видео на главной (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "Название видео";
+"Channel" = "Канал";
+"Views" = "Просмотры";
+"Upload Date" = "Дата публикации";
+"Views and Date" = "Просмотры и дата";
+"Subscribers" = "Подписчики";
+"Channel Avatar and Name" = "Аватар и название канала";
+"Subscribe Button" = "Кнопка «Подписаться»";
+"Related Videos" = "Похожие видео";
+"Channel Avatar" = "Аватар канала";
+"Details" = "Сведения";
+"Avatar and Details" = "Аватар и сведения";
+"First Line" = "Первая строка";
+"Second Line" = "Вторая строка";
+"None" = "Нет";
+"Customize Watch Page…" = "Настроить страницу видео…";
+"Customize Watch Page" = "Настроить страницу видео";
+"Choose what shows around the video." = "Выберите, что показывать вокруг видео.";
+"Customize" = "Настроить";
+"Player Bar" = "Панель плеера";
+"Watch Page" = "Страница видео";
+"Below the Video" = "Под видео";
+"Beside the Video" = "Рядом с видео";
+"Hide What the Player Bar Shows" = "Скрывать то, что есть на панели плеера";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "Например, кнопка «Подписаться» исчезает со страницы, когда она есть на панели плеера.";
+"On the player bar" = "На панели плеера";

@@ -33,6 +33,10 @@ enum YouTubeWatchPlaybackLifecycle {
         guard player.currentVideo?.videoId == videoId else { return }
         player.setUpNext(data.related)
         player.setChapters(data.chapters)
-        player.setCurrentChannel(data.channel)
+        player.setCurrentDetails(YouTubeWatchDetails(
+            channel: data.channel,
+            viewCountText: data.viewCountText,
+            publishedText: data.publishedText
+        ))
     }
 }

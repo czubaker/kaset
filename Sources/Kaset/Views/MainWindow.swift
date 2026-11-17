@@ -651,6 +651,18 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
                     self.homeZoomControl
                 }
                 .defaultCustomization(.hidden)
+
+                ToolbarItem(id: "customizeWatchPage", placement: .automatic) {
+                    Button {
+                        PlayerBarCustomization.shared.presentWatchPage()
+                    } label: {
+                        Label(String(localized: "Customize Watch Page…"), systemImage: "rectangle.and.text.magnifyingglass")
+                            .font(.system(size: 14))
+                            .foregroundStyle(.primary)
+                    }
+                    .help(String(localized: "Customize Watch Page…"))
+                }
+                .defaultCustomization(.hidden)
             }
 
             ToolbarItem(id: "customizePlayerBar", placement: .automatic) {

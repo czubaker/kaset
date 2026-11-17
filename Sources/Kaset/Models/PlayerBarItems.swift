@@ -91,8 +91,12 @@ enum MusicPlayerBarItem: String, PlayerBarItemKind {
 /// Items of the YouTube player bar.
 enum YouTubePlayerBarItem: String, PlayerBarItemKind {
     case thumbnail
+    case channelAvatar
+    /// Two lines of text, each a detail of the user's choosing.
     case videoInfo
+    /// The channel's avatar beside two lines of details.
     case channelInfo
+    case subscribe
     case like
     case dislike
     case skipBack
@@ -115,8 +119,10 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
     var title: String {
         switch self {
         case .thumbnail: String(localized: "Thumbnail")
-        case .videoInfo: String(localized: "Title and Channel")
-        case .channelInfo: String(localized: "Avatar, Title, and Channel")
+        case .channelAvatar: String(localized: "Channel Avatar")
+        case .videoInfo: String(localized: "Details")
+        case .channelInfo: String(localized: "Avatar and Details")
+        case .subscribe: String(localized: "Subscribe Button")
         case .like: String(localized: "Like")
         case .dislike: String(localized: "Dislike")
         case .skipBack: String(localized: "Back 30 seconds")
@@ -141,8 +147,10 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
     var systemImage: String {
         switch self {
         case .thumbnail: "photo"
-        case .videoInfo: "text.below.photo"
-        case .channelInfo: "person.crop.circle"
+        case .channelAvatar: "person.crop.circle"
+        case .videoInfo: "text.alignleft"
+        case .channelInfo: "person.text.rectangle"
+        case .subscribe: "person.badge.plus"
         case .like: "hand.thumbsup"
         case .dislike: "hand.thumbsdown"
         case .skipBack: "gobackward.30"
@@ -166,7 +174,7 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
 
     var allowedAreas: Set<PlayerBarArea> {
         switch self {
-        case .thumbnail, .videoInfo, .channelInfo:
+        case .thumbnail, .channelAvatar, .videoInfo, .channelInfo, .subscribe:
             sideAreas
         case .captions, .quality, .playbackSpeed, .audioTrack:
             barAreas.union([.settingsMenu])
@@ -177,6 +185,11 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
 
     var isRepeatable: Bool {
         self == .space || self == .flexibleSpace
+    }
+
+    /// Whether the item is a details block whose two lines the user picks.
+    var hasDetailLines: Bool {
+        self == .videoInfo || self == .channelInfo
     }
 }
 

@@ -741,8 +741,6 @@
 "Play/Pause" = "Putar/Jeda";
 "Mini Player" = "Pemutar Mini";
 "Thumbnail" = "Thumbnail";
-"Title and Channel" = "Judul dan Saluran";
-"Avatar, Title, and Channel" = "Avatar, Judul, dan Saluran";
 "Go to Channel" = "Buka Saluran";
 "Space" = "Spasi";
 "Flexible Space" = "Spasi Fleksibel";
@@ -759,3 +757,31 @@
 "Actual Size" = "Ukuran Sebenarnya";
 "Zoom" = "Zoom";
 "Zoom Home's videos (⌘+ / ⌘−)" = "Perbesar atau perkecil video Beranda (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "Judul Video";
+"Channel" = "Saluran";
+"Views" = "Penayangan";
+"Upload Date" = "Tanggal Upload";
+"Views and Date" = "Penayangan dan Tanggal";
+"Subscribers" = "Subscriber";
+"Channel Avatar and Name" = "Avatar dan Nama Saluran";
+"Subscribe Button" = "Tombol Berlangganan";
+"Related Videos" = "Video Terkait";
+"Channel Avatar" = "Avatar Saluran";
+"Details" = "Detail";
+"Avatar and Details" = "Avatar dan Detail";
+"First Line" = "Baris Pertama";
+"Second Line" = "Baris Kedua";
+"None" = "Tidak Ada";
+"Customize Watch Page…" = "Sesuaikan Halaman Tonton…";
+"Customize Watch Page" = "Sesuaikan Halaman Tonton";
+"Choose what shows around the video." = "Pilih apa yang tampil di sekitar video.";
+"Customize" = "Sesuaikan";
+"Player Bar" = "Bilah Pemutar";
+"Watch Page" = "Halaman Tonton";
+"Below the Video" = "Di Bawah Video";
+"Beside the Video" = "Di Samping Video";
+"Hide What the Player Bar Shows" = "Sembunyikan yang Ditampilkan Bilah Pemutar";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "Misalnya, tombol Berlangganan hilang dari halaman setelah ada di bilah pemutar.";
+"On the player bar" = "Di bilah pemutar";

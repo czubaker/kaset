@@ -1296,6 +1296,12 @@ settings menu. The standard layouts match the bars as they shipped
   areas, then a case in the bar's `itemView`. If it can hide, add it to the
   bar's visibility filter, and to `YouTubePlayerBarMetrics` if it isn't a
   28pt button.
+- YouTube's Details and Avatar and Details blocks show two lines the user
+  picks (`YouTubePlayerBarDetails`), from the watch details the player keeps
+  (`YouTubeWatchDetails`). Subscribe buttons on the bar and the watch page
+  share `YouTubeChannelSubscriptions` (ADR-0043).
+- The same sheet's Watch Page tab edits `YouTubeWatchPageLayout`: which parts
+  of the watch page show, optionally leaving out what the bar shows.
 
 ### PlayerBar Integration
 

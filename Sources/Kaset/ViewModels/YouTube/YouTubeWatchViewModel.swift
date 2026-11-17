@@ -66,7 +66,12 @@ final class YouTubeWatchViewModel {
     // player bar (inline and pop-out) owns them.
 
     /// Whether the user is subscribed to the channel (seeded from watch-next).
-    private(set) var isSubscribed = false
+    /// Whether the account follows this video's channel, shared with the
+    /// player bar's Subscribe button.
+    var isSubscribed: Bool {
+        guard let channelId = self.data.channel?.channelId else { return false }
+        return YouTubeChannelSubscriptions.shared.isSubscribed(to: channelId) ?? false
+    }
 
     // MARK: - Comments State
 
@@ -153,7 +158,9 @@ final class YouTubeWatchViewModel {
             let page = try await self.loadWatchPageWithIdentityRetry(generation: generation)
             guard generation == self.loadGeneration else { return }
             self.data = page.data
-            self.isSubscribed = page.data.isSubscribed ?? false
+            if let channelId = page.data.channel?.channelId {
+                YouTubeChannelSubscriptions.shared.seed(page.data.isSubscribed ?? false, channelId: channelId)
+            }
             self.commentsContinuation = page.data.commentsContinuation
             self.didCompleteInitialCommentsLoad = false
             self.ask.seed(page.askBootstrap)
@@ -225,7 +232,6 @@ final class YouTubeWatchViewModel {
         self.didCompleteInitialCommentsLoad = false
         self.data = .empty
         self.ask.cancelAndDiscard()
-        self.isSubscribed = false
         self.comments = []
         self.isLoadingComments = false
         self.commentsContinuation = nil
@@ -520,20 +526,14 @@ final class YouTubeWatchViewModel {
 
     // MARK: - Actions
 
-    /// Subscribes/unsubscribes the channel (optimistic with rollback).
+    /// Subscribes/unsubscribes the channel (optimistic with rollback),
+    /// through the state the player bar shares.
     func toggleSubscribed() async {
         guard let channel = self.data.channel else { return }
-        let generation = self.loadGeneration
-        let wasSubscribed = self.isSubscribed
-        self.isSubscribed = !wasSubscribed
-        do {
-            try await self.client.setSubscribed(self.isSubscribed, channelId: channel.channelId)
-            guard generation == self.loadGeneration else { return }
-            HapticService.toggle()
-        } catch {
-            guard generation == self.loadGeneration else { return }
-            self.logger.error("Failed to change subscription: \(error.localizedDescription)")
-            self.isSubscribed = wasSubscribed
-        }
+        await YouTubeChannelSubscriptions.shared.setSubscribed(
+            !self.isSubscribed,
+            channelId: channel.channelId,
+            client: self.client
+        )
     }
 }

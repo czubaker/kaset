@@ -143,6 +143,8 @@ struct YouTubePlayerBar: View {
             !compact
         case .like, .dislike, .watchLater:
             self.hasPersonalAccount
+        case .subscribe:
+            self.hasPersonalAccount && self.currentChannelId != nil
         case .skipBack, .skipForward:
             !self.isLive
         case .floatOnTop:
@@ -175,18 +177,20 @@ struct YouTubePlayerBar: View {
         switch item {
         case .thumbnail:
             self.thumbnailView
+        case .channelAvatar:
+            self.channelAvatar
         case .videoInfo:
-            self.titleBlock
+            self.detailsBlock(for: .videoInfo)
         case .channelInfo:
             HStack(spacing: YouTubePlayerBarMetrics.avatarTitleSpacing) {
-                YouTubePlayerBarChannelAvatar(
-                    url: self.youtubePlayer.currentChannel?.thumbnailURL,
-                    canOpenChannel: self.canNavigateToCurrentChannel,
-                    onOpenChannel: self.openCurrentChannel
-                )
+                self.channelAvatar
                 if !compact {
-                    self.titleBlock
+                    self.detailsBlock(for: .channelInfo)
                 }
+            }
+        case .subscribe:
+            if let channelId = self.currentChannelId {
+                YouTubePlayerBarSubscribeButton(channelId: channelId, client: self.youtubePlayer.youtubeClient)
             }
         case .like:
             self.likeButton
@@ -219,15 +223,58 @@ struct YouTubePlayerBar: View {
         }
     }
 
-    private var titleBlock: some View {
-        YouTubePlayerBarTitleBlock(
-            title: self.videoDetailsTitle,
-            titleIdentity: self.currentTitleIdentity,
-            channelName: self.youtubePlayer.currentVideo?.channelName ?? String(localized: "YouTube"),
-            showsChannel: !self.isShowingChapterPreview,
+    private var channelAvatar: some View {
+        YouTubePlayerBarChannelAvatar(
+            url: self.youtubePlayer.currentChannel?.thumbnailURL,
             canOpenChannel: self.canNavigateToCurrentChannel,
             onOpenChannel: self.openCurrentChannel
         )
+    }
+
+    /// A details block with the lines the user picked for `item`. While a
+    /// chapter preview shows, the first line names the chapter and the second
+    /// stays empty, as the title block always did.
+    private func detailsBlock(for item: YouTubePlayerBarItem) -> some View {
+        let lines = self.settings.youtubePlayerBarDetails.lines(for: item) ?? .standard
+        if self.isShowingChapterPreview {
+            return YouTubePlayerBarDetailsBlock(
+                first: .text(self.videoDetailsTitle, identity: self.currentTitleIdentity),
+                second: nil
+            )
+        }
+        return YouTubePlayerBarDetailsBlock(
+            first: self.detailLine(lines.first),
+            second: lines.second.map { self.detailLine($0) }
+        )
+    }
+
+    private func detailLine(_ field: YouTubePlayerBarDetailField) -> YouTubePlayerBarDetailsBlock.Line {
+        switch field {
+        case .title:
+            return .text(self.videoDetailsTitle, identity: self.currentTitleIdentity)
+        case .channel:
+            let name = self.youtubePlayer.currentVideo?.channelName
+                ?? self.youtubePlayer.currentChannel?.name
+                ?? String(localized: "YouTube")
+            return .link(name, isEnabled: self.canNavigateToCurrentChannel, action: self.openCurrentChannel)
+        case .views:
+            return .text(self.youtubePlayer.currentViewCountText ?? "", identity: "views")
+        case .date:
+            return .text(self.youtubePlayer.currentPublishedText ?? "", identity: "date")
+        case .viewsAndDate:
+            let text = [self.youtubePlayer.currentViewCountText, self.youtubePlayer.currentPublishedText]
+                .compactMap(\.self)
+                .joined(separator: " · ")
+            return .text(text, identity: "viewsAndDate")
+        case .subscribers:
+            // Opens the channel too: the count belongs to it.
+            let text = self.youtubePlayer.currentChannel?.subscriberCountText ?? ""
+            var action: (() -> Void)?
+            if self.canNavigateToCurrentChannel {
+                action = { self.openCurrentChannel() }
+            }
+            return .text(text, identity: "subscribers", action: action)
+        }
     }
 
     private var thumbnailView: some View {

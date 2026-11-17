@@ -736,8 +736,6 @@
 "Play/Pause" = "再生/一時停止";
 "Mini Player" = "ミニプレーヤー";
 "Thumbnail" = "サムネイル";
-"Title and Channel" = "タイトルとチャンネル";
-"Avatar, Title, and Channel" = "アバター、タイトル、チャンネル";
 "Go to Channel" = "チャンネルへ移動";
 "Space" = "スペース";
 "Flexible Space" = "フレキシブルスペース";
@@ -754,3 +752,31 @@
 "Actual Size" = "実際のサイズ";
 "Zoom" = "拡大/縮小";
 "Zoom Home's videos (⌘+ / ⌘−)" = "ホームの動画を拡大/縮小 (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "動画のタイトル";
+"Channel" = "チャンネル";
+"Views" = "視聴回数";
+"Upload Date" = "公開日";
+"Views and Date" = "視聴回数と公開日";
+"Subscribers" = "チャンネル登録者数";
+"Channel Avatar and Name" = "チャンネルのアイコンと名前";
+"Subscribe Button" = "登録ボタン";
+"Related Videos" = "関連動画";
+"Channel Avatar" = "チャンネルのアイコン";
+"Details" = "詳細";
+"Avatar and Details" = "アイコンと詳細";
+"First Line" = "1行目";
+"Second Line" = "2行目";
+"None" = "なし";
+"Customize Watch Page…" = "再生ページをカスタマイズ…";
+"Customize Watch Page" = "再生ページをカスタマイズ";
+"Choose what shows around the video." = "動画の周りに表示するものを選択します。";
+"Customize" = "カスタマイズ";
+"Player Bar" = "プレーヤーバー";
+"Watch Page" = "再生ページ";
+"Below the Video" = "動画の下";
+"Beside the Video" = "動画の横";
+"Hide What the Player Bar Shows" = "プレーヤーバーに表示されるものを隠す";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "たとえば、登録ボタンをプレーヤーバーに置くとページから消えます。";
+"On the player bar" = "プレーヤーバーにあり";

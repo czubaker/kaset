@@ -741,8 +741,6 @@
 "Play/Pause" = "Wiedergabe/Pause";
 "Mini Player" = "Miniplayer";
 "Thumbnail" = "Vorschaubild";
-"Title and Channel" = "Titel und Kanal";
-"Avatar, Title, and Channel" = "Avatar, Titel und Kanal";
 "Go to Channel" = "Zum Kanal";
 "Space" = "Abstand";
 "Flexible Space" = "Flexibler Abstand";
@@ -759,3 +757,31 @@
 "Actual Size" = "Originalgröße";
 "Zoom" = "Zoomen";
 "Zoom Home's videos (⌘+ / ⌘−)" = "Videos auf der Startseite zoomen (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "Videotitel";
+"Channel" = "Kanal";
+"Views" = "Aufrufe";
+"Upload Date" = "Upload-Datum";
+"Views and Date" = "Aufrufe und Datum";
+"Subscribers" = "Abonnenten";
+"Channel Avatar and Name" = "Kanalbild und Name";
+"Subscribe Button" = "Abonnieren-Taste";
+"Related Videos" = "Ähnliche Videos";
+"Channel Avatar" = "Kanalbild";
+"Details" = "Details";
+"Avatar and Details" = "Bild und Details";
+"First Line" = "Erste Zeile";
+"Second Line" = "Zweite Zeile";
+"None" = "Keine";
+"Customize Watch Page…" = "Wiedergabeseite anpassen …";
+"Customize Watch Page" = "Wiedergabeseite anpassen";
+"Choose what shows around the video." = "Wähle, was rund um das Video angezeigt wird.";
+"Customize" = "Anpassen";
+"Player Bar" = "Player-Leiste";
+"Watch Page" = "Wiedergabeseite";
+"Below the Video" = "Unter dem Video";
+"Beside the Video" = "Neben dem Video";
+"Hide What the Player Bar Shows" = "Ausblenden, was die Player-Leiste zeigt";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "Die Abonnieren-Taste verschwindet zum Beispiel von der Seite, sobald sie in der Player-Leiste ist.";
+"On the player bar" = "In der Player-Leiste";

@@ -15,16 +15,31 @@ import SwiftUI
 final class PlayerBarCustomization {
     static let shared = PlayerBarCustomization()
 
+    /// What the sheet edits. YouTube's sheet switches between its player bar
+    /// and its watch page, so moving an item to the bar and hiding it on the
+    /// page happen in one place.
+    enum Page: Hashable {
+        case playerBar
+        case watchPage
+    }
+
     var isPresented = false
     /// The source whose bar the sheet edits.
     private(set) var source: AppSource = .music
+    var page: Page = .playerBar
     /// Shows the main window, which hosts the sheet. Set by the app.
     @ObservationIgnored var showMainWindow: (() -> Void)?
 
-    func present(for source: AppSource) {
+    func present(for source: AppSource, page: Page = .playerBar) {
         self.source = source
+        // Only YouTube has a watch page.
+        self.page = source == .video ? page : .playerBar
         self.isPresented = true
         self.showMainWindow?()
+    }
+
+    func presentWatchPage() {
+        self.present(for: .video, page: .watchPage)
     }
 }
 
@@ -37,6 +52,9 @@ struct PlayerBarCustomizationCommands: Commands {
         CommandGroup(after: .toolbar) {
             Button(String(localized: "Customize Player Bar…")) {
                 PlayerBarCustomization.shared.present(for: SettingsManager.shared.appSource)
+            }
+            Button(String(localized: "Customize Watch Page…")) {
+                PlayerBarCustomization.shared.presentWatchPage()
             }
         }
     }
@@ -52,30 +70,63 @@ struct PlayerBarCustomizationSheet: View {
 
     @Environment(\.dismiss) private var dismiss
     @Bindable private var settings = SettingsManager.shared
+    @Bindable private var customization = PlayerBarCustomization.shared
+
+    private var page: PlayerBarCustomization.Page {
+        self.source == .video ? self.customization.page : .playerBar
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Customize Player Bar", comment: "Title of the player bar customization sheet")
-                    .font(.title2.bold())
-                Text("Drag items into the player bar, or drag them out to remove them.", comment: "Player bar customization instructions")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
+                    switch self.page {
+                    case .playerBar:
+                        Text("Customize Player Bar", comment: "Title of the player bar customization sheet")
+                            .font(.title2.bold())
+                        Text("Drag items into the player bar, or drag them out to remove them.", comment: "Player bar customization instructions")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    case .watchPage:
+                        Text("Customize Watch Page", comment: "Title of the watch page customization sheet")
+                            .font(.title2.bold())
+                        Text("Choose what shows around the video.", comment: "Watch page customization instructions")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                Spacer()
+                if self.source == .video {
+                    Picker(String(localized: "Customize"), selection: self.$customization.page) {
+                        Text("Player Bar", comment: "Customization sheet tab").tag(PlayerBarCustomization.Page.playerBar)
+                        Text("Watch Page", comment: "Customization sheet tab").tag(PlayerBarCustomization.Page.watchPage)
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .fixedSize()
+                }
             }
 
-            switch self.source {
-            case .music:
+            switch (self.source, self.page) {
+            case (.music, _):
                 PlayerBarCustomizationEditor(configuration: self.$settings.musicPlayerBar)
-            case .video:
+            case (.video, .playerBar):
                 PlayerBarCustomizationEditor(configuration: self.$settings.youtubePlayerBar)
+            case (.video, .watchPage):
+                YouTubeWatchPageCustomizationEditor()
             }
 
             HStack {
                 Button(String(localized: "Restore Defaults")) {
                     withAnimation(AppAnimation.standard) {
-                        switch self.source {
-                        case .music: self.settings.musicPlayerBar = .standard
-                        case .video: self.settings.youtubePlayerBar = .standard
+                        switch (self.source, self.page) {
+                        case (.music, _):
+                            self.settings.musicPlayerBar = .standard
+                        case (.video, .playerBar):
+                            self.settings.youtubePlayerBar = .standard
+                            self.settings.youtubePlayerBarDetails = .standard
+                        case (.video, .watchPage):
+                            self.settings.youtubeWatchPage = .standard
                         }
                     }
                 }
@@ -209,6 +260,8 @@ private struct PlayerBarDropZone<Item: PlayerBarItemKind>: View {
     @Environment(\.layoutDirection) private var layoutDirection
     @State private var isTargeted = false
     @State private var targetedIndex: Int?
+    /// The details block whose lines are being picked in a popover.
+    @State private var editedDetailsIndex: Int?
 
     var body: some View {
         let items = self.configuration.items(in: self.area)
@@ -239,6 +292,7 @@ private struct PlayerBarDropZone<Item: PlayerBarItemKind>: View {
                     .contextMenu {
                         PlayerBarItemMenu(item: item, placement: (self.area, index), configuration: self.$configuration)
                     }
+                    .modifier(DetailLinesPopover(item: item, index: index, editedIndex: self.$editedDetailsIndex))
             }
 
             // Free space after the items; takes drops that append.
@@ -262,6 +316,41 @@ private struct PlayerBarDropZone<Item: PlayerBarItemKind>: View {
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(self.area.title(in: self.layoutDirection))
+    }
+}
+
+// MARK: - DetailLinesPopover
+
+/// Clicking a YouTube details block on the bar preview picks its lines in a
+/// popover; other chips do nothing on click.
+private struct DetailLinesPopover<Item: PlayerBarItemKind>: ViewModifier {
+    let item: Item
+    let index: Int
+    @Binding var editedIndex: Int?
+
+    func body(content: Content) -> some View {
+        if let item = self.item as? YouTubePlayerBarItem, item.hasDetailLines {
+            content
+                .onTapGesture {
+                    self.editedIndex = self.index
+                }
+                .popover(isPresented: self.isPresented, arrowEdge: .bottom) {
+                    YouTubeDetailLinesForm(item: item)
+                }
+        } else {
+            content
+        }
+    }
+
+    private var isPresented: Binding<Bool> {
+        Binding(
+            get: { self.editedIndex == self.index },
+            set: {
+                if !$0, self.editedIndex == self.index {
+                    self.editedIndex = nil
+                }
+            }
+        )
     }
 }
 
@@ -345,6 +434,8 @@ private struct PlayerBarItemMenu<Item: PlayerBarItemKind>: View {
                 }
             }
 
+            self.detailLinePickers
+
             Divider()
             Button(String(localized: "Remove from Player Bar"), role: .destructive) {
                 self.configuration.remove(from: placement.area, at: placement.index)
@@ -358,6 +449,18 @@ private struct PlayerBarItemMenu<Item: PlayerBarItemKind>: View {
                     }
                 }
             }
+            self.detailLinePickers
+        }
+    }
+}
+
+private extension PlayerBarItemMenu {
+    /// First Line / Second Line for YouTube's details blocks.
+    @ViewBuilder
+    var detailLinePickers: some View {
+        if let item = self.item as? YouTubePlayerBarItem, item.hasDetailLines {
+            Divider()
+            YouTubeDetailLinePickers(item: item)
         }
     }
 }

@@ -739,8 +739,6 @@
 "Play/Pause" = "播放/暂停";
 "Mini Player" = "迷你播放器";
 "Thumbnail" = "缩略图";
-"Title and Channel" = "标题和频道";
-"Avatar, Title, and Channel" = "头像、标题和频道";
 "Go to Channel" = "前往频道";
 "Space" = "空格";
 "Flexible Space" = "可变空格";
@@ -757,3 +755,31 @@
 "Actual Size" = "实际大小";
 "Zoom" = "缩放";
 "Zoom Home's videos (⌘+ / ⌘−)" = "缩放首页视频 (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "视频标题";
+"Channel" = "频道";
+"Views" = "观看次数";
+"Upload Date" = "上传日期";
+"Views and Date" = "观看次数和日期";
+"Subscribers" = "订阅者";
+"Channel Avatar and Name" = "频道头像和名称";
+"Subscribe Button" = "订阅按钮";
+"Related Videos" = "相关视频";
+"Channel Avatar" = "频道头像";
+"Details" = "详细信息";
+"Avatar and Details" = "头像和详细信息";
+"First Line" = "第一行";
+"Second Line" = "第二行";
+"None" = "无";
+"Customize Watch Page…" = "自定义观看页面…";
+"Customize Watch Page" = "自定义观看页面";
+"Choose what shows around the video." = "选择视频周围显示的内容。";
+"Customize" = "自定义";
+"Player Bar" = "播放栏";
+"Watch Page" = "观看页面";
+"Below the Video" = "视频下方";
+"Beside the Video" = "视频旁边";
+"Hide What the Player Bar Shows" = "隐藏播放栏显示的内容";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "例如，订阅按钮放到播放栏后，就会从页面上消失。";
+"On the player bar" = "在播放栏中";

@@ -741,8 +741,6 @@
 "Play/Pause" = "재생/일시 정지";
 "Mini Player" = "미니 플레이어";
 "Thumbnail" = "썸네일";
-"Title and Channel" = "제목 및 채널";
-"Avatar, Title, and Channel" = "아바타, 제목 및 채널";
 "Go to Channel" = "채널로 이동";
 "Space" = "공백";
 "Flexible Space" = "유동 공백";
@@ -759,3 +757,31 @@
 "Actual Size" = "실제 크기";
 "Zoom" = "확대/축소";
 "Zoom Home's videos (⌘+ / ⌘−)" = "홈 동영상 확대/축소 (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "동영상 제목";
+"Channel" = "채널";
+"Views" = "조회수";
+"Upload Date" = "업로드 날짜";
+"Views and Date" = "조회수 및 날짜";
+"Subscribers" = "구독자";
+"Channel Avatar and Name" = "채널 아바타 및 이름";
+"Subscribe Button" = "구독 버튼";
+"Related Videos" = "관련 동영상";
+"Channel Avatar" = "채널 아바타";
+"Details" = "세부 정보";
+"Avatar and Details" = "아바타 및 세부 정보";
+"First Line" = "첫 번째 줄";
+"Second Line" = "두 번째 줄";
+"None" = "없음";
+"Customize Watch Page…" = "시청 페이지 사용자화…";
+"Customize Watch Page" = "시청 페이지 사용자화";
+"Choose what shows around the video." = "동영상 주변에 표시할 항목을 선택하세요.";
+"Customize" = "사용자화";
+"Player Bar" = "플레이어 막대";
+"Watch Page" = "시청 페이지";
+"Below the Video" = "동영상 아래";
+"Beside the Video" = "동영상 옆";
+"Hide What the Player Bar Shows" = "플레이어 막대에 표시되는 항목 숨기기";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "예를 들어 구독 버튼을 플레이어 막대에 두면 페이지에서 사라집니다.";
+"On the player bar" = "플레이어 막대에 있음";

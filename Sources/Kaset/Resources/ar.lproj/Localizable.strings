@@ -741,8 +741,6 @@
 "Play/Pause" = "تشغيل/إيقاف مؤقت";
 "Mini Player" = "المشغل المصغر";
 "Thumbnail" = "الصورة المصغرة";
-"Title and Channel" = "العنوان والقناة";
-"Avatar, Title, and Channel" = "الصورة الرمزية والعنوان والقناة";
 "Go to Channel" = "الانتقال إلى القناة";
 "Space" = "مسافة";
 "Flexible Space" = "مسافة مرنة";
@@ -759,3 +757,31 @@
 "Actual Size" = "الحجم الفعلي";
 "Zoom" = "تكبير/تصغير";
 "Zoom Home's videos (⌘+ / ⌘−)" = "تكبير مقاطع الفيديو في الصفحة الرئيسية أو تصغيرها (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "عنوان الفيديو";
+"Channel" = "القناة";
+"Views" = "المشاهدات";
+"Upload Date" = "تاريخ الرفع";
+"Views and Date" = "المشاهدات والتاريخ";
+"Subscribers" = "المشتركون";
+"Channel Avatar and Name" = "صورة القناة واسمها";
+"Subscribe Button" = "زر الاشتراك";
+"Related Videos" = "فيديوهات ذات صلة";
+"Channel Avatar" = "صورة القناة";
+"Details" = "التفاصيل";
+"Avatar and Details" = "الصورة والتفاصيل";
+"First Line" = "السطر الأول";
+"Second Line" = "السطر الثاني";
+"None" = "لا شيء";
+"Customize Watch Page…" = "تخصيص صفحة المشاهدة…";
+"Customize Watch Page" = "تخصيص صفحة المشاهدة";
+"Choose what shows around the video." = "اختر ما يظهر حول الفيديو.";
+"Customize" = "تخصيص";
+"Player Bar" = "شريط المشغل";
+"Watch Page" = "صفحة المشاهدة";
+"Below the Video" = "أسفل الفيديو";
+"Beside the Video" = "بجانب الفيديو";
+"Hide What the Player Bar Shows" = "إخفاء ما يعرضه شريط المشغل";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "على سبيل المثال، يختفي زر الاشتراك من الصفحة عند إضافته إلى شريط المشغل.";
+"On the player bar" = "في شريط المشغل";

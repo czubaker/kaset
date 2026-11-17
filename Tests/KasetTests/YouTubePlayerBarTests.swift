@@ -100,6 +100,9 @@ struct YouTubePlayerBarTests {
         #expect(YouTubePlayerBarMetrics.sideWidth([.channelInfo], area: .leading, compact: true) == compactChannelBlock)
         #expect(YouTubePlayerBarMetrics.sideWidth([.airPlay, .space, .captions], area: .trailing, compact: false) == spacedButtons)
         #expect(YouTubePlayerBarMetrics.sideWidth([], area: .trailing, compact: false) == 0)
+        // Channel avatar and Subscribe: two blocks, 8pt apart.
+        let avatarAndSubscribe: CGFloat = 14 + 24 + 8 + 92
+        #expect(YouTubePlayerBarMetrics.sideWidth([.channelAvatar, .subscribe], area: .leading, compact: true) == avatarAndSubscribe)
     }
 
     @Test("Detached controls stay visible while the volume overlay is presented")

@@ -741,8 +741,6 @@
 "Play/Pause" = "Spela/Pausa";
 "Mini Player" = "Miniuppspelare";
 "Thumbnail" = "Miniatyr";
-"Title and Channel" = "Titel och kanal";
-"Avatar, Title, and Channel" = "Avatar, titel och kanal";
 "Go to Channel" = "Gå till kanal";
 "Space" = "Mellanrum";
 "Flexible Space" = "Flexibelt mellanrum";
@@ -759,3 +757,31 @@
 "Actual Size" = "Verklig storlek";
 "Zoom" = "Zoom";
 "Zoom Home's videos (⌘+ / ⌘−)" = "Zooma videor på Hem (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "Videotitel";
+"Channel" = "Kanal";
+"Views" = "Visningar";
+"Upload Date" = "Uppladdningsdatum";
+"Views and Date" = "Visningar och datum";
+"Subscribers" = "Prenumeranter";
+"Channel Avatar and Name" = "Kanalens avatar och namn";
+"Subscribe Button" = "Knappen Prenumerera";
+"Related Videos" = "Relaterade videor";
+"Channel Avatar" = "Kanalens avatar";
+"Details" = "Detaljer";
+"Avatar and Details" = "Avatar och detaljer";
+"First Line" = "Första raden";
+"Second Line" = "Andra raden";
+"None" = "Ingen";
+"Customize Watch Page…" = "Anpassa videosidan…";
+"Customize Watch Page" = "Anpassa videosidan";
+"Choose what shows around the video." = "Välj vad som visas runt videon.";
+"Customize" = "Anpassa";
+"Player Bar" = "Spelarfält";
+"Watch Page" = "Videosida";
+"Below the Video" = "Under videon";
+"Beside the Video" = "Bredvid videon";
+"Hide What the Player Bar Shows" = "Dölj det som spelarfältet visar";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "Till exempel försvinner knappen Prenumerera från sidan när den finns i spelarfältet.";
+"On the player bar" = "I spelarfältet";

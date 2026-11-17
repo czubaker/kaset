@@ -739,8 +739,6 @@
 "Play/Pause" = "播放/暫停";
 "Mini Player" = "迷你播放器";
 "Thumbnail" = "縮圖";
-"Title and Channel" = "標題和頻道";
-"Avatar, Title, and Channel" = "頭像、標題和頻道";
 "Go to Channel" = "前往頻道";
 "Space" = "空格";
 "Flexible Space" = "彈性空格";
@@ -757,3 +755,31 @@
 "Actual Size" = "實際大小";
 "Zoom" = "縮放";
 "Zoom Home's videos (⌘+ / ⌘−)" = "縮放首頁影片 (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "影片標題";
+"Channel" = "頻道";
+"Views" = "觀看次數";
+"Upload Date" = "上傳日期";
+"Views and Date" = "觀看次數和日期";
+"Subscribers" = "訂閱者";
+"Channel Avatar and Name" = "頻道頭像和名稱";
+"Subscribe Button" = "訂閱按鈕";
+"Related Videos" = "相關影片";
+"Channel Avatar" = "頻道頭像";
+"Details" = "詳細資訊";
+"Avatar and Details" = "頭像和詳細資訊";
+"First Line" = "第一行";
+"Second Line" = "第二行";
+"None" = "無";
+"Customize Watch Page…" = "自訂觀看頁面…";
+"Customize Watch Page" = "自訂觀看頁面";
+"Choose what shows around the video." = "選擇影片周圍顯示的內容。";
+"Customize" = "自訂";
+"Player Bar" = "播放列";
+"Watch Page" = "觀看頁面";
+"Below the Video" = "影片下方";
+"Beside the Video" = "影片旁邊";
+"Hide What the Player Bar Shows" = "隱藏播放列顯示的內容";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "例如，訂閱按鈕放到播放列後，就會從頁面上消失。";
+"On the player bar" = "在播放列中";

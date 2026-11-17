@@ -245,9 +245,10 @@ final class YouTubePlayerService {
     /// companion `next` response.
     private(set) var chapters: [YouTubeChapter] = []
 
-    /// The channel a watch page loaded, with the video it's for. Read
-    /// through `currentChannel`, which drops it once another video plays.
-    private(set) var loadedChannel: (videoId: String, channel: YouTubeChannel)?
+    /// What a watch page loaded about the video it's for: its channel and the
+    /// details the player bar can show. Read through the `current…`
+    /// accessors, which drop it once another video plays.
+    private(set) var loadedDetails: (videoId: String, details: YouTubeWatchDetails)?
 
     /// Videos played earlier this session, for skip-backward.
     private var history: [YouTubeVideo] = []
@@ -1916,22 +1917,46 @@ extension YouTubePlayerService {
     }
 }
 
-// MARK: - Current Channel
+// MARK: - YouTubeWatchDetails
+
+/// What a watch page loaded about its video for the player bar: the channel,
+/// with its avatar and subscriber count, and the view count and upload date.
+struct YouTubeWatchDetails: Equatable {
+    let channel: YouTubeChannel?
+    let viewCountText: String?
+    let publishedText: String?
+}
+
+// MARK: - Current Details
 
 extension YouTubePlayerService {
+    private var currentDetails: YouTubeWatchDetails? {
+        guard let loadedDetails, loadedDetails.videoId == self.currentVideo?.videoId else { return nil }
+        return loadedDetails.details
+    }
+
     /// The current video's channel, with its avatar, from its watch page.
     /// Nil until that page has loaded.
     var currentChannel: YouTubeChannel? {
-        guard let loadedChannel, loadedChannel.videoId == self.currentVideo?.videoId else { return nil }
-        return loadedChannel.channel
+        self.currentDetails?.channel
     }
 
-    /// Supplies the current video's channel, from its watch page.
-    func setCurrentChannel(_ channel: YouTubeChannel?) {
+    /// The current video's view count: the watch page's, else the card's.
+    var currentViewCountText: String? {
+        self.currentDetails?.viewCountText ?? self.currentVideo?.viewCountText
+    }
+
+    /// When the current video was uploaded: the watch page's, else the card's.
+    var currentPublishedText: String? {
+        self.currentDetails?.publishedText ?? self.currentVideo?.publishedText
+    }
+
+    /// Supplies what the current video's watch page loaded.
+    func setCurrentDetails(_ details: YouTubeWatchDetails?) {
         guard let videoId = self.currentVideo?.videoId else {
-            self.loadedChannel = nil
+            self.loadedDetails = nil
             return
         }
-        self.loadedChannel = channel.map { (videoId, $0) }
+        self.loadedDetails = details.map { (videoId, $0) }
     }
 }

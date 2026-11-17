@@ -40,6 +40,8 @@ final class SettingsManager {
         static let musicPlayerBar = "settings.playerBar.music"
         static let youtubePlayerBar = "settings.playerBar.youtube"
         static let youtubeHomeZoom = "settings.youtubeHomeZoom"
+        static let youtubePlayerBarDetails = "settings.playerBar.youtubeDetails"
+        static let youtubeWatchPage = "settings.youtubeWatchPage"
         #if DEBUG
             static let useLegacyMacOS15UI = "settings.debug.useLegacyMacOS15UI"
         #endif
@@ -487,6 +489,20 @@ final class SettingsManager {
         }
     }
 
+    /// The lines of the YouTube player bar's details blocks.
+    var youtubePlayerBarDetails: YouTubePlayerBarDetails {
+        didSet {
+            Self.saveJSON(self.youtubePlayerBarDetails, forKey: Keys.youtubePlayerBarDetails, to: UserDefaults.standard)
+        }
+    }
+
+    /// Which parts of the YouTube watch page show.
+    var youtubeWatchPage: YouTubeWatchPageLayout {
+        didSet {
+            Self.saveJSON(self.youtubeWatchPage, forKey: Keys.youtubeWatchPage, to: UserDefaults.standard)
+        }
+    }
+
     /// How large YouTube Home draws its video cards; 1 is the standard size.
     /// One of `YouTubeHomeZoom.levels`.
     var youtubeHomeZoom: Double {
@@ -579,6 +595,19 @@ final class SettingsManager {
         defaults.set(data, forKey: key)
     }
 
+    /// A JSON-stored setting, or `fallback` when it's missing or unreadable.
+    static func loadJSON<Value: Decodable>(_: Value.Type, forKey key: String, from defaults: UserDefaults, fallback: Value) -> Value {
+        guard let data = defaults.data(forKey: key), let value = try? JSONDecoder().decode(Value.self, from: data) else {
+            return fallback
+        }
+        return value
+    }
+
+    static func saveJSON(_ value: some Encodable, forKey key: String, to defaults: UserDefaults) {
+        guard let data = try? JSONEncoder().encode(value) else { return }
+        defaults.set(data, forKey: key)
+    }
+
     static func loadAppearance(from defaults: UserDefaults) -> AppAppearance {
         defaults.string(forKey: Keys.appearance).flatMap(AppAppearance.init(rawValue:)) ?? .system
     }
@@ -623,14 +652,11 @@ final class SettingsManager {
         self.popOutVideoOnNavigateAway = UserDefaults.standard.object(forKey: Keys.popOutVideoOnNavigateAway) as? Bool ?? true
         self.showYouTubeControlsOnVideo = Self.loadShowYouTubeControlsOnVideo(from: UserDefaults.standard)
         self.swipeToGoBackEnabled = Self.loadSwipeToGoBackEnabled(from: UserDefaults.standard)
-        self.musicPlayerBar = Self.loadPlayerBar(
-            forKey: Keys.musicPlayerBar,
-            from: UserDefaults.standard,
-            standard: .standard
-        )
-        self.youtubeHomeZoom = YouTubeHomeZoom.level(
-            nearest: UserDefaults.standard.object(forKey: Keys.youtubeHomeZoom) as? Double ?? YouTubeHomeZoom.standard
-        )
+        let defaults = UserDefaults.standard
+        self.musicPlayerBar = Self.loadPlayerBar(forKey: Keys.musicPlayerBar, from: defaults, standard: .standard)
+        self.youtubePlayerBarDetails = Self.loadJSON(YouTubePlayerBarDetails.self, forKey: Keys.youtubePlayerBarDetails, from: defaults, fallback: .standard)
+        self.youtubeWatchPage = Self.loadJSON(YouTubeWatchPageLayout.self, forKey: Keys.youtubeWatchPage, from: defaults, fallback: .standard)
+        self.youtubeHomeZoom = YouTubeHomeZoom.level(nearest: defaults.object(forKey: Keys.youtubeHomeZoom) as? Double ?? YouTubeHomeZoom.standard)
         self.youtubePlayerBar = Self.loadPlayerBar(
             forKey: Keys.youtubePlayerBar,
             from: UserDefaults.standard,

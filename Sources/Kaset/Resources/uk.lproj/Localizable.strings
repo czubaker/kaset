@@ -741,8 +741,6 @@
 "Play/Pause" = "Відтворення/пауза";
 "Mini Player" = "Мініплеєр";
 "Thumbnail" = "Мініатюра";
-"Title and Channel" = "Назва й канал";
-"Avatar, Title, and Channel" = "Аватар, назва й канал";
 "Go to Channel" = "Перейти на канал";
 "Space" = "Пропуск";
 "Flexible Space" = "Гнучкий пропуск";
@@ -759,3 +757,31 @@
 "Actual Size" = "Фактичний розмір";
 "Zoom" = "Масштаб";
 "Zoom Home's videos (⌘+ / ⌘−)" = "Масштаб відео на головній (⌘+ / ⌘−)";
+
+// Player bar blocks and watch page customization
+"Video Title" = "Назва відео";
+"Channel" = "Канал";
+"Views" = "Перегляди";
+"Upload Date" = "Дата публікації";
+"Views and Date" = "Перегляди й дата";
+"Subscribers" = "Підписники";
+"Channel Avatar and Name" = "Аватар і назва каналу";
+"Subscribe Button" = "Кнопка «Підписатися»";
+"Related Videos" = "Схожі відео";
+"Channel Avatar" = "Аватар каналу";
+"Details" = "Відомості";
+"Avatar and Details" = "Аватар і відомості";
+"First Line" = "Перший рядок";
+"Second Line" = "Другий рядок";
+"None" = "Немає";
+"Customize Watch Page…" = "Налаштувати сторінку відео…";
+"Customize Watch Page" = "Налаштувати сторінку відео";
+"Choose what shows around the video." = "Виберіть, що показувати навколо відео.";
+"Customize" = "Налаштувати";
+"Player Bar" = "Панель плеєра";
+"Watch Page" = "Сторінка відео";
+"Below the Video" = "Під відео";
+"Beside the Video" = "Поруч із відео";
+"Hide What the Player Bar Shows" = "Приховувати те, що є на панелі плеєра";
+"For example, the Subscribe button leaves the page once it's on the player bar." = "Наприклад, кнопка «Підписатися» зникає зі сторінки, коли вона є на панелі плеєра.";
+"On the player bar" = "На панелі плеєра";

@@ -22,11 +22,14 @@ enum YouTubePlayerBarMetrics {
     static let avatarTitleSpacing: CGFloat = 6
     /// `PlayerBarIconButton` and `PlayerBarIconMenu` are 28pt squares.
     static let buttonWidth: CGFloat = 28
+    /// Fits "Subscribed" in the bar's 12pt semibold; longer translations
+    /// shrink to fit.
+    static let subscribeWidth: CGFloat = 92
 
     /// Whether the item is a media details block, which gets wider gaps.
     static func isBlock(_ item: YouTubePlayerBarItem) -> Bool {
         switch item {
-        case .thumbnail, .videoInfo, .channelInfo: true
+        case .thumbnail, .channelAvatar, .videoInfo, .channelInfo, .subscribe: true
         default: false
         }
     }
@@ -36,6 +39,10 @@ enum YouTubePlayerBarMetrics {
         switch item {
         case .thumbnail:
             self.thumbnailWidth
+        case .channelAvatar:
+            self.avatarSize
+        case .subscribe:
+            self.subscribeWidth
         case .videoInfo:
             compact ? nil : self.titleWidth
         case .channelInfo:
@@ -52,7 +59,7 @@ enum YouTubePlayerBarMetrics {
     /// layout's leading side holds. Controls placed there stay.
     static func hidesWhenNarrow(_ item: YouTubePlayerBarItem) -> Bool {
         switch item {
-        case .thumbnail, .videoInfo, .channelInfo, .like, .dislike: true
+        case .thumbnail, .channelAvatar, .videoInfo, .channelInfo, .subscribe, .like, .dislike: true
         default: false
         }
     }
