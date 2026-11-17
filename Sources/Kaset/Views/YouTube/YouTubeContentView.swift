@@ -166,6 +166,8 @@ struct YouTubeContentView: View {
             YouTubePlaylistsView(viewModel: self.store.playlists)
         case .history:
             YouTubeHistoryView(viewModel: self.store.history)
+        case let .playlist(id):
+            YouTubePlaylistDetailView(playlistId: id, client: self.store.client)
         }
     }
 }
@@ -176,19 +178,32 @@ struct YouTubeContentView: View {
 ///
 /// Mirrors the music side's `NavigationItem`, mapped to YouTube's content
 /// model: the recommended feed, subscriptions, and the user's video library.
-enum YouTubeNavigationItem: String, Hashable, CaseIterable, Identifiable {
-    case home = "Home"
-    case search = "Search"
-    case subscriptions = "Subscriptions"
-    case explore = "Explore"
-    case shorts = "Shorts"
-    case likedVideos = "Liked Videos"
-    case watchLater = "Watch Later"
-    case playlists = "Playlists"
-    case history = "History"
+enum YouTubeNavigationItem: Hashable, Identifiable {
+    case home
+    case search
+    case subscriptions
+    case explore
+    case shorts
+    case likedVideos
+    case watchLater
+    case playlists
+    case history
+    /// One of the user's playlists, listed under Playlists in the sidebar.
+    case playlist(id: String)
 
     var id: String {
-        rawValue
+        switch self {
+        case .home: "Home"
+        case .search: "Search"
+        case .subscriptions: "Subscriptions"
+        case .explore: "Explore"
+        case .shorts: "Shorts"
+        case .likedVideos: "Liked Videos"
+        case .watchLater: "Watch Later"
+        case .playlists: "Playlists"
+        case .history: "History"
+        case let .playlist(id): "Playlist.\(id)"
+        }
     }
 
     var displayName: String {
@@ -211,6 +226,8 @@ enum YouTubeNavigationItem: String, Hashable, CaseIterable, Identifiable {
             String(localized: "Playlists")
         case .history:
             String(localized: "History")
+        case .playlist:
+            String(localized: "Playlist")
         }
     }
 
@@ -234,6 +251,8 @@ enum YouTubeNavigationItem: String, Hashable, CaseIterable, Identifiable {
             "list.and.film"
         case .history:
             "clock.arrow.circlepath"
+        case .playlist:
+            "list.bullet"
         }
     }
 
@@ -241,7 +260,7 @@ enum YouTubeNavigationItem: String, Hashable, CaseIterable, Identifiable {
         switch self {
         case .home, .search, .explore, .shorts:
             false
-        case .subscriptions, .likedVideos, .watchLater, .playlists, .history:
+        case .subscriptions, .likedVideos, .watchLater, .playlists, .history, .playlist:
             true
         }
     }

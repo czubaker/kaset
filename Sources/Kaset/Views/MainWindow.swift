@@ -577,6 +577,7 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
                 } else {
                     YouTubeSidebar(
                         selection: self.$youtubeNavigationSelection,
+                        playlists: self.youtubeStore.playlists,
                         onReselect: { _ in
                             self.youtubeStore.navigationPath = []
                         }
