@@ -3,6 +3,7 @@ import SwiftUI
 /// A YouTube playlist page: header plus its video rows.
 struct YouTubePlaylistDetailView: View {
     @State private var viewModel: YouTubePlaylistViewModel
+    @Environment(AuthService.self) private var authService
 
     @State private var gridSettings = SettingsManager.shared
     /// Whether the user can take videos off this playlist (known once a
@@ -46,7 +47,11 @@ struct YouTubePlaylistDetailView: View {
             await self.viewModel.load()
         }
         .task(id: self.viewModel.detail?.videos.first?.videoId) {
-            guard let sample = self.viewModel.detail?.videos.first else { return }
+            // The Save dialog needs an account; signed out, nothing is editable.
+            guard self.authService.hasPersonalAccount, let sample = self.viewModel.detail?.videos.first else {
+                self.canRemoveVideos = false
+                return
+            }
             self.canRemoveVideos = await YouTubeVideoActions.shared.canEditPlaylist(
                 self.viewModel.playlistId,
                 sampleVideo: sample
@@ -54,6 +59,12 @@ struct YouTubePlaylistDetailView: View {
         }
         .youtubePageRefreshable {
             await self.viewModel.load()
+        }
+        // Unchecking this playlist in a card's Add to Playlist takes the
+        // video off it too.
+        .onChange(of: YouTubeVideoActions.shared.lastPlaylistRemoval) { _, removal in
+            guard let removal, removal.playlistId == self.viewModel.playlistId else { return }
+            self.viewModel.dropVideo(id: removal.videoId)
         }
     }
 

@@ -164,3 +164,29 @@ struct YouTubePlaylistRemovalRaceTests {
         #expect(model.detail?.videos.map(\.videoId) == ["video-0", "video-2"])
     }
 }
+
+// MARK: - YouTubePlaylistDropTests
+
+@Suite("YouTubePlaylistViewModel drop", .serialized, .tags(.viewModel))
+@MainActor
+struct YouTubePlaylistDropTests {
+    @Test("A video removed from another menu leaves the page")
+    func dropsRemovedVideo() async {
+        let client = MockYouTubeClient()
+        client.playlistDetail = YouTubePlaylistDetail(
+            playlist: YouTubePlaylist(playlistId: "PLtest", title: "Test"),
+            videos: MockYouTubeClient.makeVideos(count: 2)
+        )
+        let model = YouTubePlaylistViewModel(playlistId: "PLtest", client: client)
+        await model.load()
+        let actions = YouTubeVideoActions(client: client)
+
+        await actions.removeFromPlaylist(MockYouTubeClient.makeVideo(videoId: "video-1"), playlistId: "PLtest", title: "Test")
+        if let removal = actions.lastPlaylistRemoval {
+            model.dropVideo(id: removal.videoId)
+        }
+
+        #expect(actions.lastPlaylistRemoval?.playlistId == "PLtest")
+        #expect(model.detail?.videos.map(\.videoId) == ["video-0"])
+    }
+}

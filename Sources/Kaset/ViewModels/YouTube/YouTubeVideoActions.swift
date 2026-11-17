@@ -30,6 +30,16 @@ final class YouTubeVideoActions {
     /// one video's checkmarks (the player bar's) reloads them.
     private(set) var membershipGeneration = 0
 
+    /// A video taken off a playlist, so that playlist's page can drop its card
+    /// whichever menu removed it.
+    struct PlaylistRemoval: Equatable {
+        let id = UUID()
+        let videoId: String
+        let playlistId: String
+    }
+
+    private(set) var lastPlaylistRemoval: PlaylistRemoval?
+
     /// How long the playlists may take before the submenu offers a retry.
     private static let playlistLoadTimeout: Duration = .seconds(12)
 
@@ -83,6 +93,7 @@ final class YouTubeVideoActions {
         do {
             try await client.removeFromPlaylist(videoId: video.videoId, playlistId: playlistId)
             self.membershipGeneration += 1
+            self.lastPlaylistRemoval = PlaylistRemoval(videoId: video.videoId, playlistId: playlistId)
             HapticService.toggle()
             self.toast = Toast(message: String(localized: "Removed from \(title)"), isError: false)
             return true

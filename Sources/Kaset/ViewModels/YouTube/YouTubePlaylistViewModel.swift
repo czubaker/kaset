@@ -46,6 +46,15 @@ final class YouTubePlaylistViewModel {
         }
     }
 
+    /// Drops a video another menu took off this playlist.
+    func dropVideo(id videoId: String) {
+        guard let detail = self.detail, detail.videos.contains(where: { $0.videoId == videoId }) else { return }
+        self.detail = YouTubePlaylistDetail(
+            playlist: detail.playlist,
+            videos: detail.videos.filter { $0.videoId != videoId }
+        )
+    }
+
     /// Takes `video` (every copy of it) off the page at once and puts it back
     /// where it was if `remove` fails, unless the page reloaded meanwhile.
     /// Only that video comes back: other removals made since stay applied.
