@@ -26,6 +26,10 @@ final class YouTubeVideoActions {
     /// The latest result; nil once dismissed.
     private(set) var toast: Toast?
 
+    /// Bumped by every playlist edit and account change, so a menu that keeps
+    /// one video's checkmarks (the player bar's) reloads them.
+    private(set) var membershipGeneration = 0
+
     /// How long the playlists may take before the submenu offers a retry.
     private static let playlistLoadTimeout: Duration = .seconds(12)
 
@@ -42,6 +46,7 @@ final class YouTubeVideoActions {
         guard let client = self.client else { return }
         do {
             try await client.addToWatchLater(videoId: video.videoId)
+            self.membershipGeneration += 1
             HapticService.toggle()
             self.toast = Toast(message: String(localized: "Added to Watch Later"), isError: false)
         } catch is CancellationError {
@@ -58,6 +63,7 @@ final class YouTubeVideoActions {
         guard let client = self.client else { return false }
         do {
             try await client.addToPlaylist(videoId: video.videoId, playlistId: playlist.playlistId)
+            self.membershipGeneration += 1
             HapticService.toggle()
             self.toast = Toast(message: String(localized: "Added to \(playlist.title)"), isError: false)
             return true
@@ -76,6 +82,7 @@ final class YouTubeVideoActions {
         guard let client = self.client else { return false }
         do {
             try await client.removeFromPlaylist(videoId: video.videoId, playlistId: playlistId)
+            self.membershipGeneration += 1
             HapticService.toggle()
             self.toast = Toast(message: String(localized: "Removed from \(title)"), isError: false)
             return true
@@ -120,6 +127,11 @@ final class YouTubeVideoActions {
         return menu.options.filter { $0.playlistId != "WL" }
     }
 
+    /// Makes menus reload their checkmarks, after the account changes.
+    func invalidateMembership() {
+        self.membershipGeneration += 1
+    }
+
     func clearToast(id: UUID) {
         if self.toast?.id == id {
             self.toast = nil
@@ -140,7 +152,9 @@ final class YouTubePlaylistMembership {
     private(set) var options: [AddToPlaylistOption]?
     private(set) var didFail = false
     private(set) var videoId: String?
-    private var isLoading = false
+    /// Only the latest load's result is kept, so a load for a new video is
+    /// never dropped behind one still running for the previous video.
+    private var latestLoad = 0
 
     private let actions: YouTubeVideoActions
 
@@ -155,19 +169,17 @@ final class YouTubePlaylistMembership {
             self.didFail = false
             self.videoId = video.videoId
         }
-        // Set before the first suspension, so overlapping calls send one request.
-        guard !self.isLoading else { return }
-        self.isLoading = true
-        defer { self.isLoading = false }
+        self.latestLoad += 1
+        let load = self.latestLoad
         do {
             let options = try await self.actions.playlistOptions(for: video)
-            guard self.videoId == video.videoId else { return }
+            guard load == self.latestLoad else { return }
             self.options = options
             self.didFail = false
         } catch is CancellationError {
             // Closing the menu cancels the load; the next open tries again.
         } catch {
-            guard self.videoId == video.videoId else { return }
+            guard load == self.latestLoad else { return }
             DiagnosticsLogger.ui.error("Failed to load YouTube playlists: \(error.localizedDescription)")
             // A list from an earlier load stays usable.
             self.didFail = self.options == nil

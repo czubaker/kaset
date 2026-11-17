@@ -125,12 +125,21 @@ struct YouTubeContentView: View {
         switch YouTubeWatchPageCovering.change(from: oldPath, to: newPath) {
         case let .covered(videoId):
             self.youtubePlayer.inlineSurfaceWillDisappear(videoId: videoId)
-        case let .revealed(videoId):
-            guard self.youtubePlayer.currentVideo?.videoId == videoId,
-                  self.youtubePlayer.surfaceLocation == .floating
-            else { return }
-            self.youtubePlayer.dockInline()
-            self.youtubePlayer.activeInlineVideoId = videoId
+        case let .revealed(video):
+            if self.youtubePlayer.currentVideo?.videoId == video.videoId {
+                if self.youtubePlayer.surfaceLocation == .floating {
+                    self.youtubePlayer.dockInline()
+                }
+                self.youtubePlayer.activeInlineVideoId = video.videoId
+            } else if self.youtubePlayer.currentVideo == nil {
+                // Stopped while covered (pop-out off, or the floating window
+                // closed): play it again, as opening the page does.
+                self.youtubePlayer.play(
+                    video: video,
+                    usesCookieFreeDataStore: self.authService.shouldUseCookieFreePlaybackDataStore
+                )
+                self.youtubePlayer.activeInlineVideoId = video.videoId
+            }
         case nil:
             break
         }
@@ -202,8 +211,8 @@ struct YouTubeContentView: View {
 enum YouTubeWatchPageCovering: Equatable {
     /// A page other than a video was pushed over the watch page for `videoId`.
     case covered(videoId: String)
-    /// Going back uncovered the watch page for `videoId`.
-    case revealed(videoId: String)
+    /// Going back uncovered the watch page for `video`.
+    case revealed(YouTubeVideo)
 
     static func change(from oldPath: [YouTubeRoute], to newPath: [YouTubeRoute]) -> Self? {
         if newPath.count > oldPath.count, newPath.starts(with: oldPath), case let .watch(covered)? = oldPath.last {
@@ -214,7 +223,7 @@ enum YouTubeWatchPageCovering: Equatable {
             return .covered(videoId: covered.videoId)
         }
         if newPath.count < oldPath.count, oldPath.starts(with: newPath), case let .watch(revealed)? = newPath.last {
-            return .revealed(videoId: revealed.videoId)
+            return .revealed(revealed)
         }
         return nil
     }

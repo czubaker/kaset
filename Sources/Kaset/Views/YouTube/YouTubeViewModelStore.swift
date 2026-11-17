@@ -38,6 +38,7 @@ final class YouTubeViewModelStore {
     func resetForAccountChange() {
         self.navigationPath = []
         YouTubeChannelSubscriptions.shared.reset()
+        YouTubeVideoActions.shared.invalidateMembership()
         // Cancel outgoing in-flight work before discarding the models: their
         // unstructured single-flight tasks intentionally survive SwiftUI task
         // cancellation, so account changes must explicitly stop them before the

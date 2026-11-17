@@ -31,7 +31,7 @@ struct YouTubeWatchPageCoveringTests {
             to: [.watch(self.video)]
         )
         let left = YouTubeWatchPageCovering.change(from: [.watch(self.video)], to: [])
-        #expect(revealed == .revealed(videoId: "watch-video"))
+        #expect(revealed == .revealed(self.video))
         #expect(left == nil)
     }
 }
@@ -136,5 +136,31 @@ struct YouTubePlaylistViewModelRemovalTests {
         let (model, videos) = await self.loadedModel()
         await model.removeVideo(videos[1]) { _ in false }
         #expect(model.detail?.videos.map(\.videoId) == ["video-0", "video-1", "video-2"])
+    }
+}
+
+// MARK: - YouTubePlaylistRemovalRaceTests
+
+@Suite("YouTubePlaylistViewModel concurrent removals", .serialized, .tags(.viewModel))
+@MainActor
+struct YouTubePlaylistRemovalRaceTests {
+    @Test("A failed removal brings back only its video, at its place")
+    func restoresOnlyTheFailedVideo() async {
+        let client = MockYouTubeClient()
+        let videos = MockYouTubeClient.makeVideos(count: 3)
+        client.playlistDetail = YouTubePlaylistDetail(
+            playlist: YouTubePlaylist(playlistId: "PLtest", title: "Test"),
+            videos: videos
+        )
+        let model = YouTubePlaylistViewModel(playlistId: "PLtest", client: client)
+        await model.load()
+
+        // B's removal succeeds while A's is still pending; then A fails.
+        await model.removeVideo(videos[0]) { _ in
+            await model.removeVideo(videos[1]) { _ in true }
+            return false
+        }
+
+        #expect(model.detail?.videos.map(\.videoId) == ["video-0", "video-2"])
     }
 }

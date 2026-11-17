@@ -296,13 +296,25 @@ struct YouTubePlayerBarPlaylistMenu: View {
                 .foregroundStyle(.primary)
         }
         .disabled(self.player.currentVideo == nil)
-        // Loaded as each video starts, so the menu opens with its checkmarks:
-        // a menu doesn't redraw once it's open.
-        .task(id: self.player.currentVideo?.videoId) {
+        // Loaded as each video starts, and again after any playlist edit or
+        // account change, so the menu opens with current checkmarks: a menu
+        // doesn't redraw once it's open, and a checkmark decides add or remove.
+        .task(id: MembershipKey(
+            videoId: self.player.currentVideo?.videoId,
+            generation: YouTubeVideoActions.shared.membershipGeneration
+        )) {
             guard let video = self.player.currentVideo else { return }
             await self.membership.load(for: video)
         }
     }
+}
+
+// MARK: - MembershipKey
+
+/// What the Save to Playlist checkmarks depend on.
+private struct MembershipKey: Hashable {
+    let videoId: String?
+    let generation: Int
 }
 
 extension AccessibilityID.YouTubeContent {

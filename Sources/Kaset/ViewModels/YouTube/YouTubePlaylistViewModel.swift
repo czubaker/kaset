@@ -47,16 +47,24 @@ final class YouTubePlaylistViewModel {
     }
 
     /// Takes `video` (every copy of it) off the page at once and puts it back
-    /// if `remove` fails, unless the page reloaded in the meantime.
+    /// where it was if `remove` fails, unless the page reloaded meanwhile.
+    /// Only that video comes back: other removals made since stay applied.
     func removeVideo(_ video: YouTubeVideo, using remove: (YouTubeVideo) async -> Bool) async {
         guard let detail = self.detail else { return }
         let generation = self.loadGeneration
+        let copies = detail.videos.enumerated().filter { $0.element.videoId == video.videoId }
         self.detail = YouTubePlaylistDetail(
             playlist: detail.playlist,
             videos: detail.videos.filter { $0.videoId != video.videoId }
         )
         let removed = await remove(video)
-        guard !removed, generation == self.loadGeneration else { return }
-        self.detail = detail
+        guard !removed, generation == self.loadGeneration, let current = self.detail,
+              !current.videos.contains(where: { $0.videoId == video.videoId })
+        else { return }
+        var videos = current.videos
+        for (index, copy) in copies {
+            videos.insert(copy, at: min(index, videos.count))
+        }
+        self.detail = YouTubePlaylistDetail(playlist: current.playlist, videos: videos)
     }
 }
