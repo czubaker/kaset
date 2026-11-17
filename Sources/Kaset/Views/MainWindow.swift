@@ -518,7 +518,7 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
 
             self.historyViewModel?.reset()
             // YouTube surfaces are account-scoped too.
-            self.youtubeStore.resetForAccountChange()
+            self.resetYouTubeForAccountChange()
 
             // Brand accounts can have a different region than the
             // primary. Re-probe in the background so the sidebar
@@ -701,6 +701,15 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
             Label(String(localized: "Zoom"), systemImage: "plus.magnifyingglass")
         }
         .help(String(localized: "Zoom Videos (⌘+ / ⌘−)"))
+    }
+
+    /// Resets YouTube's account-scoped state. A sidebar playlist belongs to the
+    /// old account, so the selection falls back to the Playlists page.
+    private func resetYouTubeForAccountChange() {
+        self.youtubeStore.resetForAccountChange()
+        if case .playlist = self.youtubeNavigationSelection {
+            self.youtubeNavigationSelection = .playlists
+        }
     }
 
     private var isShowingFullScreenPlayer: Bool {
@@ -948,7 +957,7 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
                 self.client.resetSessionStateForAccountSwitch()
                 self.youtubeClient.resetSessionStateForAccountSwitch()
                 self.rebuildMusicViewModels()
-                self.youtubeStore.resetForAccountChange()
+                self.resetYouTubeForAccountChange()
                 // Reset podcasts availability so the next sign-in re-probes
                 // the endpoint.
                 self.podcastsAvailability.reset()
@@ -972,7 +981,7 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
                 self.client.resetSessionStateForAccountSwitch()
                 self.youtubeClient.resetSessionStateForAccountSwitch()
                 self.rebuildMusicViewModels(accountId: self.accountService.currentAccount?.id)
-                self.youtubeStore.resetForAccountChange()
+                self.resetYouTubeForAccountChange()
                 self.playerService.reloadCurrentTrackForAuthDataStoreChange(usesCookieFreeDataStore: false)
                 self.youtubePlayerService.reloadCurrentVideoForAuthDataStoreChange(usesCookieFreeDataStore: false)
             }
@@ -1025,7 +1034,7 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
         guard self.authService.state.isLoggedIn else { return }
         self.guestRefreshTask?.cancel()
         self.guestRefreshTask = nil
-        self.youtubeStore.resetForAccountChange()
+        self.resetYouTubeForAccountChange()
         self.podcastsAvailability.reset()
 
         if isGuestModeEnabled {

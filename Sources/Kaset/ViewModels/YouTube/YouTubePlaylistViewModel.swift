@@ -45,4 +45,18 @@ final class YouTubePlaylistViewModel {
             self.loadingState = .error(LoadingError(from: error))
         }
     }
+
+    /// Takes `video` (every copy of it) off the page at once and puts it back
+    /// if `remove` fails, unless the page reloaded in the meantime.
+    func removeVideo(_ video: YouTubeVideo, using remove: (YouTubeVideo) async -> Bool) async {
+        guard let detail = self.detail else { return }
+        let generation = self.loadGeneration
+        self.detail = YouTubePlaylistDetail(
+            playlist: detail.playlist,
+            videos: detail.videos.filter { $0.videoId != video.videoId }
+        )
+        let removed = await remove(video)
+        guard !removed, generation == self.loadGeneration else { return }
+        self.detail = detail
+    }
 }

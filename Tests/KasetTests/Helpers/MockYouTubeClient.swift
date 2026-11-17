@@ -444,6 +444,8 @@ final class MockYouTubeClient: YouTubeClientProtocol {
     var addToPlaylistMenu = AddToPlaylistMenu(title: nil, options: [], canCreatePlaylist: false)
     /// Video and playlist of each `addToPlaylist` call.
     private(set) var playlistAdds: [(videoId: String, playlistId: String)] = []
+    /// Video and playlist of each `removeFromPlaylist` call.
+    private(set) var playlistRemovals: [(videoId: String, playlistId: String)] = []
     private(set) var lastDestination: YouTubeDestination?
     private(set) var lastFeedContinuation: String?
     private(set) var destinationFeedCallCount = 0
@@ -582,6 +584,13 @@ final class MockYouTubeClient: YouTubeClientProtocol {
             throw error
         }
         self.playlistAdds.append((videoId, playlistId))
+    }
+
+    func removeFromPlaylist(videoId: String, playlistId: String) async throws {
+        if let error {
+            throw error
+        }
+        self.playlistRemovals.append((videoId, playlistId))
     }
 
     func sendFeedback(token: String) async throws {

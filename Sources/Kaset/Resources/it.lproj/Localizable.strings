@@ -791,3 +791,8 @@
 // Sidebar playlists
 "Show Playlists" = "Mostra playlist";
 "Hide Playlists" = "Nascondi playlist";
+
+// Playlist membership and removal
+"Removed from %@" = "Rimosso da %@";
+"Couldn't remove the video from the playlist." = "Impossibile rimuovere il video dalla playlist.";
+"Remove from Watch Later" = "Rimuovi da Guarda più tardi";

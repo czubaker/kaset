@@ -10,13 +10,15 @@ struct YouTubeVideoContextMenu: ViewModifier {
     let video: YouTubeVideo
     /// Sends a recommendation-feedback action; nil where the page can't.
     let sendFeedback: ((YouTubeFeedbackAction) -> Void)?
+    /// Takes the video off the playlist page it's on, where the user can edit it.
+    let removal: YouTubeVideoRemoval?
 
     @Environment(AuthService.self) private var authService
 
     func body(content: Content) -> some View {
         let canSave = self.authService.hasPersonalAccount
         let feedbackActions = self.sendFeedback == nil ? [] : self.video.feedbackActions
-        if !canSave, feedbackActions.isEmpty {
+        if !canSave, feedbackActions.isEmpty, self.removal == nil {
             content
         } else {
             content.contextMenu {
@@ -27,6 +29,13 @@ struct YouTubeVideoContextMenu: ViewModifier {
                         Label(String(localized: "Add to Watch Later"), systemImage: "clock")
                     }
                     YouTubeAddToPlaylistMenu(video: self.video)
+                }
+
+                if let removal = self.removal {
+                    Divider()
+                    Button(role: .destructive, action: removal.action) {
+                        Label(removal.title, systemImage: "minus.circle")
+                    }
                 }
 
                 if !feedbackActions.isEmpty {
@@ -46,55 +55,39 @@ struct YouTubeVideoContextMenu: ViewModifier {
     }
 }
 
+// MARK: - YouTubeVideoRemoval
+
+/// A context menu entry that takes a video off the playlist page it's on.
+struct YouTubeVideoRemoval {
+    let title: String
+    let action: () -> Void
+}
+
 extension View {
     /// Attaches the video context menu for `video`. Pass `sendFeedback` on
     /// pages that can drop a card after "Not interested" / "Don't recommend
-    /// channel".
+    /// channel", and `removal` on playlist pages the user can edit.
     func youtubeVideoContextMenu(
         for video: YouTubeVideo,
+        removal: YouTubeVideoRemoval? = nil,
         sendFeedback: ((YouTubeFeedbackAction) -> Void)? = nil
     ) -> some View {
-        self.modifier(YouTubeVideoContextMenu(video: video, sendFeedback: sendFeedback))
+        self.modifier(YouTubeVideoContextMenu(video: video, sendFeedback: sendFeedback, removal: removal))
     }
 }
 
 // MARK: - YouTubeAddToPlaylistMenu
 
 /// The user's playlists, loaded each time the context menu opens. Playlists
-/// that already hold the video show a checkmark and can't be picked again.
+/// that hold the video are checked; picking one removes the video from it.
 private struct YouTubeAddToPlaylistMenu: View {
     let video: YouTubeVideo
 
-    /// The latest list; kept while a newer one loads, since an open menu
-    /// doesn't redraw.
-    @State private var options: [AddToPlaylistOption]?
-    @State private var didFail = false
-    @State private var isLoading = false
+    @State private var membership = YouTubePlaylistMembership()
 
     var body: some View {
         Menu {
-            if let options = self.options {
-                if options.isEmpty {
-                    Label(String(localized: "No Playlists"), systemImage: "list.and.film")
-                } else {
-                    ForEach(options) { option in
-                        Button {
-                            Task { await self.add(to: option) }
-                        } label: {
-                            Label(option.title, systemImage: option.isSelected ? "checkmark.circle.fill" : "list.and.film")
-                        }
-                        .disabled(option.isSelected)
-                    }
-                }
-            } else if self.didFail {
-                Button {
-                    Task { await self.loadPlaylists() }
-                } label: {
-                    Label(String(localized: "Retry Loading Playlists"), systemImage: "arrow.clockwise")
-                }
-            } else {
-                Label(String(localized: "Loading Playlists…"), systemImage: "hourglass")
-            }
+            YouTubePlaylistMembershipItems(video: self.video, membership: self.membership)
         } label: {
             Label(String(localized: "Add to Playlist"), systemImage: "text.badge.plus")
         }
@@ -102,46 +95,41 @@ private struct YouTubeAddToPlaylistMenu: View {
         // are largely snapshotted while open, so a late load would leave
         // "Loading Playlists…" until the menu is reopened.
         .task {
-            await self.loadPlaylists()
+            await self.membership.load(for: self.video)
         }
-    }
-
-    private func loadPlaylists() async {
-        // Set before the first suspension, so overlapping calls send one request.
-        guard !self.isLoading else { return }
-        self.isLoading = true
-        defer { self.isLoading = false }
-        do {
-            self.options = try await YouTubeVideoActions.shared.playlistOptions(for: self.video)
-            self.didFail = false
-        } catch is CancellationError {
-            // Closing the menu cancels the load; the next open tries again.
-        } catch {
-            DiagnosticsLogger.ui.error("Failed to load YouTube playlists: \(error.localizedDescription)")
-            // A list from an earlier open stays usable.
-            self.didFail = self.options == nil
-        }
-    }
-
-    /// Adds the video, then checks the playlist off so the next open (which
-    /// shows this list until the refresh lands) can't add it twice.
-    private func add(to option: AddToPlaylistOption) async {
-        guard await YouTubeVideoActions.shared.addToPlaylist(self.video, playlist: option) else { return }
-        self.options = self.options?.map { $0.playlistId == option.playlistId ? $0.selected() : $0 }
     }
 }
 
-private extension AddToPlaylistOption {
-    /// The same playlist, marked as holding the video.
-    func selected() -> Self {
-        Self(
-            playlistId: self.playlistId,
-            title: self.title,
-            subtitle: self.subtitle,
-            thumbnailURL: self.thumbnailURL,
-            isSelected: true,
-            privacyStatus: self.privacyStatus
-        )
+// MARK: - YouTubePlaylistMembershipItems
+
+/// Menu items for the user's playlists: each toggles whether it holds the
+/// video, with a checkmark on the ones that do.
+struct YouTubePlaylistMembershipItems: View {
+    let video: YouTubeVideo
+    let membership: YouTubePlaylistMembership
+
+    var body: some View {
+        if let options = self.membership.options {
+            if options.isEmpty {
+                Label(String(localized: "No Playlists"), systemImage: "list.and.film")
+            } else {
+                ForEach(options) { option in
+                    Button {
+                        Task { await self.membership.toggle(option, for: self.video) }
+                    } label: {
+                        Label(option.title, systemImage: option.isSelected ? "checkmark.circle.fill" : "list.and.film")
+                    }
+                }
+            }
+        } else if self.membership.didFail {
+            Button {
+                Task { await self.membership.load(for: self.video) }
+            } label: {
+                Label(String(localized: "Retry Loading Playlists"), systemImage: "arrow.clockwise")
+            }
+        } else {
+            Label(String(localized: "Loading Playlists…"), systemImage: "hourglass")
+        }
     }
 }
 

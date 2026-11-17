@@ -61,6 +61,9 @@ struct YouTubeContentView: View {
         .onChange(of: self.youtubePlayer.popInRequest) { _, request in
             self.handlePopInRequest(request)
         }
+        .onChange(of: self.store.navigationPath) { oldPath, newPath in
+            self.handleWatchPageCovering(from: oldPath, to: newPath)
+        }
         .onChange(of: self.youtubePlayer.skipNavigationRequest) { _, request in
             self.handleSkipNavigationRequest(request)
         }
@@ -111,6 +114,26 @@ struct YouTubeContentView: View {
             self.youtubePlayer.consumeSkipNavigationRequest()
         }
         self.store.navigationPath.append(YouTubeRoute.watch(video))
+    }
+
+    /// A page pushed over a watch page (a channel, a playlist) hides it without
+    /// making it disappear, so its video would keep playing where nobody sees
+    /// it. Hand it off as leaving the page does: pop out to the floating
+    /// window, or stop with pop-out off. Coming back to that watch page docks
+    /// the video again. A video pushed over a video takes playback itself.
+    private func handleWatchPageCovering(from oldPath: [YouTubeRoute], to newPath: [YouTubeRoute]) {
+        switch YouTubeWatchPageCovering.change(from: oldPath, to: newPath) {
+        case let .covered(videoId):
+            self.youtubePlayer.inlineSurfaceWillDisappear(videoId: videoId)
+        case let .revealed(videoId):
+            guard self.youtubePlayer.currentVideo?.videoId == videoId,
+                  self.youtubePlayer.surfaceLocation == .floating
+            else { return }
+            self.youtubePlayer.dockInline()
+            self.youtubePlayer.activeInlineVideoId = videoId
+        case nil:
+            break
+        }
     }
 
     /// Docks a popped-out video back into a watch view: adopts the one that
@@ -170,6 +193,30 @@ struct YouTubeContentView: View {
         case let .playlist(id):
             YouTubePlaylistDetailView(playlistId: id, client: self.store.client)
         }
+    }
+}
+
+// MARK: - YouTubeWatchPageCovering
+
+/// How a change to the YouTube stack affects the watch page under it.
+enum YouTubeWatchPageCovering: Equatable {
+    /// A page other than a video was pushed over the watch page for `videoId`.
+    case covered(videoId: String)
+    /// Going back uncovered the watch page for `videoId`.
+    case revealed(videoId: String)
+
+    static func change(from oldPath: [YouTubeRoute], to newPath: [YouTubeRoute]) -> Self? {
+        if newPath.count > oldPath.count, newPath.starts(with: oldPath), case let .watch(covered)? = oldPath.last {
+            // A video pushed over a video takes playback itself.
+            if case .watch = newPath.last {
+                return nil
+            }
+            return .covered(videoId: covered.videoId)
+        }
+        if newPath.count < oldPath.count, oldPath.starts(with: newPath), case let .watch(revealed)? = newPath.last {
+            return .revealed(videoId: revealed.videoId)
+        }
+        return nil
     }
 }
 

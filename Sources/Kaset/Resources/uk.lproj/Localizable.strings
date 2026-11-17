@@ -791,3 +791,8 @@
 // Sidebar playlists
 "Show Playlists" = "Показати плейлисти";
 "Hide Playlists" = "Сховати плейлисти";
+
+// Playlist membership and removal
+"Removed from %@" = "Вилучено з «%@»";
+"Couldn't remove the video from the playlist." = "Не вдалося вилучити відео з плейлиста.";
+"Remove from Watch Later" = "Вилучити з «Переглянути пізніше»";

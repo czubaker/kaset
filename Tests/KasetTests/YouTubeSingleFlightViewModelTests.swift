@@ -467,6 +467,10 @@ private final class SingleFlightYouTubeClient: YouTubeClientProtocol {
         try await self.waitIfNeeded()
     }
 
+    func removeFromPlaylist(videoId _: String, playlistId _: String) async throws {
+        try await self.waitIfNeeded()
+    }
+
     func sendFeedback(token _: String) async throws {
         try await self.waitIfNeeded()
     }

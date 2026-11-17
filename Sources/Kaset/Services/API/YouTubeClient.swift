@@ -602,6 +602,15 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         )
     }
 
+    func removeFromPlaylist(videoId: String, playlistId: String) async throws {
+        self.logger.info("Removing a video from a YouTube playlist")
+        // The Save dialog's removeFromPlaylistServiceEndpoint.
+        try await self.editPlaylist(
+            playlistId: playlistId,
+            actions: [["removedVideoId": videoId, "action": "ACTION_REMOVE_VIDEO_BY_VIDEO_ID"]]
+        )
+    }
+
     /// Sends `browse/edit_playlist`, the endpoint behind each Save dialog
     /// entry, then drops cached pages that list the playlist.
     private func editPlaylist(playlistId: String, actions: [[String: Any]]) async throws {

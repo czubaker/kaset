@@ -786,3 +786,8 @@
 // Sidebar playlists
 "Show Playlists" = "プレイリストを表示";
 "Hide Playlists" = "プレイリストを隠す";
+
+// Playlist membership and removal
+"Removed from %@" = "%@ から削除しました";
+"Couldn't remove the video from the playlist." = "動画をプレイリストから削除できませんでした。";
+"Remove from Watch Later" = "後で見るから削除";

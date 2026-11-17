@@ -105,6 +105,7 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
     case volume
     case fullView
     case watchLater
+    case saveToPlaylist
     case airPlay
     case captions
     case settingsMenu
@@ -131,6 +132,7 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
         case .volume: String(localized: "Volume")
         case .fullView: String(localized: "Full view")
         case .watchLater: String(localized: "Watch Later")
+        case .saveToPlaylist: String(localized: "Save to Playlist")
         case .airPlay: String(localized: "AirPlay")
         case .captions: String(localized: "Closed captions")
         case .settingsMenu: String(localized: "Video settings")
@@ -159,6 +161,7 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
         case .volume: "speaker.wave.2.fill"
         case .fullView: "arrow.up.left.and.arrow.down.right"
         case .watchLater: "clock"
+        case .saveToPlaylist: "text.badge.plus"
         case .airPlay: "airplayvideo"
         case .captions: "captions.bubble"
         case .settingsMenu: "gearshape"

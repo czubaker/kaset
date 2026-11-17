@@ -102,11 +102,11 @@ struct YouTubeSidebar: View {
                         title: playlist.title,
                         systemImage: child.icon,
                         isSelected: self.selection == child,
-                        indent: 14
+                        indent: 14,
+                        accessibilityIdentifier: AccessibilityID.YouTubeSidebar.item(for: child)
                     ) {
                         self.select(child)
                     }
-                    .accessibilityIdentifier(AccessibilityID.YouTubeSidebar.item(for: child))
                 }
             }
         }
@@ -132,6 +132,7 @@ struct YouTubeSidebar: View {
         .accessibilityLabel(
             self.isPlaylistsExpanded ? String(localized: "Hide Playlists") : String(localized: "Show Playlists")
         )
+        .accessibilityIdentifier(AccessibilityID.YouTubeSidebar.playlistsDisclosure)
     }
 
     /// The user's own playlists. Liked Videos and Watch Later have rows of
@@ -145,11 +146,11 @@ struct YouTubeSidebar: View {
             title: item.displayName,
             systemImage: item.icon,
             isSelected: self.selection == item,
-            accessory: accessory
+            accessory: accessory,
+            accessibilityIdentifier: AccessibilityID.YouTubeSidebar.item(for: item)
         ) {
             self.select(item)
         }
-        .accessibilityIdentifier(AccessibilityID.YouTubeSidebar.item(for: item))
     }
 
     // MARK: ⌘ Tracking
@@ -261,6 +262,7 @@ private struct SidebarReorderModifier: ViewModifier {
 extension AccessibilityID {
     enum YouTubeSidebar {
         static let container = "youtubeSidebar"
+        static let playlistsDisclosure = "youtubeSidebar.Playlists.disclosure"
 
         static func item(for item: YouTubeNavigationItem) -> String {
             "youtubeSidebar.\(item.id)"

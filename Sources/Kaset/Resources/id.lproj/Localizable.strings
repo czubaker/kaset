@@ -791,3 +791,8 @@
 // Sidebar playlists
 "Show Playlists" = "Tampilkan Playlist";
 "Hide Playlists" = "Sembunyikan Playlist";
+
+// Playlist membership and removal
+"Removed from %@" = "Dihapus dari %@";
+"Couldn't remove the video from the playlist." = "Tidak dapat menghapus video dari playlist.";
+"Remove from Watch Later" = "Hapus dari Tonton Nanti";

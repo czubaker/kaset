@@ -20,6 +20,8 @@ struct KasetSidebarRow: View {
     /// A control pinned to the row's trailing edge, outside its button, such as
     /// a disclosure chevron.
     var accessory: AnyView?
+    /// Set on the row's button alone, so an accessory doesn't share it.
+    var accessibilityIdentifier: String?
     let action: () -> Void
 
     var body: some View {
@@ -41,6 +43,7 @@ struct KasetSidebarRow: View {
             }
             .buttonStyle(.plain)
             .accessibilityAddTraits(self.isSelected ? .isSelected : [])
+            .modifier(OptionalAccessibilityIdentifier(identifier: self.accessibilityIdentifier))
 
             if let accessory = self.accessory {
                 accessory
@@ -57,6 +60,22 @@ struct KasetSidebarRow: View {
                 .fill(Color.secondary.opacity(0.22))
                 .padding(.horizontal, 8)
                 .padding(.vertical, 2)
+        }
+    }
+}
+
+// MARK: - OptionalAccessibilityIdentifier
+
+/// Sets an accessibility identifier only when there is one, so a row without
+/// it keeps the identifier its caller sets on the whole row.
+private struct OptionalAccessibilityIdentifier: ViewModifier {
+    let identifier: String?
+
+    func body(content: Content) -> some View {
+        if let identifier {
+            content.accessibilityIdentifier(identifier)
+        } else {
+            content
         }
     }
 }

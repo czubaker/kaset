@@ -5,6 +5,9 @@ struct YouTubePlaylistDetailView: View {
     @State private var viewModel: YouTubePlaylistViewModel
 
     @State private var gridSettings = SettingsManager.shared
+    /// Whether the user can take videos off this playlist (known once a
+    /// video has loaded to ask the Save dialog with).
+    @State private var canRemoveVideos = false
 
     /// View → Zoom In / Zoom Out scale the cards (YouTubeGridZoom).
     private var columns: [GridItem] {
@@ -42,8 +45,36 @@ struct YouTubePlaylistDetailView: View {
         .task {
             await self.viewModel.load()
         }
+        .task(id: self.viewModel.detail?.videos.first?.videoId) {
+            guard let sample = self.viewModel.detail?.videos.first else { return }
+            self.canRemoveVideos = await YouTubeVideoActions.shared.canEditPlaylist(
+                self.viewModel.playlistId,
+                sampleVideo: sample
+            )
+        }
         .youtubePageRefreshable {
             await self.viewModel.load()
+        }
+    }
+
+    /// Remove from Watch Later / Remove from Playlist, on playlists the user
+    /// can edit.
+    private func removal(of video: YouTubeVideo, from detail: YouTubePlaylistDetail) -> YouTubeVideoRemoval? {
+        guard self.canRemoveVideos else { return nil }
+        let isWatchLater = self.viewModel.playlistId == "WL"
+        let playlistTitle = isWatchLater ? String(localized: "Watch Later") : detail.playlist.title
+        return YouTubeVideoRemoval(
+            title: isWatchLater ? String(localized: "Remove from Watch Later") : String(localized: "Remove from Playlist")
+        ) {
+            Task {
+                await self.viewModel.removeVideo(video) { video in
+                    await YouTubeVideoActions.shared.removeFromPlaylist(
+                        video,
+                        playlistId: self.viewModel.playlistId,
+                        title: playlistTitle
+                    )
+                }
+            }
         }
     }
 
@@ -75,7 +106,7 @@ struct YouTubePlaylistDetailView: View {
                                 VideoCard(video: video, thumbnailSize: YouTubeGridZoom.thumbnailSize(zoom: self.gridSettings.youtubeGridZoom))
                             }
                             .buttonStyle(.interactiveCard)
-                            .youtubeVideoContextMenu(for: video)
+                            .youtubeVideoContextMenu(for: video, removal: self.removal(of: video, from: detail))
                         }
                     }
                 }

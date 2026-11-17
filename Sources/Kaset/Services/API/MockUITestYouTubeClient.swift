@@ -261,6 +261,8 @@ final class MockUITestYouTubeClient: YouTubeClientProtocol {
 
     func addToPlaylist(videoId _: String, playlistId _: String) async throws {}
 
+    func removeFromPlaylist(videoId _: String, playlistId _: String) async throws {}
+
     func sendFeedback(token _: String) async throws {}
 
     func getSearchHistory() async throws -> [String] {

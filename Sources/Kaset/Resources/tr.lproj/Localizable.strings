@@ -791,3 +791,8 @@
 // Sidebar playlists
 "Show Playlists" = "Çalma Listelerini Göster";
 "Hide Playlists" = "Çalma Listelerini Gizle";
+
+// Playlist membership and removal
+"Removed from %@" = "%@ listesinden kaldırıldı";
+"Couldn't remove the video from the playlist." = "Video çalma listesinden kaldırılamadı.";
+"Remove from Watch Later" = "Daha Sonra İzle'den kaldır";

@@ -791,3 +791,8 @@
 // Sidebar playlists
 "Show Playlists" = "Visa spellistor";
 "Hide Playlists" = "Dölj spellistor";
+
+// Playlist membership and removal
+"Removed from %@" = "Borttagen från %@";
+"Couldn't remove the video from the playlist." = "Det gick inte att ta bort videon från spellistan.";
+"Remove from Watch Later" = "Ta bort från Titta senare";

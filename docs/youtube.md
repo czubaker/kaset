@@ -88,7 +88,7 @@ and suggestion submissions are never retried automatically. See
 | Like / unlike | `like/like`, `like/dislike`, `like/removelike` |
 | Subscribe | `subscription/subscribe` / `subscription/unsubscribe` |
 | Watch Later edit | `browse/edit_playlist` (playlistId `WL`) |
-| Save dialog (Add to Playlist) | `playlist/get_add_to_playlist`, then `browse/edit_playlist` with the chosen playlistId |
+| Save dialog (Add to Playlist) | `playlist/get_add_to_playlist`, then `browse/edit_playlist` with the chosen playlistId (`ACTION_ADD_VIDEO`, or `ACTION_REMOVE_VIDEO_BY_VIDEO_ID` for a checked one) |
 | Recommendation feedback | `feedback` with the `feedbackToken` from a lockup's Not interested / Don't recommend channel menu entry |
 | Search history | Cookie-authenticated `GET /complete/search` with `tok` from `ytcfg.SBOX_SETTINGS.PSUGGEST_TOKEN` (not InnerTube) |
 

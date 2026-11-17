@@ -153,6 +153,9 @@ protocol YouTubeClientProtocol: Sendable {
     /// Adds a video to one of the user's playlists.
     func addToPlaylist(videoId: String, playlistId: String) async throws
 
+    /// Removes a video (every copy of it) from one of the user's playlists.
+    func removeFromPlaylist(videoId: String, playlistId: String) async throws
+
     // MARK: Recommendation feedback
 
     /// Sends a token from a video's overflow menu ("Not interested",

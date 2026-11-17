@@ -270,3 +270,41 @@ struct YouTubeVideoSettingsMenu: View {
         self.items.contains(.playbackSpeed) && self.player.playbackRate != 1
     }
 }
+
+// MARK: - YouTubePlayerBarPlaylistMenu
+
+/// Save to Playlist for the video playing: the user's playlists, checked
+/// where it already is; picking one adds it there or takes it off.
+struct YouTubePlayerBarPlaylistMenu: View {
+    @Environment(YouTubePlayerService.self) private var player
+
+    @State private var membership = YouTubePlaylistMembership()
+
+    var body: some View {
+        PlayerBarIconMenu(
+            isSelected: false,
+            accessibilityID: AccessibilityID.YouTubeContent.saveToPlaylistButton,
+            accessibilityLabel: String(localized: "Save to Playlist")
+        ) {
+            if let video = self.player.currentVideo {
+                YouTubePlaylistMembershipItems(video: video, membership: self.membership)
+            }
+        } icon: {
+            Image(systemName: "text.badge.plus")
+                .font(.system(size: 16, weight: .regular))
+                .frame(width: 16, height: 16)
+                .foregroundStyle(.primary)
+        }
+        .disabled(self.player.currentVideo == nil)
+        // Loaded as each video starts, so the menu opens with its checkmarks:
+        // a menu doesn't redraw once it's open.
+        .task(id: self.player.currentVideo?.videoId) {
+            guard let video = self.player.currentVideo else { return }
+            await self.membership.load(for: video)
+        }
+    }
+}
+
+extension AccessibilityID.YouTubeContent {
+    static let saveToPlaylistButton = "youtubeContent.saveToPlaylistButton"
+}

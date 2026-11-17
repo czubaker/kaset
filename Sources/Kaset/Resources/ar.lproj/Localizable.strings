@@ -791,3 +791,8 @@
 // Sidebar playlists
 "Show Playlists" = "إظهار قوائم التشغيل";
 "Hide Playlists" = "إخفاء قوائم التشغيل";
+
+// Playlist membership and removal
+"Removed from %@" = "تمت الإزالة من %@";
+"Couldn't remove the video from the playlist." = "تعذّرت إزالة الفيديو من قائمة التشغيل.";
+"Remove from Watch Later" = "إزالة من المشاهدة لاحقًا";

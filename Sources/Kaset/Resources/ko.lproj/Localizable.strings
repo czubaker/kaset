@@ -791,3 +791,8 @@
 // Sidebar playlists
 "Show Playlists" = "재생목록 보기";
 "Hide Playlists" = "재생목록 숨기기";
+
+// Playlist membership and removal
+"Removed from %@" = "%@에서 삭제됨";
+"Couldn't remove the video from the playlist." = "동영상을 재생목록에서 삭제할 수 없습니다.";
+"Remove from Watch Later" = "나중에 볼 동영상에서 삭제";

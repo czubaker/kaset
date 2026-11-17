@@ -791,3 +791,8 @@
 // Sidebar playlists
 "Show Playlists" = "Afspeellijsten tonen";
 "Hide Playlists" = "Afspeellijsten verbergen";
+
+// Playlist membership and removal
+"Removed from %@" = "Verwijderd uit %@";
+"Couldn't remove the video from the playlist." = "Kan de video niet uit de afspeellijst verwijderen.";
+"Remove from Watch Later" = "Verwijderen uit Later bekijken";

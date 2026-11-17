@@ -1303,6 +1303,14 @@ settings menu. The standard layouts match the bars as they shipped
 - The same sheet's Watch Page tab edits `YouTubeWatchPageLayout`: which parts
   of the watch page show, optionally leaving out what the bar shows.
 
+### YouTube Navigation Customization
+
+The YouTube sidebar's order (`YouTubeSidebarOrder`, ⌘-drag), its playlist
+rows, the shared grid zoom (`YouTubeGridZoom`), and the customizable window
+toolbar are described in ADR-0044. A page pushed over a watch page hands its
+video off as leaving the page does (`YouTubeWatchPageCovering`): covered
+watch pages get no `onDisappear`.
+
 ### PlayerBar Integration
 
 The `PlayerBar` must be added to **every navigable view** via `safeAreaInset`:

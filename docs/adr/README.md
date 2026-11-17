@@ -78,3 +78,4 @@ What becomes easier or more difficult because of this change?
 | [0041](0041-non-destructive-session-loss.md) | Non-destructive session loss | Accepted |
 | [0042](0042-customizable-player-bars.md) | Customizable player bars | Accepted |
 | [0043](0043-youtube-watch-page-and-bar-details.md) | Customizable YouTube watch page and player bar details | Accepted |
+| [0044](0044-youtube-navigation-customization.md) | YouTube sidebar order, grid zoom, and a customizable toolbar | Accepted |

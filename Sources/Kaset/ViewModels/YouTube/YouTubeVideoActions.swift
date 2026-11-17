@@ -70,6 +70,36 @@ final class YouTubeVideoActions {
         }
     }
 
+    /// Removes `video` from a playlist; true once YouTube accepted it.
+    @discardableResult
+    func removeFromPlaylist(_ video: YouTubeVideo, playlistId: String, title: String) async -> Bool {
+        guard let client = self.client else { return false }
+        do {
+            try await client.removeFromPlaylist(videoId: video.videoId, playlistId: playlistId)
+            HapticService.toggle()
+            self.toast = Toast(message: String(localized: "Removed from \(title)"), isError: false)
+            return true
+        } catch is CancellationError {
+            return false
+        } catch {
+            DiagnosticsLogger.api.error("Failed to remove a video from a playlist: \(error.localizedDescription)")
+            self.toast = Toast(message: String(localized: "Couldn't remove the video from the playlist."), isError: true)
+            return false
+        }
+    }
+
+    /// Whether the user can take videos off `playlistId`: Watch Later, or a
+    /// playlist the Save dialog offers for one of its videos (their own and
+    /// collaborative ones; not playlists saved from others, nor Liked Videos).
+    func canEditPlaylist(_ playlistId: String, sampleVideo: YouTubeVideo) async -> Bool {
+        if playlistId == "WL" {
+            return true
+        }
+        guard playlistId != "LL" else { return false }
+        let options = try? await self.playlistOptions(for: sampleVideo)
+        return options?.contains { $0.playlistId == playlistId } ?? false
+    }
+
     /// The user's playlists for `video`, without Watch Later, which the menu
     /// offers on its own. Gives up after a while so the submenu can retry.
     func playlistOptions(for video: YouTubeVideo) async throws -> [AddToPlaylistOption] {
@@ -94,5 +124,79 @@ final class YouTubeVideoActions {
         if self.toast?.id == id {
             self.toast = nil
         }
+    }
+}
+
+// MARK: - YouTubePlaylistMembership
+
+/// Which of the user's playlists hold one video, for a menu that adds the
+/// video to a playlist or, for a checked one, removes it. Shared by the video
+/// context menu and the player bar's Save to Playlist button.
+@MainActor
+@Observable
+final class YouTubePlaylistMembership {
+    /// The latest list for `videoId`; kept while a newer one loads, since an
+    /// open menu doesn't redraw.
+    private(set) var options: [AddToPlaylistOption]?
+    private(set) var didFail = false
+    private(set) var videoId: String?
+    private var isLoading = false
+
+    private let actions: YouTubeVideoActions
+
+    init(actions: YouTubeVideoActions = .shared) {
+        self.actions = actions
+    }
+
+    func load(for video: YouTubeVideo) async {
+        if video.videoId != self.videoId {
+            // Another video's checkmarks would be wrong.
+            self.options = nil
+            self.didFail = false
+            self.videoId = video.videoId
+        }
+        // Set before the first suspension, so overlapping calls send one request.
+        guard !self.isLoading else { return }
+        self.isLoading = true
+        defer { self.isLoading = false }
+        do {
+            let options = try await self.actions.playlistOptions(for: video)
+            guard self.videoId == video.videoId else { return }
+            self.options = options
+            self.didFail = false
+        } catch is CancellationError {
+            // Closing the menu cancels the load; the next open tries again.
+        } catch {
+            guard self.videoId == video.videoId else { return }
+            DiagnosticsLogger.ui.error("Failed to load YouTube playlists: \(error.localizedDescription)")
+            // A list from an earlier load stays usable.
+            self.didFail = self.options == nil
+        }
+    }
+
+    /// Adds the video to an unchecked playlist or removes it from a checked
+    /// one, then flips the checkmark so the next open shows the change.
+    func toggle(_ option: AddToPlaylistOption, for video: YouTubeVideo) async {
+        let succeeded = if option.isSelected {
+            await self.actions.removeFromPlaylist(video, playlistId: option.playlistId, title: option.title)
+        } else {
+            await self.actions.addToPlaylist(video, playlist: option)
+        }
+        guard succeeded, self.videoId == video.videoId else { return }
+        self.options = self.options?.map { $0.playlistId == option.playlistId ? $0.withSelection(!option.isSelected) : $0 }
+    }
+}
+
+extension AddToPlaylistOption {
+    /// The same playlist, marked as holding the video or not.
+    func withSelection(_ isSelected: Bool) -> Self {
+        Self(
+            playlistId: self.playlistId,
+            title: self.title,
+            subtitle: self.subtitle,
+            thumbnailURL: self.thumbnailURL,
+            isSelected: isSelected,
+            privacyStatus: self.privacyStatus
+        )
     }
 }

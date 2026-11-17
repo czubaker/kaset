@@ -789,3 +789,8 @@
 // Sidebar playlists
 "Show Playlists" = "顯示播放清單";
 "Hide Playlists" = "隱藏播放清單";
+
+// Playlist membership and removal
+"Removed from %@" = "已從「%@」移除";
+"Couldn't remove the video from the playlist." = "無法從播放清單移除影片。";
+"Remove from Watch Later" = "從稍後觀看移除";

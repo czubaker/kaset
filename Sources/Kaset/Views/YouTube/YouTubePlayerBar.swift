@@ -141,7 +141,7 @@ struct YouTubePlayerBar: View {
         switch item {
         case .videoInfo:
             !compact
-        case .like, .dislike, .watchLater:
+        case .like, .dislike, .watchLater, .saveToPlaylist:
             self.hasPersonalAccount
         case .subscribe:
             self.hasPersonalAccount && self.currentChannelId != nil
@@ -208,6 +208,8 @@ struct YouTubePlayerBar: View {
             self.fullViewButton
         case .watchLater:
             self.watchLaterButton
+        case .saveToPlaylist:
+            YouTubePlayerBarPlaylistMenu()
         case .airPlay:
             self.airPlayButton
         case .captions, .quality, .playbackSpeed, .audioTrack:
