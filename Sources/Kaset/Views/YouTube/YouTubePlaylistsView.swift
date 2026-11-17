@@ -43,13 +43,16 @@ struct YouTubePlaylistsView: View {
         }
     }
 
-    private static let columns = [
-        GridItem(.adaptive(minimum: 210, maximum: 320), spacing: 16),
-    ]
+    @State private var gridSettings = SettingsManager.shared
+
+    /// View → Zoom In / Zoom Out scale the cards (YouTubeGridZoom).
+    private var columns: [GridItem] {
+        YouTubeGridZoom.columns(zoom: self.gridSettings.youtubeGridZoom)
+    }
 
     private var playlistsList: some View {
         ScrollView {
-            LazyVGrid(columns: Self.columns, spacing: 20) {
+            LazyVGrid(columns: self.columns, spacing: 20) {
                 ForEach(self.viewModel.playlists) { playlist in
                     NavigationLink(value: YouTubeRoute.playlist(playlistId: playlist.playlistId)) {
                         YouTubePlaylistCard(playlist: playlist)

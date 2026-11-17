@@ -751,7 +751,6 @@
 "Zoom Out" = "縮小";
 "Actual Size" = "実際のサイズ";
 "Zoom" = "拡大/縮小";
-"Zoom Home's videos (⌘+ / ⌘−)" = "ホームの動画を拡大/縮小 (⌘+ / ⌘−)";
 
 // Player bar blocks and watch page customization
 "Video Title" = "動画のタイトル";
@@ -780,3 +779,10 @@
 "Hide What the Player Bar Shows" = "プレーヤーバーに表示されるものを隠す";
 "For example, the Subscribe button leaves the page once it's on the player bar." = "たとえば、登録ボタンをプレーヤーバーに置くとページから消えます。";
 "On the player bar" = "プレーヤーバーにあり";
+
+// Grid zoom
+"Zoom Videos (⌘+ / ⌘−)" = "動画を拡大/縮小 (⌘+ / ⌘−)";
+
+// Sidebar playlists
+"Show Playlists" = "プレイリストを表示";
+"Hide Playlists" = "プレイリストを隠す";

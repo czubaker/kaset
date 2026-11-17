@@ -14,27 +14,40 @@ struct KasetSidebarRow: View {
     let title: String
     let systemImage: String
     let isSelected: Bool
+    /// Extra leading space, for rows nested under another (a playlist under
+    /// Playlists).
+    var indent: CGFloat = 0
+    /// A control pinned to the row's trailing edge, outside its button, such as
+    /// a disclosure chevron.
+    var accessory: AnyView?
     let action: () -> Void
 
     var body: some View {
-        Button(action: self.action) {
-            Label {
-                Text(self.title)
-                    .lineLimit(1)
-                    .fontWeight(self.isSelected ? .semibold : .regular)
-                    .foregroundStyle(.primary)
-            } icon: {
-                Image(systemName: self.systemImage)
-                    .foregroundStyle(PackageResourceLookup.brandAccent)
+        HStack(spacing: 4) {
+            Button(action: self.action) {
+                Label {
+                    Text(self.title)
+                        .lineLimit(1)
+                        .fontWeight(self.isSelected ? .semibold : .regular)
+                        .foregroundStyle(.primary)
+                } icon: {
+                    Image(systemName: self.systemImage)
+                        .foregroundStyle(PackageResourceLookup.brandAccent)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, 5)
+                .padding(.leading, self.indent)
+                .contentShape(Rectangle())
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.vertical, 5)
-            .contentShape(Rectangle())
+            .buttonStyle(.plain)
+            .accessibilityAddTraits(self.isSelected ? .isSelected : [])
+
+            if let accessory = self.accessory {
+                accessory
+            }
         }
-        .buttonStyle(.plain)
         .listRowInsets(EdgeInsets(top: 1, leading: 10, bottom: 1, trailing: 10))
         .listRowBackground(self.selectionBackground)
-        .accessibilityAddTraits(self.isSelected ? .isSelected : [])
     }
 
     @ViewBuilder

@@ -39,9 +39,10 @@ final class SettingsManager {
         static let swipeToGoBackEnabled = "settings.swipeToGoBackEnabled"
         static let musicPlayerBar = "settings.playerBar.music"
         static let youtubePlayerBar = "settings.playerBar.youtube"
-        static let youtubeHomeZoom = "settings.youtubeHomeZoom"
+        static let youtubeGridZoom = "settings.youtubeGridZoom"
         static let youtubePlayerBarDetails = "settings.playerBar.youtubeDetails"
         static let youtubeWatchPage = "settings.youtubeWatchPage"
+        static let youtubeSidebarOrder = "settings.youtubeSidebarOrder"
         #if DEBUG
             static let useLegacyMacOS15UI = "settings.debug.useLegacyMacOS15UI"
         #endif
@@ -496,6 +497,13 @@ final class SettingsManager {
         }
     }
 
+    /// The order of the YouTube sidebar's items within each section.
+    var youtubeSidebarOrder: YouTubeSidebarOrder {
+        didSet {
+            Self.saveJSON(self.youtubeSidebarOrder, forKey: Keys.youtubeSidebarOrder, to: UserDefaults.standard)
+        }
+    }
+
     /// Which parts of the YouTube watch page show.
     var youtubeWatchPage: YouTubeWatchPageLayout {
         didSet {
@@ -503,11 +511,11 @@ final class SettingsManager {
         }
     }
 
-    /// How large YouTube Home draws its video cards; 1 is the standard size.
-    /// One of `YouTubeHomeZoom.levels`.
-    var youtubeHomeZoom: Double {
+    /// How large YouTube's card grids draw their cards; 1 is the standard
+    /// size. One of `YouTubeGridZoom.levels`.
+    var youtubeGridZoom: Double {
         didSet {
-            UserDefaults.standard.set(self.youtubeHomeZoom, forKey: Keys.youtubeHomeZoom)
+            UserDefaults.standard.set(self.youtubeGridZoom, forKey: Keys.youtubeGridZoom)
         }
     }
 
@@ -656,7 +664,8 @@ final class SettingsManager {
         self.musicPlayerBar = Self.loadPlayerBar(forKey: Keys.musicPlayerBar, from: defaults, standard: .standard)
         self.youtubePlayerBarDetails = Self.loadJSON(YouTubePlayerBarDetails.self, forKey: Keys.youtubePlayerBarDetails, from: defaults, fallback: .standard)
         self.youtubeWatchPage = Self.loadJSON(YouTubeWatchPageLayout.self, forKey: Keys.youtubeWatchPage, from: defaults, fallback: .standard)
-        self.youtubeHomeZoom = YouTubeHomeZoom.level(nearest: defaults.object(forKey: Keys.youtubeHomeZoom) as? Double ?? YouTubeHomeZoom.standard)
+        self.youtubeSidebarOrder = Self.loadJSON(YouTubeSidebarOrder.self, forKey: Keys.youtubeSidebarOrder, from: defaults, fallback: .standard)
+        self.youtubeGridZoom = YouTubeGridZoom.level(nearest: defaults.object(forKey: Keys.youtubeGridZoom) as? Double ?? YouTubeGridZoom.standard)
         self.youtubePlayerBar = Self.loadPlayerBar(
             forKey: Keys.youtubePlayerBar,
             from: UserDefaults.standard,

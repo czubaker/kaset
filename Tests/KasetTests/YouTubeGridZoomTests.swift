@@ -1,27 +1,49 @@
+import Foundation
 import Testing
 @testable import Kaset
 
-@Suite("YouTubeHomeZoom", .tags(.model))
-struct YouTubeHomeZoomTests {
+@Suite("YouTubeGridZoom", .tags(.model))
+struct YouTubeGridZoomTests {
     @Test("Zoom steps through the levels and stops at either end")
     func stepsThroughLevels() {
-        let largest = YouTubeHomeZoom.levels.last ?? 0
-        let smallest = YouTubeHomeZoom.levels.first ?? 0
+        let largest = YouTubeGridZoom.levels.last ?? 0
+        let smallest = YouTubeGridZoom.levels.first ?? 0
 
-        #expect(YouTubeHomeZoom.zoomedIn(from: 1) == 1.15)
-        #expect(YouTubeHomeZoom.zoomedOut(from: 1) == 0.9)
-        #expect(YouTubeHomeZoom.zoomedIn(from: largest) == nil)
-        #expect(YouTubeHomeZoom.zoomedOut(from: smallest) == nil)
+        #expect(YouTubeGridZoom.zoomedIn(from: 1) == 1.15)
+        #expect(YouTubeGridZoom.zoomedOut(from: 1) == 0.9)
+        #expect(YouTubeGridZoom.zoomedIn(from: largest) == nil)
+        #expect(YouTubeGridZoom.zoomedOut(from: smallest) == nil)
     }
 
     @Test("A stored value lands on the nearest level")
     func snapsToNearestLevel() {
-        let largest = YouTubeHomeZoom.levels.last ?? 0
-        let smallest = YouTubeHomeZoom.levels.first ?? 0
+        let largest = YouTubeGridZoom.levels.last ?? 0
+        let smallest = YouTubeGridZoom.levels.first ?? 0
 
-        #expect(YouTubeHomeZoom.level(nearest: 1.12) == 1.15)
-        #expect(YouTubeHomeZoom.level(nearest: 5) == largest)
-        #expect(YouTubeHomeZoom.level(nearest: -1) == smallest)
-        #expect(YouTubeHomeZoom.level(nearest: YouTubeHomeZoom.standard) == 1)
+        #expect(YouTubeGridZoom.level(nearest: 1.12) == 1.15)
+        #expect(YouTubeGridZoom.level(nearest: 5) == largest)
+        #expect(YouTubeGridZoom.level(nearest: -1) == smallest)
+        #expect(YouTubeGridZoom.level(nearest: YouTubeGridZoom.standard) == 1)
+    }
+
+    @Test("Zoom applies to card grids, not the watch page, Search, or Shorts")
+    func appliesToGridPages() {
+        let video = MockYouTubeClient.makeVideo()
+        #expect(YouTubeGridZoom.isGridPage(.channel(channelId: "UCtest")))
+        #expect(YouTubeGridZoom.isGridPage(.playlist(playlistId: "PLtest")))
+        #expect(!YouTubeGridZoom.isGridPage(.watch(video)))
+        #expect(YouTubeGridZoom.isGridPage(YouTubeNavigationItem.subscriptions))
+        #expect(YouTubeGridZoom.isGridPage(YouTubeNavigationItem.playlist(id: "PLtest")))
+        #expect(!YouTubeGridZoom.isGridPage(YouTubeNavigationItem.search))
+        #expect(!YouTubeGridZoom.isGridPage(YouTubeNavigationItem.shorts))
+    }
+
+    @Test("Columns and thumbnails scale with the zoom; thumbnails never shrink below the standard decode")
+    func layoutScales() {
+        let standard = CGSize(width: 320, height: 180)
+        let zoomedIn = CGSize(width: 480, height: 270)
+        #expect(YouTubeGridZoom.thumbnailSize(zoom: 0.7) == standard)
+        #expect(YouTubeGridZoom.thumbnailSize(zoom: 1.5) == zoomedIn)
+        #expect(YouTubeGridZoom.railCardWidth(zoom: 1) == 284)
     }
 }

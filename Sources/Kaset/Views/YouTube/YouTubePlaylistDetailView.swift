@@ -4,9 +4,12 @@ import SwiftUI
 struct YouTubePlaylistDetailView: View {
     @State private var viewModel: YouTubePlaylistViewModel
 
-    private static let columns = [
-        GridItem(.adaptive(minimum: 210, maximum: 320), spacing: 16),
-    ]
+    @State private var gridSettings = SettingsManager.shared
+
+    /// View → Zoom In / Zoom Out scale the cards (YouTubeGridZoom).
+    private var columns: [GridItem] {
+        YouTubeGridZoom.columns(zoom: self.gridSettings.youtubeGridZoom)
+    }
 
     init(playlistId: String, client: any YouTubeClientProtocol) {
         self._viewModel = State(
@@ -66,10 +69,10 @@ struct YouTubePlaylistDetailView: View {
                         Label(String(localized: "No videos"), systemImage: "list.and.film")
                     }
                 } else {
-                    LazyVGrid(columns: Self.columns, spacing: 20) {
+                    LazyVGrid(columns: self.columns, spacing: 20) {
                         ForEach(detail.videos) { video in
                             NavigationLink(value: YouTubeRoute.watch(video)) {
-                                VideoCard(video: video)
+                                VideoCard(video: video, thumbnailSize: YouTubeGridZoom.thumbnailSize(zoom: self.gridSettings.youtubeGridZoom))
                             }
                             .buttonStyle(.interactiveCard)
                             .youtubeVideoContextMenu(for: video)

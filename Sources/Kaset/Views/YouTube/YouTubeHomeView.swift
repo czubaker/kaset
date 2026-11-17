@@ -9,24 +9,16 @@ struct YouTubeHomeView: View {
     @State private var settings = SettingsManager.shared
 
     /// View → Zoom In / Zoom Out scale the cards, not the rest of the app.
-    private var zoom: CGFloat {
-        CGFloat(self.settings.youtubeHomeZoom)
-    }
-
     private var columns: [GridItem] {
-        [GridItem(.adaptive(minimum: 210 * self.zoom, maximum: 320 * self.zoom), spacing: 16)]
+        YouTubeGridZoom.columns(zoom: self.settings.youtubeGridZoom)
     }
 
-    /// Rail cards match the music video card width at the standard zoom.
     private var railCardWidth: CGFloat {
-        284 * self.zoom
+        YouTubeGridZoom.railCardWidth(zoom: self.settings.youtubeGridZoom)
     }
 
-    /// Decode thumbnails larger only when the cards grow, so zooming out
-    /// never decodes them again.
     private var thumbnailSize: CGSize {
-        let scale = max(1, self.zoom)
-        return CGSize(width: 320 * scale, height: 180 * scale)
+        YouTubeGridZoom.thumbnailSize(zoom: self.settings.youtubeGridZoom)
     }
 
     var body: some View {
@@ -67,17 +59,6 @@ struct YouTubeHomeView: View {
         }
         .overlay(alignment: .top) {
             YouTubeFeedbackToastOverlay(viewModel: self.viewModel)
-        }
-        .background {
-            // View → Zoom In is ⌘+, which a menu only matches with Shift held;
-            // ⌘= is the same key without it, as in Safari.
-            Button(String(localized: "Zoom In")) {
-                YouTubeHomeZoom.zoomIn()
-            }
-            .keyboardShortcut("=", modifiers: .command)
-            .frame(width: 0, height: 0)
-            .opacity(0)
-            .accessibilityHidden(true)
         }
         .navigationTitle(Text("Home", comment: "YouTube home feed title"))
         .accessibilityIdentifier(AccessibilityID.YouTubeContent.homeGrid)

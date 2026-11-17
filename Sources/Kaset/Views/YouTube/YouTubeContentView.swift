@@ -40,6 +40,7 @@ struct YouTubeContentView: View {
         .overlay(alignment: .top) {
             YouTubeVideoActionsToast()
         }
+        .youtubeGridZoomEqualsShortcut(isEnabled: YouTubeGridZoom.isGridOnScreen(selection: self.selection))
         .onAppear {
             // Refresh requests go to the page on top of this store's stack.
             YouTubePageRefresh.shared.store = self.store

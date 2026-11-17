@@ -43,16 +43,19 @@ struct YouTubeHistoryView: View {
         }
     }
 
-    private static let columns = [
-        GridItem(.adaptive(minimum: 210, maximum: 320), spacing: 16),
-    ]
+    @State private var gridSettings = SettingsManager.shared
+
+    /// View → Zoom In / Zoom Out scale the cards (YouTubeGridZoom).
+    private var columns: [GridItem] {
+        YouTubeGridZoom.columns(zoom: self.gridSettings.youtubeGridZoom)
+    }
 
     private var historyList: some View {
         ScrollView {
-            LazyVGrid(columns: Self.columns, spacing: 20) {
+            LazyVGrid(columns: self.columns, spacing: 20) {
                 ForEach(self.viewModel.videos) { video in
                     NavigationLink(value: YouTubeRoute.watch(video)) {
-                        VideoCard(video: video)
+                        VideoCard(video: video, thumbnailSize: YouTubeGridZoom.thumbnailSize(zoom: self.gridSettings.youtubeGridZoom))
                     }
                     .buttonStyle(.interactiveCard)
                     .youtubeVideoContextMenu(for: video)

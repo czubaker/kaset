@@ -756,7 +756,6 @@
 "Zoom Out" = "Zooma ut";
 "Actual Size" = "Verklig storlek";
 "Zoom" = "Zoom";
-"Zoom Home's videos (⌘+ / ⌘−)" = "Zooma videor på Hem (⌘+ / ⌘−)";
 
 // Player bar blocks and watch page customization
 "Video Title" = "Videotitel";
@@ -785,3 +784,10 @@
 "Hide What the Player Bar Shows" = "Dölj det som spelarfältet visar";
 "For example, the Subscribe button leaves the page once it's on the player bar." = "Till exempel försvinner knappen Prenumerera från sidan när den finns i spelarfältet.";
 "On the player bar" = "I spelarfältet";
+
+// Grid zoom
+"Zoom Videos (⌘+ / ⌘−)" = "Zooma videor (⌘+ / ⌘−)";
+
+// Sidebar playlists
+"Show Playlists" = "Visa spellistor";
+"Hide Playlists" = "Dölj spellistor";

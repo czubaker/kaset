@@ -756,7 +756,6 @@
 "Zoom Out" = "Zoom uit";
 "Actual Size" = "Ware grootte";
 "Zoom" = "Zoom";
-"Zoom Home's videos (⌘+ / ⌘−)" = "Zoom de video’s op Home (⌘+ / ⌘−)";
 
 // Player bar blocks and watch page customization
 "Video Title" = "Videotitel";
@@ -785,3 +784,10 @@
 "Hide What the Player Bar Shows" = "Verberg wat de spelerbalk toont";
 "For example, the Subscribe button leaves the page once it's on the player bar." = "Zo verdwijnt de knop Abonneren van de pagina zodra hij in de spelerbalk staat.";
 "On the player bar" = "In de spelerbalk";
+
+// Grid zoom
+"Zoom Videos (⌘+ / ⌘−)" = "Zoom video’s (⌘+ / ⌘−)";
+
+// Sidebar playlists
+"Show Playlists" = "Afspeellijsten tonen";
+"Hide Playlists" = "Afspeellijsten verbergen";

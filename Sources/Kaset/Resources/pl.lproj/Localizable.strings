@@ -756,7 +756,6 @@
 "Zoom Out" = "Pomniejsz";
 "Actual Size" = "Rzeczywisty rozmiar";
 "Zoom" = "Powiększenie";
-"Zoom Home's videos (⌘+ / ⌘−)" = "Powiększ lub pomniejsz filmy na stronie głównej (⌘+ / ⌘−)";
 
 // Player bar blocks and watch page customization
 "Video Title" = "Tytuł filmu";
@@ -785,3 +784,10 @@
 "Hide What the Player Bar Shows" = "Ukryj to, co pokazuje pasek odtwarzacza";
 "For example, the Subscribe button leaves the page once it's on the player bar." = "Na przykład przycisk Subskrybuj znika ze strony, gdy jest na pasku odtwarzacza.";
 "On the player bar" = "Na pasku odtwarzacza";
+
+// Grid zoom
+"Zoom Videos (⌘+ / ⌘−)" = "Powiększ lub pomniejsz filmy (⌘+ / ⌘−)";
+
+// Sidebar playlists
+"Show Playlists" = "Pokaż playlisty";
+"Hide Playlists" = "Ukryj playlisty";

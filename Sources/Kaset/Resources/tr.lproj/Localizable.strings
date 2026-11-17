@@ -756,7 +756,6 @@
 "Zoom Out" = "Uzaklaştır";
 "Actual Size" = "Gerçek Boyut";
 "Zoom" = "Yakınlaştırma";
-"Zoom Home's videos (⌘+ / ⌘−)" = "Ana sayfadaki videoları yakınlaştır veya uzaklaştır (⌘+ / ⌘−)";
 
 // Player bar blocks and watch page customization
 "Video Title" = "Video Başlığı";
@@ -785,3 +784,10 @@
 "Hide What the Player Bar Shows" = "Oynatıcı Çubuğunun Gösterdiklerini Gizle";
 "For example, the Subscribe button leaves the page once it's on the player bar." = "Örneğin, Abone Ol düğmesi oynatıcı çubuğuna eklendiğinde sayfadan kalkar.";
 "On the player bar" = "Oynatıcı çubuğunda";
+
+// Grid zoom
+"Zoom Videos (⌘+ / ⌘−)" = "Videoları yakınlaştır veya uzaklaştır (⌘+ / ⌘−)";
+
+// Sidebar playlists
+"Show Playlists" = "Çalma Listelerini Göster";
+"Hide Playlists" = "Çalma Listelerini Gizle";

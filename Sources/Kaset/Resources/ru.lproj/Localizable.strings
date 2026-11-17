@@ -756,7 +756,6 @@
 "Zoom Out" = "Уменьшить";
 "Actual Size" = "Фактический размер";
 "Zoom" = "Масштаб";
-"Zoom Home's videos (⌘+ / ⌘−)" = "Масштаб видео на главной (⌘+ / ⌘−)";
 
 // Player bar blocks and watch page customization
 "Video Title" = "Название видео";
@@ -785,3 +784,10 @@
 "Hide What the Player Bar Shows" = "Скрывать то, что есть на панели плеера";
 "For example, the Subscribe button leaves the page once it's on the player bar." = "Например, кнопка «Подписаться» исчезает со страницы, когда она есть на панели плеера.";
 "On the player bar" = "На панели плеера";
+
+// Grid zoom
+"Zoom Videos (⌘+ / ⌘−)" = "Масштаб видео (⌘+ / ⌘−)";
+
+// Sidebar playlists
+"Show Playlists" = "Показать плейлисты";
+"Hide Playlists" = "Скрыть плейлисты";

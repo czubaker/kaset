@@ -756,7 +756,6 @@
 "Zoom Out" = "축소";
 "Actual Size" = "실제 크기";
 "Zoom" = "확대/축소";
-"Zoom Home's videos (⌘+ / ⌘−)" = "홈 동영상 확대/축소 (⌘+ / ⌘−)";
 
 // Player bar blocks and watch page customization
 "Video Title" = "동영상 제목";
@@ -785,3 +784,10 @@
 "Hide What the Player Bar Shows" = "플레이어 막대에 표시되는 항목 숨기기";
 "For example, the Subscribe button leaves the page once it's on the player bar." = "예를 들어 구독 버튼을 플레이어 막대에 두면 페이지에서 사라집니다.";
 "On the player bar" = "플레이어 막대에 있음";
+
+// Grid zoom
+"Zoom Videos (⌘+ / ⌘−)" = "동영상 확대/축소 (⌘+ / ⌘−)";
+
+// Sidebar playlists
+"Show Playlists" = "재생목록 보기";
+"Hide Playlists" = "재생목록 숨기기";

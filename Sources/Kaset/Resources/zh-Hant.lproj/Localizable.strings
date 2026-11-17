@@ -754,7 +754,6 @@
 "Zoom Out" = "縮小";
 "Actual Size" = "實際大小";
 "Zoom" = "縮放";
-"Zoom Home's videos (⌘+ / ⌘−)" = "縮放首頁影片 (⌘+ / ⌘−)";
 
 // Player bar blocks and watch page customization
 "Video Title" = "影片標題";
@@ -783,3 +782,10 @@
 "Hide What the Player Bar Shows" = "隱藏播放列顯示的內容";
 "For example, the Subscribe button leaves the page once it's on the player bar." = "例如，訂閱按鈕放到播放列後，就會從頁面上消失。";
 "On the player bar" = "在播放列中";
+
+// Grid zoom
+"Zoom Videos (⌘+ / ⌘−)" = "縮放影片 (⌘+ / ⌘−)";
+
+// Sidebar playlists
+"Show Playlists" = "顯示播放清單";
+"Hide Playlists" = "隱藏播放清單";

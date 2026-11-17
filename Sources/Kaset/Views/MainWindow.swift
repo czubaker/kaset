@@ -648,7 +648,7 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
                 }
 
                 ToolbarItem(id: "homeZoom", placement: .automatic) {
-                    self.homeZoomControl
+                    self.gridZoomControl
                 }
                 .defaultCustomization(.hidden)
 
@@ -679,28 +679,28 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
         }
     }
 
-    /// Zoom Out / Zoom In for YouTube Home's cards, as in Safari's toolbar.
-    private var homeZoomControl: some View {
-        let isHomeOnScreen = YouTubeHomeZoom.isHomeOnScreen(selection: self.youtubeNavigationSelection)
-        let zoom = self.settings.youtubeHomeZoom
+    /// Zoom Out / Zoom In for YouTube's card grids, as in Safari's toolbar.
+    private var gridZoomControl: some View {
+        let isGridOnScreen = YouTubeGridZoom.isGridOnScreen(selection: self.youtubeNavigationSelection)
+        let zoom = self.settings.youtubeGridZoom
         return ControlGroup {
             Button {
-                YouTubeHomeZoom.zoomOut()
+                YouTubeGridZoom.zoomOut()
             } label: {
                 Label(String(localized: "Zoom Out"), systemImage: "minus.magnifyingglass")
             }
-            .disabled(!isHomeOnScreen || YouTubeHomeZoom.zoomedOut(from: zoom) == nil)
+            .disabled(!isGridOnScreen || YouTubeGridZoom.zoomedOut(from: zoom) == nil)
 
             Button {
-                YouTubeHomeZoom.zoomIn()
+                YouTubeGridZoom.zoomIn()
             } label: {
                 Label(String(localized: "Zoom In"), systemImage: "plus.magnifyingglass")
             }
-            .disabled(!isHomeOnScreen || YouTubeHomeZoom.zoomedIn(from: zoom) == nil)
+            .disabled(!isGridOnScreen || YouTubeGridZoom.zoomedIn(from: zoom) == nil)
         } label: {
             Label(String(localized: "Zoom"), systemImage: "plus.magnifyingglass")
         }
-        .help(String(localized: "Zoom Home's videos (⌘+ / ⌘−)"))
+        .help(String(localized: "Zoom Videos (⌘+ / ⌘−)"))
     }
 
     private var isShowingFullScreenPlayer: Bool {

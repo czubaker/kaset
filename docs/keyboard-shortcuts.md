@@ -31,8 +31,8 @@ Playback shortcuts are source-aware where both sources implement an equivalent a
 | `⌘K`     | Open Command Bar |
 | `⇧⌘R`    | Refresh (Home in YouTube Music, the current page in YouTube) |
 | `⇧⌘Y`    | Switch source (YouTube Music ⟷ YouTube) |
-| `⌘+` / `⌘=` | Zoom in on YouTube Home's videos |
-| `⌘−`     | Zoom out on YouTube Home's videos |
+| `⌘+` / `⌘=` | Zoom in on YouTube's video grids |
+| `⌘−`     | Zoom out on YouTube's video grids |
 
 Navigation shortcuts route to the active source's equivalent destination:
 in YouTube mode, `⌘1`/`⌘2`/`⌘F` go to the YouTube Home/Explore/Search
@@ -41,9 +41,10 @@ surfaces and `⌘3` goes to Playlists.
 In YouTube mode it reloads the page on screen, as the toolbar's Refresh button
 does: a feed, channel, playlist, search, or the watch page around the video,
 which keeps playing.
-`⌘+` and `⌘−` (View → Zoom In / Zoom Out) make YouTube Home's video cards
-larger or smaller without changing the rest of the app; View → Actual Size
-goes back to the standard size. `⌘0` stays Window → Kaset, so Actual Size has
+`⌘+` and `⌘−` (View → Zoom In / Zoom Out) make the cards of YouTube's grid
+pages (Home, Subscriptions, Explore, channels, playlists, History) larger or
+smaller without changing the rest of the app; the watch page, Search, and
+Shorts keep their size. View → Actual Size goes back to the standard size. `⌘0` stays Window → Kaset, so Actual Size has
 no shortcut.
 
 On a trackpad, swipe right to go back a page, as in a browser. The gesture

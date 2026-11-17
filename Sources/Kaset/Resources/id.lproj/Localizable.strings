@@ -756,7 +756,6 @@
 "Zoom Out" = "Perkecil";
 "Actual Size" = "Ukuran Sebenarnya";
 "Zoom" = "Zoom";
-"Zoom Home's videos (⌘+ / ⌘−)" = "Perbesar atau perkecil video Beranda (⌘+ / ⌘−)";
 
 // Player bar blocks and watch page customization
 "Video Title" = "Judul Video";
@@ -785,3 +784,10 @@
 "Hide What the Player Bar Shows" = "Sembunyikan yang Ditampilkan Bilah Pemutar";
 "For example, the Subscribe button leaves the page once it's on the player bar." = "Misalnya, tombol Berlangganan hilang dari halaman setelah ada di bilah pemutar.";
 "On the player bar" = "Di bilah pemutar";
+
+// Grid zoom
+"Zoom Videos (⌘+ / ⌘−)" = "Perbesar atau perkecil video (⌘+ / ⌘−)";
+
+// Sidebar playlists
+"Show Playlists" = "Tampilkan Playlist";
+"Hide Playlists" = "Sembunyikan Playlist";
