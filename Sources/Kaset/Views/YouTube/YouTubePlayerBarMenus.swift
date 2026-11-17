@@ -206,8 +206,10 @@ struct YouTubePlayerBarMenu: View {
 
 // MARK: - YouTubeVideoSettingsMenu
 
-/// The gear menu, in the spirit of YouTube's own: the layout's settings menu
-/// items as submenus, and the quality levels right in the menu.
+/// The gear menu, in the spirit of YouTube's own: Customize Player Bar…
+/// first (always there, so the bar can be set up from the bar itself), then
+/// the layout's settings menu items as submenus and the quality levels right
+/// in the menu.
 struct YouTubeVideoSettingsMenu: View {
     let items: [YouTubePlayerBarItem]
 
@@ -221,34 +223,42 @@ struct YouTubeVideoSettingsMenu: View {
             accessibilityID: AccessibilityID.YouTubeContent.qualityButton,
             accessibilityLabel: String(localized: "Video settings")
         ) {
-            ForEach(self.shownItems, id: \.self) { item in
-                switch item {
-                case .captions:
-                    YouTubeCaptionsPicker(style: .submenu)
-                case .audioTrack:
-                    YouTubeAudioTrackPicker(style: .submenu)
-                case .playbackSpeed:
-                    YouTubePlaybackSpeedPicker(style: .submenu)
-                case .quality:
-                    Section(String(localized: "Video quality")) {
-                        YouTubeQualityPicker()
+            Button {
+                PlayerBarCustomization.shared.present(for: .video)
+            } label: {
+                Label(String(localized: "Customize Player Bar…"), systemImage: "slider.horizontal.3")
+            }
+
+            if !self.shownItems.isEmpty {
+                Divider()
+            }
+
+            // The pickers need a video; Customize Player Bar… doesn't.
+            Group {
+                ForEach(self.shownItems, id: \.self) { item in
+                    switch item {
+                    case .captions:
+                        YouTubeCaptionsPicker(style: .submenu)
+                    case .audioTrack:
+                        YouTubeAudioTrackPicker(style: .submenu)
+                    case .playbackSpeed:
+                        YouTubePlaybackSpeedPicker(style: .submenu)
+                    case .quality:
+                        Section(String(localized: "Video quality")) {
+                            YouTubeQualityPicker()
+                        }
+                    default:
+                        EmptyView()
                     }
-                default:
-                    EmptyView()
                 }
             }
+            .disabled(self.player.currentVideo == nil)
         } icon: {
             Image(systemName: "gearshape")
                 .font(.system(size: 16, weight: .regular))
                 .frame(width: 16, height: 16)
                 .foregroundStyle(self.isSelected ? AnyShapeStyle(Self.brandAccent) : AnyShapeStyle(.primary))
         }
-        .disabled(self.player.currentVideo == nil)
-    }
-
-    /// Whether the gear has anything to show, so an empty one stays off the bar.
-    static func hasContent(_ items: [YouTubePlayerBarItem], player: YouTubePlayerService) -> Bool {
-        items.contains { YouTubePlayerBarMenu.isShown($0, player: player) }
     }
 
     private var shownItems: [YouTubePlayerBarItem] {

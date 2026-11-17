@@ -1288,9 +1288,9 @@ settings menu. The standard layouts match the bars as they shipped
 - The YouTube bar sizes its sides with `YouTubePlayerBarMetrics`; the
   standard layout keeps the previous widths and the 580pt breakpoint below
   which the leading side drops the video's details and rating.
-- The sheet opens from the bar's context menu and View → Customize Player
-  Bar…, through `PlayerBarCustomization.shared`, and edits the bar of the
-  source requested. The main window hosts it, so presenting it brings that
+- The sheet opens from the bar's context menu, View → Customize Player
+  Bar…, and the top of the YouTube gear menu, through
+  `PlayerBarCustomization.shared`, and edits the bar of the source requested. The main window hosts it, so presenting it brings that
   window forward, also from the detached video window.
 - To add a control: add an item case with its title, symbol, and allowed
   areas, then a case in the bar's `itemView`. If it can hide, add it to the

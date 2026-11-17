@@ -49,8 +49,10 @@ customizes.
   on it stay.
 - A side with no items leaves the timeline the same 16pt inset from the
   capsule's end that the YouTube bar already used once its details hid.
-- The customization sheet opens from the bar's context menu and View →
-  Customize Player Bar…, and edits the bar of the source requested. It
+- The customization sheet opens from the bar's context menu, View →
+  Customize Player Bar…, and the top of the YouTube gear menu, which always
+  offers it (so the gear stays on the bar even with no picker in it), and
+  edits the bar of the source requested. It
   belongs to the main window, which comes forward (or reopens) to show it,
   also when the detached video window's bar asks. Items drag between the
   areas and the palette, and every change shows on the real bar right away.

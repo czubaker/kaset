@@ -148,7 +148,8 @@ struct YouTubePlayerBar: View {
         case .floatOnTop:
             self.showsFloatOnTopControl
         case .settingsMenu:
-            YouTubeVideoSettingsMenu.hasContent(self.layout.items(in: .settingsMenu), player: self.youtubePlayer)
+            // Always has Customize Player Bar…, even with no picker to show.
+            true
         case .captions, .quality, .playbackSpeed, .audioTrack:
             YouTubePlayerBarMenu.isShown(item, player: self.youtubePlayer)
         default:
@@ -658,11 +659,23 @@ struct YouTubePlayerBar: View {
     }
 
     private var canNavigateToCurrentChannel: Bool {
-        self.youtubeStore != nil && self.currentChannelId != nil
+        self.navigationStore != nil && self.currentChannelId != nil
     }
 
+    /// Pushed pages and the detached window sit outside the store's
+    /// environment, so fall back to the store of the pages on screen, which
+    /// the content view hands the page refresher.
+    private var navigationStore: YouTubeViewModelStore? {
+        self.youtubeStore ?? YouTubePageRefresh.shared.store
+    }
+
+    /// The video's channel, or the channel the watch page loaded for it when
+    /// the card it was opened from carried none.
     private var currentChannelId: String? {
-        guard let channelId = self.youtubePlayer.currentVideo?.channelId, !channelId.isEmpty else {
+        if let channelId = self.youtubePlayer.currentVideo?.channelId, !channelId.isEmpty {
+            return channelId
+        }
+        guard let channelId = self.youtubePlayer.currentChannel?.channelId, !channelId.isEmpty else {
             return nil
         }
         return channelId
@@ -670,7 +683,7 @@ struct YouTubePlayerBar: View {
 
     private func openCurrentChannel() {
         guard let channelId = self.currentChannelId else { return }
-        self.youtubeStore?.navigationPath.append(YouTubeRoute.channel(channelId: channelId))
+        self.navigationStore?.navigationPath.append(YouTubeRoute.channel(channelId: channelId))
     }
 
     private var volumeIcon: String {
