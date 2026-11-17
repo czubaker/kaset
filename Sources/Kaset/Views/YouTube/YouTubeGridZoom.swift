@@ -40,11 +40,11 @@ enum YouTubeGridZoom {
         284 * zoom
     }
 
-    /// Thumbnails decode larger only when cards grow, so zooming out never
-    /// decodes them again.
+    /// Two decode sizes: the standard one up to 1×, and double above it, so
+    /// stepping through the larger levels reuses the images already decoded
+    /// instead of decoding the grid again at every step.
     static func thumbnailSize(zoom: Double) -> CGSize {
-        let scale = max(1, zoom)
-        return CGSize(width: 320 * scale, height: 180 * scale)
+        zoom > 1 ? CGSize(width: 640, height: 360) : CGSize(width: 320, height: 180)
     }
 
     // MARK: Where It Applies

@@ -54,6 +54,14 @@ struct YouTubeSidebar: View {
         .navigationSplitViewColumnWidth(min: 200, ideal: 220, max: 300)
         .onAppear(perform: self.startWatchingModifiers)
         .onDisappear(perform: self.stopWatchingModifiers)
+        // A ⌘ released while another app is in front never reaches the
+        // monitor; read the keys again whenever the app comes back.
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            self.isCommandHeld = NSEvent.modifierFlags.contains(.command)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didResignActiveNotification)) { _ in
+            self.isCommandHeld = false
+        }
     }
 
     private var hasPersonalAccount: Bool {
@@ -77,8 +85,12 @@ struct YouTubeSidebar: View {
                     dropTarget: self.$dropTarget,
                     order: self.$settings.youtubeSidebarOrder
                 ))
-                .task(id: item == .playlists && self.isPlaylistsExpanded) {
-                    // Loads once, when first expanded; cached after that.
+                .task(id: PlaylistsLoadKey(
+                    isExpanded: item == .playlists && self.isPlaylistsExpanded,
+                    model: self.playlists.map(ObjectIdentifier.init)
+                )) {
+                    // Loads when first expanded, and again for the fresh model
+                    // an account switch brings; cached otherwise.
                     guard item == .playlists, self.isPlaylistsExpanded else { return }
                     await self.playlists?.load()
                 }
@@ -170,6 +182,15 @@ struct YouTubeSidebar: View {
         self.selection = item
         HapticService.navigation()
     }
+}
+
+// MARK: - PlaylistsLoadKey
+
+/// What the Playlists rows' load depends on: being expanded, and which
+/// playlists model the store holds (a new one after an account switch).
+private struct PlaylistsLoadKey: Hashable {
+    let isExpanded: Bool
+    let model: ObjectIdentifier?
 }
 
 // MARK: - SidebarReorderModifier

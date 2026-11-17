@@ -38,12 +38,14 @@ struct YouTubeGridZoomTests {
         #expect(!YouTubeGridZoom.isGridPage(YouTubeNavigationItem.shorts))
     }
 
-    @Test("Columns and thumbnails scale with the zoom; thumbnails never shrink below the standard decode")
+    @Test("Thumbnails decode at two sizes, so zoom steps reuse them")
     func layoutScales() {
         let standard = CGSize(width: 320, height: 180)
-        let zoomedIn = CGSize(width: 480, height: 270)
+        let large = CGSize(width: 640, height: 360)
         #expect(YouTubeGridZoom.thumbnailSize(zoom: 0.7) == standard)
-        #expect(YouTubeGridZoom.thumbnailSize(zoom: 1.5) == zoomedIn)
+        #expect(YouTubeGridZoom.thumbnailSize(zoom: 1) == standard)
+        #expect(YouTubeGridZoom.thumbnailSize(zoom: 1.15) == large)
+        #expect(YouTubeGridZoom.thumbnailSize(zoom: 2) == large)
         #expect(YouTubeGridZoom.railCardWidth(zoom: 1) == 284)
     }
 }
