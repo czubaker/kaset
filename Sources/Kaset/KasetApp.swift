@@ -387,6 +387,10 @@ struct KasetApp: App {
         }
         .commands {
             PlayerBarCustomizationCommands()
+            YouTubeHomeZoomCommands(
+                isHomeOnScreen: YouTubeHomeZoom.isHomeOnScreen(selection: self.youtubeNavigationSelection),
+                zoom: self.settings.youtubeHomeZoom
+            )
             // Check for Updates command in app menu
             CommandGroup(after: .appInfo) {
                 Button(String(localized: "Check for Updates...")) {

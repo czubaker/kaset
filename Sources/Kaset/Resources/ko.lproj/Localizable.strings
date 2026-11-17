@@ -752,3 +752,10 @@
 "Added to %@" = "%@에 추가됨";
 "Couldn't add the video to Watch Later." = "동영상을 나중에 볼 동영상에 추가할 수 없습니다.";
 "Couldn't add the video to the playlist." = "동영상을 재생목록에 추가할 수 없습니다.";
+
+// Home zoom and toolbar
+"Zoom In" = "확대";
+"Zoom Out" = "축소";
+"Actual Size" = "실제 크기";
+"Zoom" = "확대/축소";
+"Zoom Home's videos (⌘+ / ⌘−)" = "홈 동영상 확대/축소 (⌘+ / ⌘−)";

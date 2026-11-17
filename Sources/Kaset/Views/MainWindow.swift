@@ -614,13 +614,16 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
         .animation(.easeInOut(duration: 0.25), value: self.playerService.showQueue)
         .toolbar(self.isShowingFullScreenPlayer ? .hidden : .automatic, for: .windowToolbar)
         .frame(minWidth: MainWindowLayout.minimumWidth, minHeight: MainWindowLayout.minimumHeight)
-        .toolbar {
+        // Customizable like Finder's toolbar (right-click → Customize
+        // Toolbar…). The defaults are the toolbar as it was; the rest are
+        // hidden until added.
+        .toolbar(id: "kaset.mainWindow") {
             if self.supportsCommandBarUI {
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem(id: "commandBar", placement: .automatic) {
                     Button {
                         self.presentCommandBarIfAvailable()
                     } label: {
-                        Image(systemName: "sparkles")
+                        Label(String(localized: "Command Bar"), systemImage: "sparkles")
                             .font(.system(size: 14))
                             .foregroundStyle(.primary)
                     }
@@ -628,23 +631,64 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
                     .help(String(localized: "Open Command Bar (⌘K)"))
                     .accessibilityIdentifier(AccessibilityID.MainWindow.aiButton)
                 }
-            } else if self.settings.appSource == .video {
+            }
+            if self.settings.appSource == .video {
                 // YouTube has no command bar; its place holds Refresh, which
                 // reloads the page on screen like a browser's.
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem(id: "refresh", placement: .automatic) {
                     Button {
                         YouTubePageRefresh.shared.request()
                     } label: {
-                        Image(systemName: "arrow.clockwise")
+                        Label(String(localized: "Refresh"), systemImage: "arrow.clockwise")
                             .font(.system(size: 14))
                             .foregroundStyle(.primary)
                     }
                     .help(String(localized: "Refresh Page (⇧⌘R)"))
-                    .accessibilityLabel(String(localized: "Refresh"))
                     .accessibilityIdentifier(AccessibilityID.MainWindow.refreshButton)
                 }
+
+                ToolbarItem(id: "homeZoom", placement: .automatic) {
+                    self.homeZoomControl
+                }
+                .defaultCustomization(.hidden)
             }
+
+            ToolbarItem(id: "customizePlayerBar", placement: .automatic) {
+                Button {
+                    PlayerBarCustomization.shared.present(for: self.settings.appSource)
+                } label: {
+                    Label(String(localized: "Customize Player Bar…"), systemImage: "slider.horizontal.3")
+                        .font(.system(size: 14))
+                        .foregroundStyle(.primary)
+                }
+                .help(String(localized: "Customize Player Bar…"))
+            }
+            .defaultCustomization(.hidden)
         }
+    }
+
+    /// Zoom Out / Zoom In for YouTube Home's cards, as in Safari's toolbar.
+    private var homeZoomControl: some View {
+        let isHomeOnScreen = YouTubeHomeZoom.isHomeOnScreen(selection: self.youtubeNavigationSelection)
+        let zoom = self.settings.youtubeHomeZoom
+        return ControlGroup {
+            Button {
+                YouTubeHomeZoom.zoomOut()
+            } label: {
+                Label(String(localized: "Zoom Out"), systemImage: "minus.magnifyingglass")
+            }
+            .disabled(!isHomeOnScreen || YouTubeHomeZoom.zoomedOut(from: zoom) == nil)
+
+            Button {
+                YouTubeHomeZoom.zoomIn()
+            } label: {
+                Label(String(localized: "Zoom In"), systemImage: "plus.magnifyingglass")
+            }
+            .disabled(!isHomeOnScreen || YouTubeHomeZoom.zoomedIn(from: zoom) == nil)
+        } label: {
+            Label(String(localized: "Zoom"), systemImage: "plus.magnifyingglass")
+        }
+        .help(String(localized: "Zoom Home's videos (⌘+ / ⌘−)"))
     }
 
     private var isShowingFullScreenPlayer: Bool {

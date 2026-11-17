@@ -752,3 +752,10 @@
 "Added to %@" = "Dodano do „%@”";
 "Couldn't add the video to Watch Later." = "Nie udało się dodać filmu do Obejrzyj później.";
 "Couldn't add the video to the playlist." = "Nie udało się dodać filmu do playlisty.";
+
+// Home zoom and toolbar
+"Zoom In" = "Powiększ";
+"Zoom Out" = "Pomniejsz";
+"Actual Size" = "Rzeczywisty rozmiar";
+"Zoom" = "Powiększenie";
+"Zoom Home's videos (⌘+ / ⌘−)" = "Powiększ lub pomniejsz filmy na stronie głównej (⌘+ / ⌘−)";

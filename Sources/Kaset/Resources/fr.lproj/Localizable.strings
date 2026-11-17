@@ -752,3 +752,10 @@
 "Added to %@" = "Ajouté à « %@ »";
 "Couldn't add the video to Watch Later." = "Impossible d’ajouter la vidéo à Regarder plus tard.";
 "Couldn't add the video to the playlist." = "Impossible d’ajouter la vidéo à la playlist.";
+
+// Home zoom and toolbar
+"Zoom In" = "Zoom avant";
+"Zoom Out" = "Zoom arrière";
+"Actual Size" = "Taille réelle";
+"Zoom" = "Zoom";
+"Zoom Home's videos (⌘+ / ⌘−)" = "Zoomer les vidéos de l’accueil (⌘+ / ⌘−)";

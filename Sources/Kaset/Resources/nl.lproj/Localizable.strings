@@ -752,3 +752,10 @@
 "Added to %@" = "Toegevoegd aan %@";
 "Couldn't add the video to Watch Later." = "Kan de video niet toevoegen aan Later bekijken.";
 "Couldn't add the video to the playlist." = "Kan de video niet toevoegen aan de afspeellijst.";
+
+// Home zoom and toolbar
+"Zoom In" = "Zoom in";
+"Zoom Out" = "Zoom uit";
+"Actual Size" = "Ware grootte";
+"Zoom" = "Zoom";
+"Zoom Home's videos (⌘+ / ⌘−)" = "Zoom de video’s op Home (⌘+ / ⌘−)";

@@ -39,6 +39,7 @@ final class SettingsManager {
         static let swipeToGoBackEnabled = "settings.swipeToGoBackEnabled"
         static let musicPlayerBar = "settings.playerBar.music"
         static let youtubePlayerBar = "settings.playerBar.youtube"
+        static let youtubeHomeZoom = "settings.youtubeHomeZoom"
         #if DEBUG
             static let useLegacyMacOS15UI = "settings.debug.useLegacyMacOS15UI"
         #endif
@@ -486,6 +487,14 @@ final class SettingsManager {
         }
     }
 
+    /// How large YouTube Home draws its video cards; 1 is the standard size.
+    /// One of `YouTubeHomeZoom.levels`.
+    var youtubeHomeZoom: Double {
+        didSet {
+            UserDefaults.standard.set(self.youtubeHomeZoom, forKey: Keys.youtubeHomeZoom)
+        }
+    }
+
     /// Whether the YouTube player controls overlay the docked watch-page video,
     /// auto-hiding like a regular video player, instead of sitting in the bar at
     /// the bottom of the window. Applies to regular YouTube videos only, not the
@@ -618,6 +627,9 @@ final class SettingsManager {
             forKey: Keys.musicPlayerBar,
             from: UserDefaults.standard,
             standard: .standard
+        )
+        self.youtubeHomeZoom = YouTubeHomeZoom.level(
+            nearest: UserDefaults.standard.object(forKey: Keys.youtubeHomeZoom) as? Double ?? YouTubeHomeZoom.standard
         )
         self.youtubePlayerBar = Self.loadPlayerBar(
             forKey: Keys.youtubePlayerBar,

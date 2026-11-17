@@ -747,3 +747,10 @@
 "Added to %@" = "%@ に追加しました";
 "Couldn't add the video to Watch Later." = "動画を後で見るに追加できませんでした。";
 "Couldn't add the video to the playlist." = "動画をプレイリストに追加できませんでした。";
+
+// Home zoom and toolbar
+"Zoom In" = "拡大";
+"Zoom Out" = "縮小";
+"Actual Size" = "実際のサイズ";
+"Zoom" = "拡大/縮小";
+"Zoom Home's videos (⌘+ / ⌘−)" = "ホームの動画を拡大/縮小 (⌘+ / ⌘−)";

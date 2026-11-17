@@ -752,3 +752,10 @@
 "Added to %@" = "Добавлено в «%@»";
 "Couldn't add the video to Watch Later." = "Не удалось добавить видео в «Посмотреть позже».";
 "Couldn't add the video to the playlist." = "Не удалось добавить видео в плейлист.";
+
+// Home zoom and toolbar
+"Zoom In" = "Увеличить";
+"Zoom Out" = "Уменьшить";
+"Actual Size" = "Фактический размер";
+"Zoom" = "Масштаб";
+"Zoom Home's videos (⌘+ / ⌘−)" = "Масштаб видео на главной (⌘+ / ⌘−)";

@@ -752,3 +752,10 @@
 "Added to %@" = "%@ listesine eklendi";
 "Couldn't add the video to Watch Later." = "Video Daha Sonra İzle'ye eklenemedi.";
 "Couldn't add the video to the playlist." = "Video çalma listesine eklenemedi.";
+
+// Home zoom and toolbar
+"Zoom In" = "Yakınlaştır";
+"Zoom Out" = "Uzaklaştır";
+"Actual Size" = "Gerçek Boyut";
+"Zoom" = "Yakınlaştırma";
+"Zoom Home's videos (⌘+ / ⌘−)" = "Ana sayfadaki videoları yakınlaştır veya uzaklaştır (⌘+ / ⌘−)";

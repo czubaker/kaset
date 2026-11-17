@@ -6,10 +6,12 @@ import SwiftUI
 /// title, and channel/meta lines.
 struct VideoCard: View {
     let video: YouTubeVideo
+    /// The thumbnail's decode size; larger for zoomed-in Home cards.
+    var thumbnailSize = CGSize(width: 320, height: 180)
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            VideoThumbnailView(video: self.video)
+            VideoThumbnailView(video: self.video, targetSize: self.thumbnailSize)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(self.video.title)

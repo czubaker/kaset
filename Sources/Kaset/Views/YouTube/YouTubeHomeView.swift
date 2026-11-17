@@ -6,9 +6,28 @@ import SwiftUI
 struct YouTubeHomeView: View {
     let viewModel: YouTubeHomeViewModel
 
-    private static let columns = [
-        GridItem(.adaptive(minimum: 210, maximum: 320), spacing: 16),
-    ]
+    @State private var settings = SettingsManager.shared
+
+    /// View → Zoom In / Zoom Out scale the cards, not the rest of the app.
+    private var zoom: CGFloat {
+        CGFloat(self.settings.youtubeHomeZoom)
+    }
+
+    private var columns: [GridItem] {
+        [GridItem(.adaptive(minimum: 210 * self.zoom, maximum: 320 * self.zoom), spacing: 16)]
+    }
+
+    /// Rail cards match the music video card width at the standard zoom.
+    private var railCardWidth: CGFloat {
+        284 * self.zoom
+    }
+
+    /// Decode thumbnails larger only when the cards grow, so zooming out
+    /// never decodes them again.
+    private var thumbnailSize: CGSize {
+        let scale = max(1, self.zoom)
+        return CGSize(width: 320 * scale, height: 180 * scale)
+    }
 
     var body: some View {
         Group {
@@ -48,6 +67,17 @@ struct YouTubeHomeView: View {
         }
         .overlay(alignment: .top) {
             YouTubeFeedbackToastOverlay(viewModel: self.viewModel)
+        }
+        .background {
+            // View → Zoom In is ⌘+, which a menu only matches with Shift held;
+            // ⌘= is the same key without it, as in Safari.
+            Button(String(localized: "Zoom In")) {
+                YouTubeHomeZoom.zoomIn()
+            }
+            .keyboardShortcut("=", modifiers: .command)
+            .frame(width: 0, height: 0)
+            .opacity(0)
+            .accessibilityHidden(true)
         }
         .navigationTitle(Text("Home", comment: "YouTube home feed title"))
         .accessibilityIdentifier(AccessibilityID.YouTubeContent.homeGrid)
@@ -130,8 +160,8 @@ struct YouTubeHomeView: View {
             NavigationLink(value: YouTubeRoute.watch(video)) {
                 // VideoCard has no intrinsic width; pin it for the horizontal
                 // LazyHStack (matches the music video card width).
-                VideoCard(video: video)
-                    .frame(width: 284)
+                VideoCard(video: video, thumbnailSize: self.thumbnailSize)
+                    .frame(width: self.railCardWidth)
             }
             .buttonStyle(.interactiveCard)
             .youtubeVideoContextMenu(for: video) { action in
@@ -153,10 +183,10 @@ struct YouTubeHomeView: View {
                     .padding(.horizontal, DetailContentLayout.horizontalInset)
             }
 
-            LazyVGrid(columns: Self.columns, spacing: 20) {
+            LazyVGrid(columns: self.columns, spacing: 20) {
                 ForEach(self.viewModel.videos) { video in
                     NavigationLink(value: YouTubeRoute.watch(video)) {
-                        VideoCard(video: video)
+                        VideoCard(video: video, thumbnailSize: self.thumbnailSize)
                     }
                     .buttonStyle(.interactiveCard)
                     .youtubeVideoContextMenu(for: video) { action in
@@ -206,7 +236,7 @@ struct YouTubeHomeView: View {
 
     private var loadingGrid: some View {
         ScrollView {
-            LazyVGrid(columns: Self.columns, spacing: 20) {
+            LazyVGrid(columns: self.columns, spacing: 20) {
                 ForEach(0 ..< 12, id: \.self) { _ in
                     VStack(alignment: .leading, spacing: 8) {
                         SkeletonView.rectangle(cornerRadius: 8)

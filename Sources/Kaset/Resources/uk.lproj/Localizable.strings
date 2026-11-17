@@ -752,3 +752,10 @@
 "Added to %@" = "Додано до «%@»";
 "Couldn't add the video to Watch Later." = "Не вдалося додати відео до «Переглянути пізніше».";
 "Couldn't add the video to the playlist." = "Не вдалося додати відео до плейлиста.";
+
+// Home zoom and toolbar
+"Zoom In" = "Збільшити";
+"Zoom Out" = "Зменшити";
+"Actual Size" = "Фактичний розмір";
+"Zoom" = "Масштаб";
+"Zoom Home's videos (⌘+ / ⌘−)" = "Масштаб відео на головній (⌘+ / ⌘−)";

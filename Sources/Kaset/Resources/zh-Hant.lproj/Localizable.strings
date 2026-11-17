@@ -750,3 +750,10 @@
 "Added to %@" = "已加入「%@」";
 "Couldn't add the video to Watch Later." = "無法將影片加入稍後觀看。";
 "Couldn't add the video to the playlist." = "無法將影片加入播放清單。";
+
+// Home zoom and toolbar
+"Zoom In" = "放大";
+"Zoom Out" = "縮小";
+"Actual Size" = "實際大小";
+"Zoom" = "縮放";
+"Zoom Home's videos (⌘+ / ⌘−)" = "縮放首頁影片 (⌘+ / ⌘−)";
