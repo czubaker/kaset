@@ -67,11 +67,15 @@ final class YouTubeWatchViewModel {
 
     /// Whether the user is subscribed to the channel (seeded from watch-next).
     /// Whether the account follows this video's channel, shared with the
-    /// player bar's Subscribe button.
+    /// player bar's Subscribe button; what the page loaded when it names no
+    /// channel to share it by.
     var isSubscribed: Bool {
-        guard let channelId = self.data.channel?.channelId else { return false }
-        return YouTubeChannelSubscriptions.shared.isSubscribed(to: channelId) ?? false
+        guard let channelId = self.data.channel?.channelId else { return self.loadedIsSubscribed }
+        return YouTubeChannelSubscriptions.shared.isSubscribed(to: channelId) ?? self.loadedIsSubscribed
     }
+
+    /// The subscription state the latest watch page reported.
+    private var loadedIsSubscribed = false
 
     // MARK: - Comments State
 
@@ -158,8 +162,9 @@ final class YouTubeWatchViewModel {
             let page = try await self.loadWatchPageWithIdentityRetry(generation: generation)
             guard generation == self.loadGeneration else { return }
             self.data = page.data
+            self.loadedIsSubscribed = page.data.isSubscribed ?? false
             if let channelId = page.data.channel?.channelId {
-                YouTubeChannelSubscriptions.shared.seed(page.data.isSubscribed ?? false, channelId: channelId)
+                YouTubeChannelSubscriptions.shared.seed(self.loadedIsSubscribed, channelId: channelId)
             }
             self.commentsContinuation = page.data.commentsContinuation
             self.didCompleteInitialCommentsLoad = false
@@ -232,6 +237,7 @@ final class YouTubeWatchViewModel {
         self.didCompleteInitialCommentsLoad = false
         self.data = .empty
         self.ask.cancelAndDiscard()
+        self.loadedIsSubscribed = false
         self.comments = []
         self.isLoadingComments = false
         self.commentsContinuation = nil
