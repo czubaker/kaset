@@ -80,6 +80,10 @@ and suggestion submissions are never retried automatically. See
 | History | `browse` `FEhistory` |
 | Watch Later / Liked | `browse` `VLWL` / `VLLL` (playlist page) |
 | User playlists | `browse` `FEplaylist_aggregation` |
+| Channel page (header, Home, tabs) | `browse` `UC{channelId}`; tabs are `twoColumnBrowseResultsRenderer.tabs[].tabRenderer`, told apart by the `/videos`, `/shorts`, `/streams`, `/playlists` (also `/podcasts`, `/releases`, `/courses`) suffix of `endpoint.commandMetadata.webCommandMetadata.url` |
+| Channel tab | `browse` `UC{channelId}` + the tab's `endpoint.browseEndpoint.params`; a `richGridRenderer` (or section list for playlists) ending in a `continuationItemRenderer` |
+| Channel tab sort (Latest / Popular / Oldest) | `browse` continuation with a chip's `chipViewModel.tapCommand.innertubeCommand.continuationCommand.token` from the grid header's `chipBarViewModel`; answered with `reloadContinuationItemsCommand` (chips, then items) |
+| Channel tab next page | `browse` continuation from the last `continuationItemRenderer`; answered with `appendContinuationItemsAction` |
 | Search | `search` (+`params` filters: videos `EgIQAQ==`, channels `EgIQAg==`, playlists `EgIQAw==`) |
 | Watch metadata + related | `next` |
 | Watch chapters | `next` (`playerOverlays…multiMarkersPlayerBarRenderer.markersMap[].value.chapters[]`) |

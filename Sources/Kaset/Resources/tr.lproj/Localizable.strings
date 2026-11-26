@@ -796,3 +796,7 @@
 "Removed from %@" = "%@ listesinden kaldırıldı";
 "Couldn't remove the video from the playlist." = "Video çalma listesinden kaldırılamadı.";
 "Remove from Watch Later" = "Daha Sonra İzle'den kaldır";
+
+// Channel tabs
+"Channel Section" = "Kanal Bölümü";
+"Sort Order" = "Sıralama";

@@ -214,7 +214,10 @@ enum YouTubeItemParser {
 
     /// Parses a playlist `lockupViewModel` (playlist search results, shelves).
     static func playlist(fromLockup lockup: [String: Any]) -> YouTubePlaylist? {
-        guard (lockup["contentType"] as? String) == "LOCKUP_CONTENT_TYPE_PLAYLIST" else {
+        // A show (a channel's Podcasts or Shows) is a playlist too: its ID is
+        // a PL… playlist ID.
+        let contentType = lockup["contentType"] as? String
+        guard contentType == "LOCKUP_CONTENT_TYPE_PLAYLIST" || contentType == "LOCKUP_CONTENT_TYPE_SHOW" else {
             return nil
         }
 

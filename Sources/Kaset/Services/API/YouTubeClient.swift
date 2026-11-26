@@ -425,6 +425,21 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         return detail
     }
 
+    func getChannelTab(channelId: String, params: String) async throws -> YouTubeChannelTabPage {
+        self.logger.info("Fetching a YouTube channel tab")
+        let data = try await self.request(
+            "browse",
+            body: ["browseId": channelId, "params": params],
+            ttl: APICache.TTL.artist
+        )
+        return ChannelTabParser.parsePage(data)
+    }
+
+    func getChannelTabContinuation(_ continuation: String) async throws -> YouTubeChannelTabPage {
+        let data = try await self.request("browse", body: ["continuation": continuation])
+        return ChannelTabParser.parseContinuation(data)
+    }
+
     func getPlaylist(playlistId: String) async throws -> YouTubePlaylistDetail {
         self.logger.info("Fetching YouTube playlist page")
 

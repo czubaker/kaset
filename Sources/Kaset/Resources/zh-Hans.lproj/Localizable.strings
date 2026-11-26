@@ -794,3 +794,7 @@
 "Removed from %@" = "已从“%@”中移除";
 "Couldn't remove the video from the playlist." = "无法从播放列表中移除视频。";
 "Remove from Watch Later" = "从稍后观看中移除";
+
+// Channel tabs
+"Channel Section" = "频道版块";
+"Sort Order" = "排序方式";

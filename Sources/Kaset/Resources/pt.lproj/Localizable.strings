@@ -796,3 +796,7 @@
 "Removed from %@" = "Removido de %@";
 "Couldn't remove the video from the playlist." = "Não foi possível remover o vídeo da lista de reprodução.";
 "Remove from Watch Later" = "Remover de Ver mais tarde";
+
+// Channel tabs
+"Channel Section" = "Secção do canal";
+"Sort Order" = "Ordenação";

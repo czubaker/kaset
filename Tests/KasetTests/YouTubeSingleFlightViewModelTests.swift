@@ -471,6 +471,16 @@ private final class SingleFlightYouTubeClient: YouTubeClientProtocol {
         try await self.waitIfNeeded()
     }
 
+    func getChannelTab(channelId _: String, params _: String) async throws -> YouTubeChannelTabPage {
+        try await self.waitIfNeeded()
+        return YouTubeChannelTabPage()
+    }
+
+    func getChannelTabContinuation(_: String) async throws -> YouTubeChannelTabPage {
+        try await self.waitIfNeeded()
+        return YouTubeChannelTabPage()
+    }
+
     func sendFeedback(token _: String) async throws {
         try await self.waitIfNeeded()
     }

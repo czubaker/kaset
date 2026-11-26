@@ -263,6 +263,14 @@ final class MockUITestYouTubeClient: YouTubeClientProtocol {
 
     func removeFromPlaylist(videoId _: String, playlistId _: String) async throws {}
 
+    func getChannelTab(channelId _: String, params _: String) async throws -> YouTubeChannelTabPage {
+        YouTubeChannelTabPage()
+    }
+
+    func getChannelTabContinuation(_: String) async throws -> YouTubeChannelTabPage {
+        YouTubeChannelTabPage()
+    }
+
     func sendFeedback(token _: String) async throws {}
 
     func getSearchHistory() async throws -> [String] {

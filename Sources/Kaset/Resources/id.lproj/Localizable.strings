@@ -796,3 +796,7 @@
 "Removed from %@" = "Dihapus dari %@";
 "Couldn't remove the video from the playlist." = "Tidak dapat menghapus video dari playlist.";
 "Remove from Watch Later" = "Hapus dari Tonton Nanti";
+
+// Channel tabs
+"Channel Section" = "Bagian Saluran";
+"Sort Order" = "Urutan";

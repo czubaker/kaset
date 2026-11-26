@@ -796,3 +796,7 @@
 "Removed from %@" = "Retiré de « %@ »";
 "Couldn't remove the video from the playlist." = "Impossible de retirer la vidéo de la playlist.";
 "Remove from Watch Later" = "Retirer de Regarder plus tard";
+
+// Channel tabs
+"Channel Section" = "Section de la chaîne";
+"Sort Order" = "Ordre de tri";

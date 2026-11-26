@@ -446,6 +446,11 @@ final class MockYouTubeClient: YouTubeClientProtocol {
     private(set) var playlistAdds: [(videoId: String, playlistId: String)] = []
     /// Video and playlist of each `removeFromPlaylist` call.
     private(set) var playlistRemovals: [(videoId: String, playlistId: String)] = []
+    /// Returned by `getChannelTab`, by params.
+    var channelTabPages: [String: YouTubeChannelTabPage] = [:]
+    /// Returned by `getChannelTabContinuation`, by token.
+    var channelTabContinuations: [String: YouTubeChannelTabPage] = [:]
+    private(set) var channelTabRequests: [String] = []
     private(set) var lastDestination: YouTubeDestination?
     private(set) var lastFeedContinuation: String?
     private(set) var destinationFeedCallCount = 0
@@ -584,6 +589,22 @@ final class MockYouTubeClient: YouTubeClientProtocol {
             throw error
         }
         self.playlistAdds.append((videoId, playlistId))
+    }
+
+    func getChannelTab(channelId _: String, params: String) async throws -> YouTubeChannelTabPage {
+        if let error {
+            throw error
+        }
+        self.channelTabRequests.append(params)
+        return self.channelTabPages[params] ?? YouTubeChannelTabPage()
+    }
+
+    func getChannelTabContinuation(_ continuation: String) async throws -> YouTubeChannelTabPage {
+        if let error {
+            throw error
+        }
+        self.channelTabRequests.append(continuation)
+        return self.channelTabContinuations[continuation] ?? YouTubeChannelTabPage()
     }
 
     func removeFromPlaylist(videoId: String, playlistId: String) async throws {

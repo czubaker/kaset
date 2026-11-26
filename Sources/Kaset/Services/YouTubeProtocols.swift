@@ -100,6 +100,13 @@ protocol YouTubeClientProtocol: Sendable {
     /// Fetches a channel page by `UC…` channel ID.
     func getChannel(channelId: String) async throws -> YouTubeChannelDetail
 
+    /// Fetches the first page of one of a channel's tabs (Videos, Shorts,
+    /// Live, Playlists), by the tab's params.
+    func getChannelTab(channelId: String, params: String) async throws -> YouTubeChannelTabPage
+
+    /// Fetches a channel tab's next page, or the tab reloaded in another sort.
+    func getChannelTabContinuation(_ continuation: String) async throws -> YouTubeChannelTabPage
+
     /// Fetches a playlist page by playlist ID (without the `VL` prefix).
     func getPlaylist(playlistId: String) async throws -> YouTubePlaylistDetail
 

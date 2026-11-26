@@ -796,3 +796,7 @@
 "Removed from %@" = "Вилучено з «%@»";
 "Couldn't remove the video from the playlist." = "Не вдалося вилучити відео з плейлиста.";
 "Remove from Watch Later" = "Вилучити з «Переглянути пізніше»";
+
+// Channel tabs
+"Channel Section" = "Розділ каналу";
+"Sort Order" = "Порядок сортування";

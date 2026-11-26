@@ -796,3 +796,7 @@
 "Removed from %@" = "Verwijderd uit %@";
 "Couldn't remove the video from the playlist." = "Kan de video niet uit de afspeellijst verwijderen.";
 "Remove from Watch Later" = "Verwijderen uit Later bekijken";
+
+// Channel tabs
+"Channel Section" = "Kanaalsectie";
+"Sort Order" = "Sorteervolgorde";
