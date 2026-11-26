@@ -886,3 +886,8 @@
 // Live chat
 "Live Chat" = "Чат трансляции";
 "Chat…" = "Сообщение…";
+
+// Live chat states
+"Couldn't send the message." = "Не удалось отправить сообщение.";
+"Couldn't load the chat." = "Не удалось загрузить чат.";
+"The chat has ended." = "Чат завершён.";

@@ -884,3 +884,8 @@
 // Live chat
 "Live Chat" = "即時聊天室";
 "Chat…" = "聊天…";
+
+// Live chat states
+"Couldn't send the message." = "無法傳送訊息。";
+"Couldn't load the chat." = "無法載入聊天室。";
+"The chat has ended." = "聊天室已結束。";

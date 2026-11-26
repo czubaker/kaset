@@ -93,10 +93,12 @@ enum WatchNextParser {
 
     /// The live chat's first token: `conversationBar.liveChatRenderer`'s
     /// `reloadContinuationData`, present for a live stream or premiere with
-    /// chat (verified with api-explorer, November 2026).
+    /// chat (verified with api-explorer, November 2026). A past stream's chat
+    /// replay (`isReplay`) uses another endpoint and isn't shown.
     static func liveChatContinuation(of data: [String: Any]) -> String? {
         let results = (data["contents"] as? [String: Any])?["twoColumnWatchNextResults"] as? [String: Any]
         let renderer = (results?["conversationBar"] as? [String: Any])?["liveChatRenderer"] as? [String: Any]
+        guard renderer?["isReplay"] as? Bool != true else { return nil }
         let continuations = renderer?["continuations"] as? [[String: Any]] ?? []
         return continuations.lazy.compactMap { continuation in
             (continuation["reloadContinuationData"] as? [String: Any])?["continuation"] as? String

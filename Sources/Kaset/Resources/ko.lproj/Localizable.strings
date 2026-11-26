@@ -886,3 +886,8 @@
 // Live chat
 "Live Chat" = "실시간 채팅";
 "Chat…" = "채팅…";
+
+// Live chat states
+"Couldn't send the message." = "메시지를 보낼 수 없습니다.";
+"Couldn't load the chat." = "채팅을 불러올 수 없습니다.";
+"The chat has ended." = "채팅이 종료되었습니다.";

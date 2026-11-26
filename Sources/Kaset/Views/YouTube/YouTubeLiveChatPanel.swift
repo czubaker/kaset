@@ -12,6 +12,8 @@ struct YouTubeLiveChatPanel: View {
 
     @State private var model: YouTubeLiveChatViewModel?
     @State private var draft = ""
+    /// Bumped by Try Again to restart polling.
+    @State private var attempt = 0
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -42,8 +44,7 @@ struct YouTubeLiveChatPanel: View {
             }
             .overlay {
                 if self.model?.messages.isEmpty ?? true {
-                    ProgressView()
-                        .controlSize(.small)
+                    self.emptyState
                 }
             }
 
@@ -51,6 +52,13 @@ struct YouTubeLiveChatPanel: View {
                 if model.canSend {
                     Divider()
                     self.composer(model)
+                    if model.sendFailed {
+                        Text("Couldn't send the message.", comment: "Shown under the live chat field when posting fails")
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                            .padding(.horizontal, 12)
+                            .padding(.bottom, 8)
+                    }
                 } else if let restriction = model.restrictionMessage {
                     Divider()
                     Label(restriction, systemImage: "info.circle")
@@ -64,10 +72,31 @@ struct YouTubeLiveChatPanel: View {
         .frame(height: 460)
         .background(.quaternary.opacity(0.4), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         .clipShape(.rect(cornerRadius: 12, style: .continuous))
-        .task(id: self.continuation) {
+        .task(id: "\(self.continuation)|\(self.attempt)") {
             let model = YouTubeLiveChatViewModel(client: self.client)
             self.model = model
             await model.run(continuation: self.continuation)
+        }
+    }
+
+    @ViewBuilder
+    private var emptyState: some View {
+        if let model = self.model, model.didFail {
+            VStack(spacing: 8) {
+                Text("Couldn't load the chat.", comment: "Live chat panel when polling failed")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                Button(String(localized: "Try Again")) {
+                    self.attempt += 1
+                }
+            }
+        } else if let model = self.model, model.isFinished {
+            Text("The chat has ended.", comment: "Live chat panel after the chat stops")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+        } else {
+            ProgressView()
+                .controlSize(.small)
         }
     }
 
@@ -117,25 +146,34 @@ private struct YouTubeLiveChatRow: View {
             .frame(width: 20, height: 20)
             .clipShape(.circle)
 
-            (Text(self.message.author).font(.system(size: 12, weight: .semibold)).foregroundStyle(self.authorStyle)
-                + Text("  ") + Text(self.message.message).font(.system(size: 12)))
+            Text(self.attributedLine)
                 .textSelection(.enabled)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
         .accessibilityElement(children: .combine)
     }
 
+    /// The author in bold, then the message.
+    private var attributedLine: AttributedString {
+        var author = AttributedString(self.message.author)
+        author.font = .system(size: 12, weight: .semibold)
+        author.foregroundColor = self.authorColor
+        var text = AttributedString("  " + self.message.message)
+        text.font = .system(size: 12)
+        return author + text
+    }
+
     /// The owner, moderators, and members stand out, as on YouTube.
-    private var authorStyle: AnyShapeStyle {
+    private var authorColor: Color {
         if self.message.isOwner {
-            return AnyShapeStyle(.orange)
+            return .orange
         }
         if self.message.isModerator {
-            return AnyShapeStyle(.blue)
+            return .blue
         }
         if self.message.isMember {
-            return AnyShapeStyle(.green)
+            return .green
         }
-        return AnyShapeStyle(.secondary)
+        return .secondary
     }
 }

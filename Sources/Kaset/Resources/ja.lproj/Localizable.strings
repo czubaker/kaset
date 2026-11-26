@@ -881,3 +881,8 @@
 // Live chat
 "Live Chat" = "ライブチャット";
 "Chat…" = "チャット…";
+
+// Live chat states
+"Couldn't send the message." = "メッセージを送信できませんでした。";
+"Couldn't load the chat." = "チャットを読み込めませんでした。";
+"The chat has ended." = "チャットは終了しました。";

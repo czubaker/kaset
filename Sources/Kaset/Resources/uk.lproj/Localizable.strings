@@ -886,3 +886,8 @@
 // Live chat
 "Live Chat" = "Чат трансляції";
 "Chat…" = "Повідомлення…";
+
+// Live chat states
+"Couldn't send the message." = "Не вдалося надіслати повідомлення.";
+"Couldn't load the chat." = "Не вдалося завантажити чат.";
+"The chat has ended." = "Чат завершено.";

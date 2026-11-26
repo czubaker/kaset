@@ -886,3 +886,8 @@
 // Live chat
 "Live Chat" = "Livechatt";
 "Chat…" = "Chatta …";
+
+// Live chat states
+"Couldn't send the message." = "Det gick inte att skicka meddelandet.";
+"Couldn't load the chat." = "Det gick inte att läsa in chatten.";
+"The chat has ended." = "Chatten har avslutats.";

@@ -886,3 +886,8 @@
 // Live chat
 "Live Chat" = "Czat na żywo";
 "Chat…" = "Czatuj…";
+
+// Live chat states
+"Couldn't send the message." = "Nie można wysłać wiadomości.";
+"Couldn't load the chat." = "Nie można wczytać czatu.";
+"The chat has ended." = "Czat się zakończył.";

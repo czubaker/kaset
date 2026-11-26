@@ -70,6 +70,11 @@ struct YouTubeLiveChatTests {
         ]]]]]
         #expect(WatchNextParser.liveChatContinuation(of: data) == "mock-chat")
         #expect(WatchNextParser.liveChatContinuation(of: [:]) == nil)
+        let replay: [String: Any] = ["contents": ["twoColumnWatchNextResults": ["conversationBar": ["liveChatRenderer": [
+            "isReplay": true,
+            "continuations": [["reloadContinuationData": ["continuation": "mock-replay"]]],
+        ]]]]]
+        #expect(WatchNextParser.liveChatContinuation(of: replay) == nil)
     }
 
     @Test("Polling follows the tokens, keeps each message once, and posts with the page's params")
@@ -91,6 +96,8 @@ struct YouTubeLiveChatTests {
 
         await model.run(continuation: "mock-1")
         #expect(client.liveChatRequests == ["mock-1", "mock-2"])
+        #expect(model.isFinished)
+        #expect(!model.didFail)
         #expect(model.messages.map(\.id) == ["a", "b", "c"])
         #expect(model.canSend)
 

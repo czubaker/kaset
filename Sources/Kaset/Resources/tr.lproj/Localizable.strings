@@ -886,3 +886,8 @@
 // Live chat
 "Live Chat" = "Canlı sohbet";
 "Chat…" = "Sohbet et…";
+
+// Live chat states
+"Couldn't send the message." = "Mesaj gönderilemedi.";
+"Couldn't load the chat." = "Sohbet yüklenemedi.";
+"The chat has ended." = "Sohbet sona erdi.";

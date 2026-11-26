@@ -17,6 +17,10 @@ final class YouTubeLiveChatViewModel {
         self.sendParams != nil
     }
 
+    /// The chat ended, or stopped answering; no more polls.
+    private(set) var isFinished = false
+    /// Polling stopped after repeated failures.
+    private(set) var didFail = false
     /// Why the account can't post, when YouTube says.
     private(set) var restrictionMessage: String?
     private(set) var isSending = false
@@ -39,6 +43,13 @@ final class YouTubeLiveChatViewModel {
     /// Polls until the chat ends or the caller's task is cancelled (the page
     /// goes away).
     func run(continuation: String) async {
+        self.isFinished = false
+        self.didFail = false
+        defer {
+            if !Task.isCancelled {
+                self.isFinished = true
+            }
+        }
         var token: String? = continuation
         var failures = 0
         while let current = token, !Task.isCancelled {
@@ -59,7 +70,10 @@ final class YouTubeLiveChatViewModel {
                 guard !(error is CancellationError) else { return }
                 failures += 1
                 self.logger.error("Failed to load live chat: \(error.localizedDescription)")
-                guard failures < 5 else { return }
+                guard failures < 5 else {
+                    self.didFail = true
+                    return
+                }
                 try? await Task.sleep(for: .seconds(5 * failures))
             }
         }

@@ -884,3 +884,8 @@
 // Live chat
 "Live Chat" = "实时聊天";
 "Chat…" = "聊天…";
+
+// Live chat states
+"Couldn't send the message." = "无法发送消息。";
+"Couldn't load the chat." = "无法载入聊天。";
+"The chat has ended." = "聊天已结束。";

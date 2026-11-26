@@ -886,3 +886,8 @@
 // Live chat
 "Live Chat" = "Chat langsung";
 "Chat…" = "Chat…";
+
+// Live chat states
+"Couldn't send the message." = "Pesan tidak dapat dikirim.";
+"Couldn't load the chat." = "Chat tidak dapat dimuat.";
+"The chat has ended." = "Chat telah berakhir.";

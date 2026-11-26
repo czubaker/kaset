@@ -886,3 +886,8 @@
 // Live chat
 "Live Chat" = "Livechat";
 "Chat…" = "Chatten …";
+
+// Live chat states
+"Couldn't send the message." = "Die Nachricht konnte nicht gesendet werden.";
+"Couldn't load the chat." = "Der Chat konnte nicht geladen werden.";
+"The chat has ended." = "Der Chat ist beendet.";
