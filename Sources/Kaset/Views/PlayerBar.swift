@@ -210,6 +210,9 @@ struct PlayerBar: View { // swiftlint:disable:this type_body_length
             self.miniPlayerButton
         case .sleepTimer:
             SleepTimerBarButton()
+        case .commandBar, .customize:
+            // Toolbar only.
+            EmptyView()
         case .space, .flexibleSpace:
             PlayerBarSpace(isFlexible: item == .flexibleSpace)
         }

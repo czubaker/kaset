@@ -944,3 +944,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "Клацніть відео правою кнопкою й виберіть «Відтворити наступним» або «Додати до черги».";
 "%lld queued" = "У черзі: %lld";
 "Queue: %lld queued" = "Черга: %lld";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "Налаштувати панель інструментів і панель плеєра…";
+"Customize Toolbar and Player Bar" = "Налаштування панелі інструментів і панелі плеєра";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "Перетягуйте елементи на панель інструментів або панель плеєра, а щоб прибрати — перетягніть їх назовні.";
+"Toolbar and Player Bar" = "Панель інструментів і плеєра";
+"Toolbar" = "Панель інструментів";
+"Remove from Toolbar" = "Прибрати з панелі інструментів";

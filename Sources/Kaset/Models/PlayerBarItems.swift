@@ -1,9 +1,13 @@
 import Foundation
 
 private let barAreas: Set<PlayerBarArea> = [.leading, .center, .trailing]
+/// Buttons that look at home in the window toolbar too.
+private let barAndToolbar: Set<PlayerBarArea> = barAreas.union([.toolbar])
 /// Media details blocks are two lines tall, so they can't sit in the row
-/// above the timeline.
+/// above the timeline, and they don't belong in the toolbar.
 private let sideAreas: Set<PlayerBarArea> = [.leading, .trailing]
+/// The toolbar's own buttons, which act on the window rather than playback.
+private let toolbarOnly: Set<PlayerBarArea> = [.toolbar]
 
 // MARK: - MusicPlayerBarItem
 
@@ -26,6 +30,10 @@ enum MusicPlayerBarItem: String, PlayerBarItemKind {
     case video
     case miniPlayer
     case sleepTimer
+    /// Toolbar only: opens the Command Bar.
+    case commandBar
+    /// Toolbar only: opens this customization sheet.
+    case customize
     case space
     case flexibleSpace
 
@@ -48,6 +56,8 @@ enum MusicPlayerBarItem: String, PlayerBarItemKind {
         case .video: String(localized: "Video")
         case .miniPlayer: String(localized: "Mini Player")
         case .sleepTimer: String(localized: "Sleep Timer")
+        case .commandBar: String(localized: "Command Bar")
+        case .customize: String(localized: "Customize")
         case .space: String(localized: "Space")
         case .flexibleSpace: String(localized: "Flexible Space")
         }
@@ -72,6 +82,8 @@ enum MusicPlayerBarItem: String, PlayerBarItemKind {
         case .video: "pip.enter"
         case .miniPlayer: "rectangle.inset.bottomright.filled"
         case .sleepTimer: "moon.zzz"
+        case .commandBar: "sparkles"
+        case .customize: "slider.horizontal.3"
         case .space: "square.dashed"
         case .flexibleSpace: "arrow.left.and.right"
         }
@@ -80,12 +92,18 @@ enum MusicPlayerBarItem: String, PlayerBarItemKind {
     var allowedAreas: Set<PlayerBarArea> {
         switch self {
         case .artwork, .songInfo: sideAreas
-        default: barAreas
+        case .mixTracks: barAreas
+        case .commandBar, .customize: toolbarOnly
+        default: barAndToolbar
         }
     }
 
     var isRepeatable: Bool {
         self == .space || self == .flexibleSpace
+    }
+
+    static var standardToolbar: [Self] {
+        [.commandBar]
     }
 }
 
@@ -134,6 +152,16 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
     case pictureInPicture
     case queue
     case sleepTimer
+    /// Toolbar only: reloads the page on screen.
+    case refresh
+    /// Toolbar only: the notifications inbox.
+    case notifications
+    /// Toolbar only: Zoom Out / Zoom In for the card grids.
+    case zoom
+    /// Toolbar only: opens the Watch Page tab of this sheet.
+    case customizeWatchPage
+    /// Toolbar only: opens this customization sheet.
+    case customize
     case space
     case flexibleSpace
 
@@ -175,6 +203,11 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
         case .pictureInPicture: String(localized: "Picture in Picture")
         case .queue: String(localized: "Queue")
         case .sleepTimer: String(localized: "Sleep Timer")
+        case .refresh: String(localized: "Refresh")
+        case .notifications: String(localized: "Notifications")
+        case .zoom: String(localized: "Zoom")
+        case .customizeWatchPage: String(localized: "Customize Watch Page")
+        case .customize: String(localized: "Customize")
         case .space: String(localized: "Space")
         case .flexibleSpace: String(localized: "Flexible Space")
         }
@@ -211,6 +244,11 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
         case .pictureInPicture: "pip.enter"
         case .queue: "list.bullet"
         case .sleepTimer: "moon.zzz"
+        case .refresh: "arrow.clockwise"
+        case .notifications: "bell"
+        case .zoom: "plus.magnifyingglass"
+        case .customizeWatchPage: "rectangle.and.text.magnifyingglass"
+        case .customize: "slider.horizontal.3"
         case .space: "square.dashed"
         case .flexibleSpace: "arrow.left.and.right"
         }
@@ -221,14 +259,23 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
         case .thumbnail, .channelAvatar, .videoInfo, .channelInfo, .subscribe:
             sideAreas
         case .captions, .quality, .playbackSpeed, .audioTrack:
-            barAreas.union([.settingsMenu])
-        default:
+            barAndToolbar.union([.settingsMenu])
+        case .floatOnTop:
+            // Only the detached video window's bar shows it.
             barAreas
+        case .refresh, .notifications, .zoom, .customizeWatchPage, .customize:
+            toolbarOnly
+        default:
+            barAndToolbar
         }
     }
 
     var isRepeatable: Bool {
         self == .space || self == .flexibleSpace
+    }
+
+    static var standardToolbar: [Self] {
+        [.refresh, .notifications]
     }
 
     /// Whether the item is a details block whose two lines the user picks.
@@ -263,12 +310,13 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
 // MARK: - Defaults
 
 extension PlayerBarConfiguration where Item == MusicPlayerBarItem {
-    /// The bar as it shipped before it was customizable.
+    /// The bar and toolbar as they shipped before they were customizable.
     static var standard: Self {
         Self(
             leading: [.artwork, .songInfo, .like, .dislike],
             center: [.mixTracks, .airPlay, .shuffle, .previous, .playPause, .next, .repeatMode, .volume],
-            trailing: [.lyrics, .queue, .video, .miniPlayer]
+            trailing: [.lyrics, .queue, .video, .miniPlayer],
+            toolbar: Item.standardToolbar
         )
     }
 }
@@ -280,7 +328,8 @@ extension PlayerBarConfiguration where Item == YouTubePlayerBarItem {
             leading: [.thumbnail, .videoInfo, .like, .dislike],
             center: [.skipBack, .playPause, .skipForward, .volume],
             trailing: [.fullView, .watchLater, .airPlay, .captions, .settingsMenu, .floatOnTop, .pictureInPicture],
-            settingsMenu: [.audioTrack, .playbackSpeed, .quality]
+            settingsMenu: [.audioTrack, .playbackSpeed, .quality],
+            toolbar: Item.standardToolbar
         )
     }
 }

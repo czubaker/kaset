@@ -944,3 +944,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "انقر بزر الماوس الأيمن على فيديو واختر ”تشغيل التالي“ أو ”إضافة إلى قائمة الانتظار“.";
 "%lld queued" = "%lld في قائمة الانتظار";
 "Queue: %lld queued" = "قائمة الانتظار: %lld";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "تخصيص شريط الأدوات وشريط المشغل…";
+"Customize Toolbar and Player Bar" = "تخصيص شريط الأدوات وشريط المشغل";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "اسحب العناصر إلى شريط الأدوات أو شريط المشغل، أو اسحبها خارجهما لإزالتها.";
+"Toolbar and Player Bar" = "شريط الأدوات وشريط المشغل";
+"Toolbar" = "شريط الأدوات";
+"Remove from Toolbar" = "إزالة من شريط الأدوات";

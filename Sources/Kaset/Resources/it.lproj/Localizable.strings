@@ -944,3 +944,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "Fai clic destro su un video e scegli “Riproduci dopo” o “Aggiungi alla coda”.";
 "%lld queued" = "%lld in coda";
 "Queue: %lld queued" = "Coda: %lld";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "Personalizza barra strumenti e barra del player…";
+"Customize Toolbar and Player Bar" = "Personalizza barra strumenti e barra del player";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "Trascina gli elementi nella barra strumenti o nella barra del player, oppure trascinali fuori per rimuoverli.";
+"Toolbar and Player Bar" = "Barra strumenti e del player";
+"Toolbar" = "Barra strumenti";
+"Remove from Toolbar" = "Rimuovi dalla barra strumenti";

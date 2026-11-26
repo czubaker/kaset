@@ -944,3 +944,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "비디오를 오른쪽 클릭하고 ‘다음에 재생’ 또는 ‘대기열에 추가’를 선택하세요.";
 "%lld queued" = "대기열에 %lld개";
 "Queue: %lld queued" = "대기열: %lld개";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "도구 막대 및 플레이어 막대 사용자화…";
+"Customize Toolbar and Player Bar" = "도구 막대 및 플레이어 막대 사용자화";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "항목을 도구 막대나 플레이어 막대로 드래그하거나, 밖으로 드래그하여 제거하세요.";
+"Toolbar and Player Bar" = "도구 막대 및 플레이어 막대";
+"Toolbar" = "도구 막대";
+"Remove from Toolbar" = "도구 막대에서 제거";

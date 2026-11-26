@@ -163,14 +163,21 @@ The bottom Liquid Glass bar adapts to the active source. In YouTube mode
   highlights it as a small glass bead, temporarily shows the chapter name/time
   in the player metadata title area, and release-near-chapter scrubs snap to
   that chapter.
-- View → Customize Player Bar… arranges the bar Finder-style. Beyond the
-  standard items, the palette offers skip buttons for 5, 10, 15, and 60
-  seconds each way (alongside the standard 30), Previous Video and Next
-  Video (as the media keys), Share (the video's YouTube link, Copy Link
-  first), and a Small Subscribe Button, an icon the size of the bar's other
-  buttons. Item Options under the bar preview picks the two lines of each
-  details block on the bar; Restore Defaults brings back the standard bar.
-- No shuffle/repeat/lyrics/queue — those are music concepts. Chapters use a
+- View → Customize Toolbar and Player Bar… arranges the window toolbar and
+  the bar Finder-style, in one sheet: buttons drag between the toolbar and
+  the bar (details blocks stay on the bar; Refresh, Notifications, Zoom, and
+  the Customize buttons stay in the toolbar). Beyond the standard items, the
+  palette offers skip buttons for 5, 10, 15, and 60 seconds each way
+  (alongside the standard 30), Previous Video and Next Video (as the media
+  keys), Share (the video's YouTube link, Copy Link first), a Small Subscribe
+  Button (an icon the size of the bar's other buttons), Queue, and Sleep
+  Timer. Item Options under the bar preview picks the two lines of each
+  details block on the bar; Restore Defaults brings back the standard bar and
+  toolbar.
+- A video card's context menu has Play Next and Add to Queue; the queue plays
+  before related videos when one ends or Next is pressed, and the Queue item
+  shows it beside the page.
+- No shuffle/repeat — those are music concepts. Chapters use a
   horizontal scroller with chevron paging controls on the watch page; the shelf
   hugs the cards, and the Chapters header collapses it.
 

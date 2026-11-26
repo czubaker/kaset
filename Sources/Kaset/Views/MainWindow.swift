@@ -615,77 +615,21 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
         .animation(.easeInOut(duration: 0.25), value: self.youtubePlayerService.showsQueue)
         .toolbar(self.isShowingFullScreenPlayer ? .hidden : .automatic, for: .windowToolbar)
         .frame(minWidth: MainWindowLayout.minimumWidth, minHeight: MainWindowLayout.minimumHeight)
-        // Customizable like Finder's toolbar (right-click → Customize
-        // Toolbar…). The defaults are the toolbar as it was; the rest are
-        // hidden until added.
-        .toolbar(id: "kaset.mainWindow") {
-            if self.supportsCommandBarUI {
-                ToolbarItem(id: "commandBar", placement: .automatic) {
-                    Button {
-                        self.presentCommandBarIfAvailable()
-                    } label: {
-                        Label(String(localized: "Command Bar"), systemImage: "sparkles")
-                            .font(.system(size: 14))
-                            .foregroundStyle(.primary)
-                    }
-                    .keyboardShortcut("k", modifiers: .command)
-                    .help(String(localized: "Open Command Bar (⌘K)"))
-                    .accessibilityIdentifier(AccessibilityID.MainWindow.aiButton)
-                }
-            }
-            if self.settings.appSource == .video {
-                // YouTube has no command bar; its place holds Refresh, which
-                // reloads the page on screen like a browser's.
-                ToolbarItem(id: "refresh", placement: .automatic) {
-                    Button {
-                        YouTubePageRefresh.shared.request()
-                    } label: {
-                        Label(String(localized: "Refresh"), systemImage: "arrow.clockwise")
-                            .font(.system(size: 14))
-                            .foregroundStyle(.primary)
-                    }
-                    .help(String(localized: "Refresh Page (⇧⌘R)"))
-                    .accessibilityIdentifier(AccessibilityID.MainWindow.refreshButton)
-                }
+        // The toolbar's items come from the same layout as the player bar's,
+        // edited together in Customize Toolbar and Player Bar (View menu).
+        .toolbar { self.windowToolbar }
+    }
 
-                if self.authService.hasPersonalAccount {
-                    ToolbarItem(id: "notifications", placement: .automatic) {
-                        YouTubeNotificationsButton(viewModel: self.youtubeStore.notifications) { video in
-                            self.youtubeStore.navigationPath.append(.watch(video))
-                        }
-                    }
-                }
-
-                ToolbarItem(id: "homeZoom", placement: .automatic) {
-                    self.gridZoomControl
-                }
-                .defaultCustomization(.hidden)
-
-                ToolbarItem(id: "customizeWatchPage", placement: .automatic) {
-                    Button {
-                        PlayerBarCustomization.shared.presentWatchPage()
-                    } label: {
-                        Label(String(localized: "Customize Watch Page…"), systemImage: "rectangle.and.text.magnifyingglass")
-                            .font(.system(size: 14))
-                            .foregroundStyle(.primary)
-                    }
-                    .help(String(localized: "Customize Watch Page…"))
-                }
-                .defaultCustomization(.hidden)
-            }
-
-            ToolbarItem(id: "customizePlayerBar", placement: .automatic) {
-                Button {
-                    PlayerBarCustomization.shared.present(for: self.settings.appSource)
-                } label: {
-                    Label(String(localized: "Customize Player Bar…"), systemImage: "slider.horizontal.3")
-                        .font(.system(size: 14))
-                        .foregroundStyle(.primary)
-                }
-                .help(String(localized: "Customize Player Bar…"))
-            }
-            .defaultCustomization(.hidden)
-        }
+    private var windowToolbar: some ToolbarContent {
+        WindowToolbar(
+            source: self.settings.appSource,
+            youtubePlayer: self.youtubePlayerService,
+            youtubeStore: self.youtubeStore,
+            hasPersonalAccount: self.authService.hasPersonalAccount,
+            supportsCommandBar: self.supportsCommandBarUI,
+            presentCommandBar: { self.presentCommandBarIfAvailable() },
+            zoomControl: { self.gridZoomControl }
+        )
     }
 
     /// Zoom Out / Zoom In for YouTube's card grids, as in Safari's toolbar.

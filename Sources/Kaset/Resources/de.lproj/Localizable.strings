@@ -944,3 +944,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "Klicke mit der rechten Maustaste auf ein Video und wähle „Als Nächstes abspielen“ oder „Zur Warteschlange hinzufügen“.";
 "%lld queued" = "%lld in der Warteschlange";
 "Queue: %lld queued" = "Warteschlange: %lld";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "Symbolleiste und Player-Leiste anpassen …";
+"Customize Toolbar and Player Bar" = "Symbolleiste und Player-Leiste anpassen";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "Ziehe Objekte in die Symbolleiste oder die Player-Leiste oder ziehe sie heraus, um sie zu entfernen.";
+"Toolbar and Player Bar" = "Symbolleiste und Player-Leiste";
+"Toolbar" = "Symbolleiste";
+"Remove from Toolbar" = "Aus Symbolleiste entfernen";

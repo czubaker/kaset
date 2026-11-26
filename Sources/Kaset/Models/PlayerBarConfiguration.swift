@@ -12,6 +12,11 @@ enum PlayerBarArea: String, Codable, CaseIterable, Sendable {
     case trailing
     /// Inside the YouTube video settings (gear) menu instead of on the bar.
     case settingsMenu
+    /// The window's toolbar, at the top of the main window.
+    case toolbar
+
+    /// The areas of the player bar itself, the settings menu included.
+    static let barAreas: [Self] = [.leading, .center, .trailing, .settingsMenu]
 }
 
 // MARK: - PlayerBarItemKind
@@ -27,29 +32,34 @@ protocol PlayerBarItemKind: RawRepresentable, CaseIterable, Hashable, Sendable w
     /// Whether the item can appear more than once, like a space. Every other
     /// item appears at most once.
     var isRepeatable: Bool { get }
+    /// The window toolbar as it was before it was customized here.
+    static var standardToolbar: [Self] { get }
 }
 
 // MARK: - PlayerBarConfiguration
 
-/// Which items a player bar shows, and where.
+/// Which items a player bar and the window toolbar show, and where.
 ///
 /// Persisted as item raw values per area, so items added or removed in later
 /// versions decode without failing: unknown ones are dropped, and new ones
-/// stay off the bar until the user adds them.
+/// stay off the bar until the user adds them. A layout saved before the
+/// toolbar was part of it gets the standard toolbar.
 struct PlayerBarConfiguration<Item: PlayerBarItemKind>: Equatable, Sendable {
     private(set) var leading: [Item] = []
     private(set) var center: [Item] = []
     private(set) var trailing: [Item] = []
     private(set) var settingsMenu: [Item] = []
+    private(set) var toolbar: [Item] = []
 
     /// Builds a configuration, dropping repeats of items that can't repeat
     /// and items not allowed in the area they're listed in.
-    init(leading: [Item], center: [Item], trailing: [Item], settingsMenu: [Item] = []) {
+    init(leading: [Item], center: [Item], trailing: [Item], settingsMenu: [Item] = [], toolbar: [Item] = []) {
         let listed: [(PlayerBarArea, [Item])] = [
             (.leading, leading),
             (.center, center),
             (.trailing, trailing),
             (.settingsMenu, settingsMenu),
+            (.toolbar, toolbar),
         ]
         for (area, items) in listed {
             for item in items where item.allowedAreas.contains(area) && (item.isRepeatable || !self.contains(item)) {
@@ -64,11 +74,17 @@ struct PlayerBarConfiguration<Item: PlayerBarItemKind>: Equatable, Sendable {
         case .center: self.center
         case .trailing: self.trailing
         case .settingsMenu: self.settingsMenu
+        case .toolbar: self.toolbar
         }
     }
 
     func contains(_ item: Item) -> Bool {
         self.area(of: item) != nil
+    }
+
+    /// Whether the player bar shows the item (not the toolbar).
+    func isOnBar(_ item: Item) -> Bool {
+        PlayerBarArea.barAreas.contains { self.items(in: $0).contains(item) }
     }
 
     /// Where the item is, its first occurrence for a repeatable one.
@@ -137,6 +153,7 @@ struct PlayerBarConfiguration<Item: PlayerBarItemKind>: Equatable, Sendable {
         case .center: change(&self.center)
         case .trailing: change(&self.trailing)
         case .settingsMenu: change(&self.settingsMenu)
+        case .toolbar: change(&self.toolbar)
         }
     }
 }
@@ -149,6 +166,7 @@ extension PlayerBarConfiguration: Codable {
         case center
         case trailing
         case settingsMenu
+        case toolbar
     }
 
     init(from decoder: any Decoder) throws {
@@ -161,7 +179,8 @@ extension PlayerBarConfiguration: Codable {
             leading: decode(.leading),
             center: decode(.center),
             trailing: decode(.trailing),
-            settingsMenu: decode(.settingsMenu)
+            settingsMenu: decode(.settingsMenu),
+            toolbar: container.contains(.toolbar) ? decode(.toolbar) : Item.standardToolbar
         )
     }
 
@@ -171,5 +190,6 @@ extension PlayerBarConfiguration: Codable {
         try container.encode(self.center.map(\.rawValue), forKey: .center)
         try container.encode(self.trailing.map(\.rawValue), forKey: .trailing)
         try container.encode(self.settingsMenu.map(\.rawValue), forKey: .settingsMenu)
+        try container.encode(self.toolbar.map(\.rawValue), forKey: .toolbar)
     }
 }

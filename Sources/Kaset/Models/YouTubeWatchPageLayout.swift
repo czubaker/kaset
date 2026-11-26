@@ -85,11 +85,11 @@ struct YouTubeWatchPageLayout: Equatable {
         case .date:
             return fields.contains(.date) || fields.contains(.viewsAndDate)
         case .channel:
-            return playerBar.contains(.channelAvatar) || playerBar.contains(.channelInfo) || fields.contains(.channel)
+            return playerBar.isOnBar(.channelAvatar) || playerBar.isOnBar(.channelInfo) || fields.contains(.channel)
         case .subscriberCount:
             return fields.contains(.subscribers)
         case .subscribeButton:
-            return playerBar.contains(.subscribe) || playerBar.contains(.subscribeIcon)
+            return playerBar.isOnBar(.subscribe) || playerBar.isOnBar(.subscribeIcon)
         case .videoDescription, .summary, .chapters, .comments, .related, .liveChat, .lyrics:
             return false
         }

@@ -944,3 +944,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "Klik met de rechtermuisknop op een video en kies ‘Hierna afspelen’ of ‘Aan wachtrij toevoegen’.";
 "%lld queued" = "%lld in wachtrij";
 "Queue: %lld queued" = "Wachtrij: %lld";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "Knoppenbalk en spelerbalk aanpassen…";
+"Customize Toolbar and Player Bar" = "Knoppenbalk en spelerbalk aanpassen";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "Sleep onderdelen naar de knoppenbalk of de spelerbalk, of sleep ze eruit om ze te verwijderen.";
+"Toolbar and Player Bar" = "Knoppenbalk en spelerbalk";
+"Toolbar" = "Knoppenbalk";
+"Remove from Toolbar" = "Verwijder uit knoppenbalk";

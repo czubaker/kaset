@@ -45,12 +45,12 @@ final class PlayerBarCustomization {
 
 // MARK: - PlayerBarCustomizationCommands
 
-/// View → Customize Player Bar…, next to the toolbar commands as in Finder.
-/// Edits the bar of the source on screen.
+/// View → Customize Toolbar and Player Bar…, next to the toolbar commands as
+/// in Finder. Edits the toolbar and bar of the source on screen.
 struct PlayerBarCustomizationCommands: Commands {
     var body: some Commands {
         CommandGroup(after: .toolbar) {
-            Button(String(localized: "Customize Player Bar…")) {
+            Button(String(localized: "Customize Toolbar and Player Bar…")) {
                 PlayerBarCustomization.shared.present(for: SettingsManager.shared.appSource)
             }
             Button(String(localized: "Customize Watch Page…")) {
@@ -62,9 +62,10 @@ struct PlayerBarCustomizationCommands: Commands {
 
 // MARK: - PlayerBarCustomizationSheet
 
-/// Edits one source's player bar: drag items between the bar's sides, the
-/// row above the timeline, YouTube's video settings menu, and the palette.
-/// Every change shows on the real bar right away.
+/// Edits one source's window toolbar and player bar in one place: drag items
+/// between the toolbar, the bar's sides, the row above the timeline,
+/// YouTube's video settings menu, and the palette. Every change shows on the
+/// real toolbar and bar right away.
 struct PlayerBarCustomizationSheet: View {
     let source: AppSource
 
@@ -82,11 +83,14 @@ struct PlayerBarCustomizationSheet: View {
                 VStack(alignment: .leading, spacing: 4) {
                     switch self.page {
                     case .playerBar:
-                        Text("Customize Player Bar", comment: "Title of the player bar customization sheet")
+                        Text("Customize Toolbar and Player Bar", comment: "Title of the toolbar and player bar customization sheet")
                             .font(.title2.bold())
-                        Text("Drag items into the player bar, or drag them out to remove them.", comment: "Player bar customization instructions")
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
+                        Text(
+                            "Drag items into the toolbar or the player bar, or drag them out to remove them.",
+                            comment: "Toolbar and player bar customization instructions"
+                        )
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
                     case .watchPage:
                         Text("Customize Watch Page", comment: "Title of the watch page customization sheet")
                             .font(.title2.bold())
@@ -98,7 +102,7 @@ struct PlayerBarCustomizationSheet: View {
                 Spacer()
                 if self.source == .video {
                     Picker(String(localized: "Customize"), selection: self.$customization.page) {
-                        Text("Player Bar", comment: "Customization sheet tab").tag(PlayerBarCustomization.Page.playerBar)
+                        Text("Toolbar and Player Bar", comment: "Customization sheet tab").tag(PlayerBarCustomization.Page.playerBar)
                         Text("Watch Page", comment: "Customization sheet tab").tag(PlayerBarCustomization.Page.watchPage)
                     }
                     .pickerStyle(.segmented)
@@ -221,6 +225,8 @@ private struct PlayerBarCustomizationEditor<Item: PlayerBarItemKind, Options: Vi
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
+            ToolbarPreview(configuration: self.$configuration)
+
             HStack(alignment: .center, spacing: 12) {
                 PlayerBarDropZone(area: .leading, configuration: self.$configuration)
                 VStack(spacing: 6) {
@@ -255,6 +261,40 @@ private struct PlayerBarCustomizationEditor<Item: PlayerBarItemKind, Options: Vi
     }
 }
 
+// MARK: - ToolbarPreview
+
+/// The window's top edge in miniature: its window buttons, then the toolbar's
+/// items at the trailing end, as in the real window.
+private struct ToolbarPreview<Item: PlayerBarItemKind>: View {
+    @Binding var configuration: PlayerBarConfiguration<Item>
+
+    var body: some View {
+        HStack(spacing: 12) {
+            HStack(spacing: 7) {
+                ForEach(0 ..< 3, id: \.self) { _ in
+                    Circle()
+                        .fill(.tertiary)
+                        .frame(width: 11, height: 11)
+                }
+            }
+            .accessibilityHidden(true)
+            Text("Toolbar", comment: "Label of the toolbar preview in the customization sheet")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+            PlayerBarDropZone(area: .toolbar, configuration: self.$configuration)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 8)
+        .background(.quaternary.opacity(0.35), in: UnevenRoundedRectangle(
+            topLeadingRadius: 14,
+            bottomLeadingRadius: 6,
+            bottomTrailingRadius: 6,
+            topTrailingRadius: 14,
+            style: .continuous
+        ))
+    }
+}
+
 extension PlayerBarCustomizationEditor where Options == EmptyView {
     init(configuration: Binding<PlayerBarConfiguration<Item>>) {
         self.init(configuration: configuration) { EmptyView() }
@@ -278,6 +318,12 @@ private struct PlayerBarDropZone<Item: PlayerBarItemKind>: View {
     var body: some View {
         let items = self.configuration.items(in: self.area)
         HStack(spacing: 4) {
+            // The toolbar's items sit at its trailing end, so its free space
+            // comes first and takes drops that go before them.
+            if self.area == .toolbar {
+                self.freeSpace(insertingAt: 0, isFlexible: true, isEmpty: items.isEmpty)
+            }
+
             // By position: spaces can repeat.
             ForEach(Array(items.enumerated()), id: \.offset) { index, item in
                 PlayerBarItemChip(item: item, showsTitle: false)
@@ -307,15 +353,14 @@ private struct PlayerBarDropZone<Item: PlayerBarItemKind>: View {
                     .modifier(DetailLinesPopover(item: item, index: index, editedIndex: self.$editedDetailsIndex))
             }
 
-            // Free space after the items; takes drops that append.
-            Color.clear
-                .frame(minWidth: items.isEmpty ? 120 : 12, maxWidth: self.area == .center ? .infinity : nil)
-                .frame(height: 40)
-                .contentShape(.rect)
-                .dropDestination(for: String.self) { payloads, _ in
-                    payloads.first.map { self.configuration.drop($0, in: self.area, at: nil) } ?? false
-                } isTargeted: { self.isTargeted = $0 }
-                .accessibilityHidden(true)
+            // Free space after the items; takes drops that append. The
+            // toolbar's stays narrow, so its items keep to the trailing end.
+            if self.area == .toolbar {
+                self.freeSpace(insertingAt: nil, isFlexible: false, isEmpty: false)
+                    .frame(width: 12)
+            } else {
+                self.freeSpace(insertingAt: nil, isFlexible: self.area == .center, isEmpty: items.isEmpty)
+            }
         }
         .padding(.horizontal, 6)
         .frame(minHeight: 46)
@@ -328,6 +373,21 @@ private struct PlayerBarDropZone<Item: PlayerBarItemKind>: View {
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(self.area.title(in: self.layoutDirection))
+    }
+}
+
+private extension PlayerBarDropZone {
+    /// Empty space in the zone that takes drops, inserting before the item
+    /// at `index` (appending when nil).
+    func freeSpace(insertingAt index: Int?, isFlexible: Bool, isEmpty: Bool) -> some View {
+        Color.clear
+            .frame(minWidth: isEmpty ? 120 : 12, maxWidth: isFlexible ? .infinity : nil)
+            .frame(height: 40)
+            .contentShape(.rect)
+            .dropDestination(for: String.self) { payloads, _ in
+                payloads.first.map { self.configuration.drop($0, in: self.area, at: index) } ?? false
+            } isTargeted: { self.isTargeted = $0 }
+            .accessibilityHidden(true)
     }
 }
 
@@ -449,7 +509,10 @@ private struct PlayerBarItemMenu<Item: PlayerBarItemKind>: View {
             self.detailLinePickers
 
             Divider()
-            Button(String(localized: "Remove from Player Bar"), role: .destructive) {
+            Button(
+                placement.area == .toolbar ? String(localized: "Remove from Toolbar") : String(localized: "Remove from Player Bar"),
+                role: .destructive
+            ) {
                 self.configuration.remove(from: placement.area, at: placement.index)
             }
         } else {
@@ -518,7 +581,7 @@ private struct PlayerBarItemChip<Item: PlayerBarItemKind>: View {
 
     /// Media details blocks are wider on the real bar, so their tiles are too.
     private var tileWidth: CGFloat {
-        let isBlock = !self.item.allowedAreas.contains(.center)
+        let isBlock = self.item.allowedAreas.isSubset(of: [.leading, .trailing])
         switch (isBlock, self.showsTitle) {
         case (true, true): return 64
         case (true, false): return 48
@@ -540,6 +603,7 @@ extension PlayerBarArea {
         case .center: return String(localized: "Center")
         case .trailing: return isRightToLeft ? String(localized: "Left Side") : String(localized: "Right Side")
         case .settingsMenu: return String(localized: "Video Settings Menu")
+        case .toolbar: return String(localized: "Toolbar")
         }
     }
 }

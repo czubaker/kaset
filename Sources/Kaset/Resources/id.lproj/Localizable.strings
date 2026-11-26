@@ -944,3 +944,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "Klik kanan video lalu pilih Putar Berikutnya atau Tambahkan ke Antrean.";
 "%lld queued" = "%lld dalam antrean";
 "Queue: %lld queued" = "Antrean: %lld";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "Sesuaikan Bar Alat dan Bar Pemutar…";
+"Customize Toolbar and Player Bar" = "Sesuaikan Bar Alat dan Bar Pemutar";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "Seret item ke bar alat atau bar pemutar, atau seret keluar untuk menghapusnya.";
+"Toolbar and Player Bar" = "Bar Alat dan Bar Pemutar";
+"Toolbar" = "Bar Alat";
+"Remove from Toolbar" = "Hapus dari Bar Alat";

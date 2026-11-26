@@ -944,3 +944,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "Cliquez avec le bouton droit sur une vidéo et choisissez « Lire ensuite » ou « Ajouter à la file d’attente ».";
 "%lld queued" = "%lld en file d’attente";
 "Queue: %lld queued" = "File d’attente : %lld";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "Personnaliser la barre d’outils et la barre du lecteur…";
+"Customize Toolbar and Player Bar" = "Personnaliser la barre d’outils et la barre du lecteur";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "Faites glisser des éléments dans la barre d’outils ou la barre du lecteur, ou faites-les glisser hors de celles-ci pour les supprimer.";
+"Toolbar and Player Bar" = "Barre d’outils et du lecteur";
+"Toolbar" = "Barre d’outils";
+"Remove from Toolbar" = "Supprimer de la barre d’outils";

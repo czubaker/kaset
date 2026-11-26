@@ -944,3 +944,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "Bir videoya sağ tıklayıp “Sonra Çal” veya “Sıraya Ekle”yi seçin.";
 "%lld queued" = "Sırada %lld";
 "Queue: %lld queued" = "Sıra: %lld";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "Araç Çubuğunu ve Oynatıcı Çubuğunu Özelleştir…";
+"Customize Toolbar and Player Bar" = "Araç Çubuğunu ve Oynatıcı Çubuğunu Özelleştir";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "Öğeleri araç çubuğuna veya oynatıcı çubuğuna sürükleyin ya da kaldırmak için dışarı sürükleyin.";
+"Toolbar and Player Bar" = "Araç ve Oynatıcı Çubuğu";
+"Toolbar" = "Araç Çubuğu";
+"Remove from Toolbar" = "Araç Çubuğundan Kaldır";

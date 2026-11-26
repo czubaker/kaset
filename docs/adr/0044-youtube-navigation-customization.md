@@ -2,7 +2,8 @@
 
 ## Status
 
-Accepted
+Accepted. The toolbar part is superseded by
+[ADR-0050](0050-toolbar-and-player-bar-customization.md).
 
 ## Context
 

@@ -12,9 +12,33 @@ struct PlayerBarIconButton<Icon: View>: View {
 
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.playerBarItemStyle) private var style
     @State private var isHovering = false
 
     var body: some View {
+        switch self.style {
+        case .bar:
+            self.barButton
+        case .toolbar:
+            // A plain toolbar button: the toolbar draws its own hover and
+            // grouping, and names it in Icon and Text.
+            Button(action: self.action) {
+                Label {
+                    Text(self.accessibilityLabel ?? "")
+                } icon: {
+                    self.icon()
+                }
+            }
+            .help(self.accessibilityLabel ?? "")
+            .playerBarAccessibilityIdentifier(self.accessibilityID)
+            .playerBarAccessibilityValue(self.accessibilityValue)
+            // The bars' icons set their own colors, which the toolbar's
+            // disabled look can't dim.
+            .opacity(self.isEnabled ? 1 : 0.4)
+        }
+    }
+
+    private var barButton: some View {
         Button(action: self.action) {
             Label {
                 Text(self.accessibilityLabel ?? "")
@@ -53,6 +77,19 @@ struct PlayerBarIconButton<Icon: View>: View {
         }
         return .clear
     }
+}
+
+// MARK: - PlayerBarItemStyle
+
+/// How bar buttons draw: on a player bar's glass capsule, or as ordinary
+/// buttons of the window toolbar.
+enum PlayerBarItemStyle {
+    case bar
+    case toolbar
+}
+
+extension EnvironmentValues {
+    @Entry var playerBarItemStyle: PlayerBarItemStyle = .bar
 }
 
 // MARK: - PlayerBarIconButtonMetrics

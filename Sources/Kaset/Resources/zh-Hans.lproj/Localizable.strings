@@ -942,3 +942,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "右键点按视频，然后选取“接下来播放”或“添加到队列”。";
 "%lld queued" = "队列中有 %lld 个";
 "Queue: %lld queued" = "队列：%lld 个";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "自定工具栏和播放器栏…";
+"Customize Toolbar and Player Bar" = "自定工具栏和播放器栏";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "将项目拖入工具栏或播放器栏，或将其拖出以移除。";
+"Toolbar and Player Bar" = "工具栏和播放器栏";
+"Toolbar" = "工具栏";
+"Remove from Toolbar" = "从工具栏中移除";

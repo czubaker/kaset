@@ -236,6 +236,9 @@ struct YouTubePlayerBar: View {
             YouTubePlayerBarQueueButton()
         case .sleepTimer:
             SleepTimerBarButton()
+        case .refresh, .notifications, .zoom, .customizeWatchPage, .customize:
+            // Toolbar only.
+            EmptyView()
         case .space, .flexibleSpace:
             PlayerBarSpace(isFlexible: item == .flexibleSpace)
         }

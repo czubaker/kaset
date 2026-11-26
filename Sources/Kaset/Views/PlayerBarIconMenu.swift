@@ -11,9 +11,31 @@ struct PlayerBarIconMenu<MenuContent: View, Icon: View>: View {
 
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.playerBarItemStyle) private var style
     @State private var isHovering = false
 
     var body: some View {
+        switch self.style {
+        case .bar:
+            self.barMenu
+        case .toolbar:
+            Menu {
+                self.menuContent()
+            } label: {
+                Label {
+                    Text(self.accessibilityLabel ?? "")
+                } icon: {
+                    self.icon()
+                }
+            }
+            .menuIndicator(.hidden)
+            .help(self.accessibilityLabel ?? "")
+            .playerBarMenuAccessibilityIdentifier(self.accessibilityID)
+            .opacity(self.isEnabled ? 1 : 0.4)
+        }
+    }
+
+    private var barMenu: some View {
         ZStack {
             self.icon()
                 .frame(width: 28, height: 28)

@@ -944,3 +944,11 @@
 "Right-click a video and choose Play Next or Add to Queue." = "Kliknij film prawym przyciskiem i wybierz „Odtwórz następne” lub „Dodaj do kolejki”.";
 "%lld queued" = "W kolejce: %lld";
 "Queue: %lld queued" = "Kolejka: %lld";
+
+// Toolbar and player bar customization
+"Customize Toolbar and Player Bar…" = "Dostosuj pasek narzędzi i pasek odtwarzacza…";
+"Customize Toolbar and Player Bar" = "Dostosuj pasek narzędzi i pasek odtwarzacza";
+"Drag items into the toolbar or the player bar, or drag them out to remove them." = "Przeciągnij elementy na pasek narzędzi lub pasek odtwarzacza albo przeciągnij je poza nie, aby je usunąć.";
+"Toolbar and Player Bar" = "Pasek narzędzi i odtwarzacza";
+"Toolbar" = "Pasek narzędzi";
+"Remove from Toolbar" = "Usuń z paska narzędzi";
