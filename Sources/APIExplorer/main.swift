@@ -11,6 +11,7 @@
 //
 //  Commands:
 //    browse <browseId> [params]    - Explore a browse endpoint
+//    captions <videoId>            - List caption tracks and read one as json3
 //    action <endpoint> <body>      - Explore a JSON action endpoint (body as JSON)
 //    wire-action <endpoint> <body> - Safely inspect JSON, streaming, or opaque responses
 //    discover <endpoint> <body>    - Inspect and follow read-only navigation, with values redacted
@@ -3920,6 +3921,7 @@ func showHelp() {
 
         Commands:
           browse <browseId> [params]     Explore a browse endpoint
+          captions <videoId>             List caption tracks and read one as json3
           action <endpoint> [body]       Explore a JSON action endpoint
           wire-action <endpoint> [body]  Safely inspect JSON, streaming, or opaque responses
           discover <endpoint> [body]     Inspect read-only navigation, filters, and response shapes
@@ -4300,6 +4302,13 @@ func runMain() async {
         let browseId = filteredArgs[1]
         let params: String? = filteredArgs.count >= 3 ? filteredArgs[2] : nil
         await exploreBrowse(browseId, params: params, verbose: verbose, outputFile: outputFile)
+
+    case "captions":
+        guard filteredArgs.count == 2 else {
+            print("❌ Usage: captions <videoId>")
+            return
+        }
+        await exploreCaptions(videoId: filteredArgs[1])
 
     case "action":
         guard filteredArgs.count >= 2 else {

@@ -904,3 +904,17 @@
 "%lld new" = "%lld nuevas";
 "Couldn’t load notifications." = "No se pudieron cargar las notificaciones.";
 "No notifications" = "No hay notificaciones";
+
+// YouTube video summary (Apple Intelligence)
+"Summary" = "Resumen";
+"Summary (Apple Intelligence)" = "Resumen (Apple Intelligence)";
+"Summarize" = "Resumir";
+"Apple Intelligence can summarize this video on your Mac from its captions." = "Apple Intelligence puede resumir este vídeo en tu Mac a partir de sus subtítulos.";
+"Reading the captions…" = "Leyendo los subtítulos…";
+"Reading part %lld of %lld…" = "Leyendo la parte %1$lld de %2$lld…";
+"Writing the summary…" = "Escribiendo el resumen…";
+"Written on your Mac by Apple Intelligence from the video’s captions. It can make mistakes." = "Escrito en tu Mac por Apple Intelligence a partir de los subtítulos del vídeo. Puede contener errores.";
+"This video has no captions to summarize." = "Este vídeo no tiene subtítulos para resumir.";
+"Apple Intelligence can’t summarize this video." = "Apple Intelligence no puede resumir este vídeo.";
+"Apple Intelligence isn’t available right now." = "Apple Intelligence no está disponible en este momento.";
+"Couldn’t summarize this video." = "No se pudo resumir este vídeo.";

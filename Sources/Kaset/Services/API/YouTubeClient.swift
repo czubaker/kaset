@@ -578,6 +578,33 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         self.cache.invalidate(matching: Self.cachePrefix)
     }
 
+    func getTranscriptTracks(videoId: String) async throws -> [YouTubeTranscriptTrack] {
+        let data = try await self.request("player", body: ["videoId": videoId], retry: false)
+        return YouTubeCaptionsParser.tracks(fromPlayer: data)
+    }
+
+    func getTranscript(_ track: YouTubeTranscriptTrack) async throws -> String {
+        guard YouTubeCaptionsParser.isTimedTextURL(track.baseURL),
+              let url = YouTubeCaptionsParser.jsonURL(for: track)
+        else {
+            throw YTMusicError.invalidInput("Not a YouTube caption track")
+        }
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 20
+        let (data, response) = try await self.session.data(for: request)
+        guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+            throw YTMusicError.apiError(
+                message: "Caption track request failed",
+                code: (response as? HTTPURLResponse)?.statusCode
+            )
+        }
+        // An empty body means the track wants a token Kaset doesn't send.
+        guard !data.isEmpty, let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            return ""
+        }
+        return YouTubeCaptionsParser.transcript(fromJSON3: json)
+    }
+
     func getNotifications() async throws -> [YouTubeNotification] {
         let data = try await self.request(
             "notification/get_notification_menu",

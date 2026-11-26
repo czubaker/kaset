@@ -904,3 +904,17 @@
 "%lld new" = "Новых: %lld";
 "Couldn’t load notifications." = "Не удалось загрузить уведомления.";
 "No notifications" = "Нет уведомлений";
+
+// YouTube video summary (Apple Intelligence)
+"Summary" = "Краткое содержание";
+"Summary (Apple Intelligence)" = "Краткое содержание (Apple Intelligence)";
+"Summarize" = "Пересказать";
+"Apple Intelligence can summarize this video on your Mac from its captions." = "Apple Intelligence может пересказать это видео прямо на вашем Mac по его субтитрам.";
+"Reading the captions…" = "Читаю субтитры…";
+"Reading part %lld of %lld…" = "Читаю часть %1$lld из %2$lld…";
+"Writing the summary…" = "Пишу краткое содержание…";
+"Written on your Mac by Apple Intelligence from the video’s captions. It can make mistakes." = "Написано на вашем Mac с помощью Apple Intelligence по субтитрам видео. Возможны ошибки.";
+"This video has no captions to summarize." = "У этого видео нет субтитров для пересказа.";
+"Apple Intelligence can’t summarize this video." = "Apple Intelligence не может пересказать это видео.";
+"Apple Intelligence isn’t available right now." = "Apple Intelligence сейчас недоступен.";
+"Couldn’t summarize this video." = "Не удалось пересказать это видео.";

@@ -899,3 +899,17 @@
 "%lld new" = "新着 %lld 件";
 "Couldn’t load notifications." = "通知を読み込めませんでした。";
 "No notifications" = "通知はありません";
+
+// YouTube video summary (Apple Intelligence)
+"Summary" = "要約";
+"Summary (Apple Intelligence)" = "要約（Apple Intelligence）";
+"Summarize" = "要約";
+"Apple Intelligence can summarize this video on your Mac from its captions." = "Apple Intelligence が字幕をもとに、このビデオを Mac 上で要約できます。";
+"Reading the captions…" = "字幕を読み込み中…";
+"Reading part %lld of %lld…" = "%2$lld 部中 %1$lld 部目を読み込み中…";
+"Writing the summary…" = "要約を作成中…";
+"Written on your Mac by Apple Intelligence from the video’s captions. It can make mistakes." = "Apple Intelligence がビデオの字幕をもとに Mac 上で作成しました。誤りが含まれる場合があります。";
+"This video has no captions to summarize." = "このビデオには要約できる字幕がありません。";
+"Apple Intelligence can’t summarize this video." = "Apple Intelligence はこのビデオを要約できません。";
+"Apple Intelligence isn’t available right now." = "Apple Intelligence は現在利用できません。";
+"Couldn’t summarize this video." = "このビデオを要約できませんでした。";

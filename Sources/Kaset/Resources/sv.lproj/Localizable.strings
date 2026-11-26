@@ -904,3 +904,17 @@
 "%lld new" = "%lld nya";
 "Couldn’t load notifications." = "Det gick inte att läsa in notiser.";
 "No notifications" = "Inga notiser";
+
+// YouTube video summary (Apple Intelligence)
+"Summary" = "Sammanfattning";
+"Summary (Apple Intelligence)" = "Sammanfattning (Apple Intelligence)";
+"Summarize" = "Sammanfatta";
+"Apple Intelligence can summarize this video on your Mac from its captions." = "Apple Intelligence kan sammanfatta den här videon på din Mac utifrån undertexterna.";
+"Reading the captions…" = "Läser undertexterna …";
+"Reading part %lld of %lld…" = "Läser del %1$lld av %2$lld …";
+"Writing the summary…" = "Skriver sammanfattningen …";
+"Written on your Mac by Apple Intelligence from the video’s captions. It can make mistakes." = "Skriven på din Mac av Apple Intelligence utifrån videons undertexter. Den kan innehålla fel.";
+"This video has no captions to summarize." = "Den här videon har inga undertexter att sammanfatta.";
+"Apple Intelligence can’t summarize this video." = "Apple Intelligence kan inte sammanfatta den här videon.";
+"Apple Intelligence isn’t available right now." = "Apple Intelligence är inte tillgängligt just nu.";
+"Couldn’t summarize this video." = "Det gick inte att sammanfatta den här videon.";

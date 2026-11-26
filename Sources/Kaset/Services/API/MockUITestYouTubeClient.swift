@@ -255,6 +255,14 @@ final class MockUITestYouTubeClient: YouTubeClientProtocol {
 
     func setPlaylistSaved(_: Bool, playlistId _: String) async throws {}
 
+    func getTranscriptTracks(videoId _: String) async throws -> [YouTubeTranscriptTrack] {
+        []
+    }
+
+    func getTranscript(_: YouTubeTranscriptTrack) async throws -> String {
+        ""
+    }
+
     func getNotifications() async throws -> [YouTubeNotification] {
         []
     }

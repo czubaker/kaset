@@ -902,3 +902,17 @@
 "%lld new" = "%lld 則新通知";
 "Couldn’t load notifications." = "無法載入通知。";
 "No notifications" = "沒有通知";
+
+// YouTube video summary (Apple Intelligence)
+"Summary" = "摘要";
+"Summary (Apple Intelligence)" = "摘要（Apple 智慧）";
+"Summarize" = "產生摘要";
+"Apple Intelligence can summarize this video on your Mac from its captions." = "Apple 智慧可以在你的 Mac 上根據字幕為此影片產生摘要。";
+"Reading the captions…" = "正在讀取字幕⋯";
+"Reading part %lld of %lld…" = "正在讀取第 %1$lld 部分（共 %2$lld 部分）⋯";
+"Writing the summary…" = "正在產生摘要⋯";
+"Written on your Mac by Apple Intelligence from the video’s captions. It can make mistakes." = "由 Apple 智慧根據影片字幕在你的 Mac 上產生，可能有誤。";
+"This video has no captions to summarize." = "此影片沒有可用於產生摘要的字幕。";
+"Apple Intelligence can’t summarize this video." = "Apple 智慧無法為此影片產生摘要。";
+"Apple Intelligence isn’t available right now." = "Apple 智慧目前無法使用。";
+"Couldn’t summarize this video." = "無法為此影片產生摘要。";

@@ -98,6 +98,15 @@ struct YouTubeWatchView: View {
                             YouTubeWatchDescription(text: description, linkDuration: self.timestampLinkDuration)
                         }
 
+                        if self.showsSummary {
+                            YouTubeVideoSummaryCard(
+                                videoId: self.video.videoId,
+                                title: self.viewModel.data.videoTitle ?? self.video.title,
+                                client: self.viewModel.client
+                            )
+                            .id(self.video.videoId)
+                        }
+
                         if showsChapters {
                             if showsMetadata {
                                 Divider()
@@ -517,6 +526,15 @@ struct YouTubeWatchView: View {
         let nextIndex = self.viewModel.data.chapters.index(after: index)
         guard nextIndex < self.viewModel.data.chapters.endIndex else { return true }
         return currentTime < self.viewModel.data.chapters[nextIndex].startTime
+    }
+
+    /// Apple Intelligence's summary, offered for videos with captions to read:
+    /// not for a stream that is live.
+    private var showsSummary: Bool {
+        self.shows(.summary)
+            && YouTubeVideoSummaryViewModel.isAvailable
+            && !self.video.isLive
+            && self.viewModel.data.liveChatContinuation == nil
     }
 
     /// The video's description, when it has one.

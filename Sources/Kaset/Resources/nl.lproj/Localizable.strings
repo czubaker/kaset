@@ -904,3 +904,17 @@
 "%lld new" = "%lld nieuw";
 "Couldn’t load notifications." = "Kan meldingen niet laden.";
 "No notifications" = "Geen meldingen";
+
+// YouTube video summary (Apple Intelligence)
+"Summary" = "Samenvatting";
+"Summary (Apple Intelligence)" = "Samenvatting (Apple Intelligence)";
+"Summarize" = "Samenvatten";
+"Apple Intelligence can summarize this video on your Mac from its captions." = "Apple Intelligence kan deze video op je Mac samenvatten aan de hand van de ondertiteling.";
+"Reading the captions…" = "Ondertiteling lezen…";
+"Reading part %lld of %lld…" = "Deel %1$lld van %2$lld lezen…";
+"Writing the summary…" = "Samenvatting schrijven…";
+"Written on your Mac by Apple Intelligence from the video’s captions. It can make mistakes." = "Geschreven op je Mac door Apple Intelligence op basis van de ondertiteling. Kan fouten bevatten.";
+"This video has no captions to summarize." = "Deze video heeft geen ondertiteling om samen te vatten.";
+"Apple Intelligence can’t summarize this video." = "Apple Intelligence kan deze video niet samenvatten.";
+"Apple Intelligence isn’t available right now." = "Apple Intelligence is momenteel niet beschikbaar.";
+"Couldn’t summarize this video." = "Kan deze video niet samenvatten.";

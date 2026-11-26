@@ -157,6 +157,12 @@ protocol YouTubeClientProtocol: Sendable {
     /// one of its `ChannelNotificationPreference` options.
     func modifyNotificationPreference(params: String) async throws
 
+    /// A video's caption tracks.
+    func getTranscriptTracks(videoId: String) async throws -> [YouTubeTranscriptTrack]
+
+    /// A caption track's text as one paragraph.
+    func getTranscript(_ track: YouTubeTranscriptTrack) async throws -> String
+
     /// The account's notification inbox: the entries that open a video.
     func getNotifications() async throws -> [YouTubeNotification]
 

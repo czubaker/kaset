@@ -79,3 +79,7 @@ What becomes easier or more difficult because of this change?
 | [0042](0042-customizable-player-bars.md) | Customizable player bars | Accepted |
 | [0043](0043-youtube-watch-page-and-bar-details.md) | Customizable YouTube watch page and player bar details | Accepted |
 | [0044](0044-youtube-navigation-customization.md) | YouTube sidebar order, grid zoom, and a customizable toolbar | Accepted |
+| [0045](0045-downloadable-addons.md) | Addons downloaded on demand | Accepted |
+| [0046](0046-discord-rich-presence.md) | Discord Rich Presence from the sandbox | Accepted |
+| [0047](0047-progress-bar-heatmap-and-previews.md) | "Most replayed", frame previews, and LIVE on the YouTube progress bar | Accepted |
+| [0048](0048-youtube-video-summary.md) | Video summaries with Apple Intelligence | Accepted |

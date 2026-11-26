@@ -904,3 +904,17 @@
 "%lld new" = "%lld yeni";
 "Couldn’t load notifications." = "Bildirimler yüklenemedi.";
 "No notifications" = "Bildirim yok";
+
+// YouTube video summary (Apple Intelligence)
+"Summary" = "Özet";
+"Summary (Apple Intelligence)" = "Özet (Apple Intelligence)";
+"Summarize" = "Özetle";
+"Apple Intelligence can summarize this video on your Mac from its captions." = "Apple Intelligence bu videoyu altyazılarından yola çıkarak Mac’inizde özetleyebilir.";
+"Reading the captions…" = "Altyazılar okunuyor…";
+"Reading part %lld of %lld…" = "%2$lld bölümden %1$lld. bölüm okunuyor…";
+"Writing the summary…" = "Özet yazılıyor…";
+"Written on your Mac by Apple Intelligence from the video’s captions. It can make mistakes." = "Apple Intelligence tarafından videonun altyazılarından Mac’inizde yazıldı. Hata içerebilir.";
+"This video has no captions to summarize." = "Bu videonun özetlenecek altyazısı yok.";
+"Apple Intelligence can’t summarize this video." = "Apple Intelligence bu videoyu özetleyemiyor.";
+"Apple Intelligence isn’t available right now." = "Apple Intelligence şu anda kullanılamıyor.";
+"Couldn’t summarize this video." = "Bu video özetlenemedi.";

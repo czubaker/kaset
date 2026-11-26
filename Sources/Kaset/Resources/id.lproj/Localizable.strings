@@ -904,3 +904,17 @@
 "%lld new" = "%lld baru";
 "Couldn’t load notifications." = "Tidak dapat memuat notifikasi.";
 "No notifications" = "Tidak ada notifikasi";
+
+// YouTube video summary (Apple Intelligence)
+"Summary" = "Ringkasan";
+"Summary (Apple Intelligence)" = "Ringkasan (Apple Intelligence)";
+"Summarize" = "Ringkas";
+"Apple Intelligence can summarize this video on your Mac from its captions." = "Apple Intelligence dapat meringkas video ini di Mac Anda dari teksnya.";
+"Reading the captions…" = "Membaca teks…";
+"Reading part %lld of %lld…" = "Membaca bagian %1$lld dari %2$lld…";
+"Writing the summary…" = "Menulis ringkasan…";
+"Written on your Mac by Apple Intelligence from the video’s captions. It can make mistakes." = "Ditulis di Mac Anda oleh Apple Intelligence dari teks video. Mungkin ada kesalahan.";
+"This video has no captions to summarize." = "Video ini tidak memiliki teks untuk diringkas.";
+"Apple Intelligence can’t summarize this video." = "Apple Intelligence tidak dapat meringkas video ini.";
+"Apple Intelligence isn’t available right now." = "Apple Intelligence tidak tersedia saat ini.";
+"Couldn’t summarize this video." = "Tidak dapat meringkas video ini.";

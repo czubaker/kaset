@@ -11,6 +11,7 @@ enum YouTubeWatchPageElement: String, CaseIterable, Identifiable {
     case subscriberCount
     case subscribeButton
     case videoDescription
+    case summary
     case chapters
     case comments
     case related
@@ -29,6 +30,7 @@ enum YouTubeWatchPageElement: String, CaseIterable, Identifiable {
         case .subscriberCount: String(localized: "Subscribers")
         case .subscribeButton: String(localized: "Subscribe Button")
         case .videoDescription: String(localized: "Description")
+        case .summary: String(localized: "Summary (Apple Intelligence)")
         case .chapters: String(localized: "Chapters")
         case .comments: String(localized: "Comments")
         case .related: String(localized: "Related Videos")
@@ -38,7 +40,8 @@ enum YouTubeWatchPageElement: String, CaseIterable, Identifiable {
 
     /// The parts under the video, in page order; Related Videos sits beside it.
     static let belowVideo: [Self] = [
-        .title, .views, .date, .channel, .subscriberCount, .subscribeButton, .videoDescription, .chapters, .comments,
+        .title, .views, .date, .channel, .subscriberCount, .subscribeButton, .videoDescription, .summary, .chapters,
+        .comments,
     ]
 }
 
@@ -85,7 +88,7 @@ struct YouTubeWatchPageLayout: Equatable {
             return fields.contains(.subscribers)
         case .subscribeButton:
             return playerBar.contains(.subscribe) || playerBar.contains(.subscribeIcon)
-        case .videoDescription, .chapters, .comments, .related, .liveChat:
+        case .videoDescription, .summary, .chapters, .comments, .related, .liveChat:
             return false
         }
     }
