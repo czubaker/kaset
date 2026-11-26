@@ -370,6 +370,8 @@ struct YouTubeWatchView: View {
             YouTubeWatchCollaborators(
                 title: channel.name,
                 collaborators: self.viewModel.data.collaborators,
+                showsChannels: showsChannel,
+                showsSubscribers: showsSubscribers,
                 allowsSubscribing: showsSubscribe,
                 client: self.viewModel.client
             ) { channelId in
@@ -387,7 +389,7 @@ struct YouTubeWatchView: View {
 
                 if showsSubscribe {
                     self.subscribeButton
-                    if self.viewModel.isSubscribed, let preference = self.viewModel.data.notificationPreference {
+                    if let preference = self.viewModel.notificationPreference {
                         YouTubeNotificationBell(preference: preference) { option in
                             Task { await self.viewModel.setNotificationPreference(option) }
                         }

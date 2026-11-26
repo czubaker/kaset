@@ -17,6 +17,10 @@ final class YouTubeChannelSubscriptions {
     /// Channels with a change in flight, so a second tap waits for the first.
     private var pending: Set<String> = []
 
+    /// How many subscription changes went through per channel, so a page can
+    /// tell its loaded notification bell no longer matches the account.
+    private(set) var changeCounts: [String: Int] = [:]
+
     /// Bumped by `reset()`, so a change that finishes after an account switch
     /// doesn't write into the new account's states.
     private var generation = 0
@@ -47,6 +51,7 @@ final class YouTubeChannelSubscriptions {
             try await client.setSubscribed(subscribed, channelId: channelId)
             guard generation == self.generation else { return false }
             self.pending.remove(channelId)
+            self.changeCounts[channelId, default: 0] += 1
             HapticService.toggle()
             return true
         } catch {

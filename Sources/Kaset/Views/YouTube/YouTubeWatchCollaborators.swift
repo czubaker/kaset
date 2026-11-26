@@ -8,6 +8,10 @@ import SwiftUI
 struct YouTubeWatchCollaborators: View {
     let title: String
     let collaborators: [VideoCollaborator]
+    /// Off when the user hid the channel: only Subscribe… shows.
+    let showsChannels: Bool
+    /// Off when the user hid subscriber counts.
+    let showsSubscribers: Bool
     let allowsSubscribing: Bool
     let client: any YouTubeClientProtocol
     let openChannel: (String) -> Void
@@ -16,27 +20,8 @@ struct YouTubeWatchCollaborators: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Button {
-                self.showsList = true
-            } label: {
-                HStack(spacing: 10) {
-                    self.avatarStack
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(self.title)
-                            .font(.system(size: 13, weight: .semibold))
-                            .foregroundStyle(.primary)
-                            .lineLimit(1)
-                        Text(String(localized: "\(self.collaborators.count) channels"))
-                            .font(.system(size: 11))
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .contentShape(.rect)
-            }
-            .buttonStyle(.plain)
-            .help(String(localized: "Collaborators"))
-            .popover(isPresented: self.$showsList, arrowEdge: .bottom) {
-                self.list
+            if self.showsChannels {
+                self.channelsButton
             }
 
             if self.allowsSubscribing {
@@ -54,6 +39,31 @@ struct YouTubeWatchCollaborators: View {
                 .buttonStyle(.plain)
             }
         }
+        .popover(isPresented: self.$showsList, arrowEdge: .bottom) {
+            self.list
+        }
+    }
+
+    private var channelsButton: some View {
+        Button {
+            self.showsList = true
+        } label: {
+            HStack(spacing: 10) {
+                self.avatarStack
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(self.title)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(.primary)
+                        .lineLimit(1)
+                    Text(String(localized: "\(self.collaborators.count) channels"))
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .help(String(localized: "Collaborators"))
     }
 
     private var avatarStack: some View {
@@ -100,7 +110,7 @@ struct YouTubeWatchCollaborators: View {
                                     .accessibilityLabel(String(localized: "Verified"))
                             }
                         }
-                        if let detail = collaborator.detail {
+                        if let detail = self.showsSubscribers ? collaborator.detail : collaborator.handle {
                             Text(detail)
                                 .font(.system(size: 11))
                                 .foregroundStyle(.secondary)

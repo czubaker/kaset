@@ -76,6 +76,8 @@ final class YouTubeWatchViewModel {
 
     /// The subscription state the latest watch page reported.
     private var loadedIsSubscribed = false
+    /// Subscription changes for the channel when the page loaded.
+    private var loadedSubscriptionChangeCount = 0
 
     // MARK: - Comments State
 
@@ -163,6 +165,9 @@ final class YouTubeWatchViewModel {
             guard generation == self.loadGeneration else { return }
             self.data = page.data
             self.loadedIsSubscribed = page.data.isSubscribed ?? false
+            self.loadedSubscriptionChangeCount = page.data.channel.map {
+                YouTubeChannelSubscriptions.shared.changeCounts[$0.channelId, default: 0]
+            } ?? 0
             if !page.data.collaborators.isEmpty {
                 // A collaboration upload says per channel whether it's followed.
                 for collaborator in page.data.collaborators {
@@ -546,6 +551,17 @@ final class YouTubeWatchViewModel {
             channelId: channel.channelId,
             client: self.client
         )
+    }
+
+    /// The notification bell the page loaded, while the subscription is still
+    /// the one it was loaded for: after unsubscribing and subscribing again
+    /// YouTube starts the channel at its default level, which the page
+    /// doesn't know.
+    var notificationPreference: ChannelNotificationPreference? {
+        guard self.isSubscribed, let channelId = self.data.channel?.channelId,
+              YouTubeChannelSubscriptions.shared.changeCounts[channelId, default: 0] == self.loadedSubscriptionChangeCount
+        else { return nil }
+        return self.data.notificationPreference
     }
 
     /// Picks a notification bell option: shown at once, rolled back if

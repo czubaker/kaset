@@ -40,10 +40,7 @@ enum WatchNextParser {
                     as? [String: Any]
                 {
                     channel = Self.channel(fromVideoOwner: owner)
-                    collaborators = Self.collaborators(
-                        fromVideoOwner: owner,
-                        subscribedByKey: Self.subscriptionStates(in: data)
-                    )
+                    collaborators = Self.collaborators(fromVideoOwner: owner, in: data)
                     // A collaboration upload has no single owner: it goes by its
                     // channels together ("A and B") and links to the first.
                     if channel == nil, let first = collaborators.first {
@@ -102,12 +99,14 @@ enum WatchNextParser {
     /// avatar, and a `subscribeButtonViewModel` (verified with api-explorer,
     /// November 2026). Empty for a video with one owner. Ported from KasetPlus
     /// (github.com/Yoddikko/kasetPlus, MIT).
-    static func collaborators(fromVideoOwner owner: [String: Any], subscribedByKey: [String: Bool]) -> [VideoCollaborator] {
+    static func collaborators(fromVideoOwner owner: [String: Any], in data: [String: Any]) -> [VideoCollaborator] {
         let dialog = ((((owner["navigationEndpoint"] as? [String: Any])?["showDialogCommand"]
                 as? [String: Any])?["panelLoadingStrategy"] as? [String: Any])?["inlineContent"]
             as? [String: Any])?["dialogViewModel"] as? [String: Any]
         let items = (((dialog?["customContent"] as? [String: Any])?["listViewModel"]
                 as? [String: Any])?["listItems"] as? [[String: Any]]) ?? []
+        guard !items.isEmpty else { return [] }
+        let subscribedByKey = Self.subscriptionStates(in: data["frameworkUpdates"] ?? [:])
         return items.compactMap { item in
             Self.collaborator(fromListItem: item["listItemViewModel"] as? [String: Any], subscribedByKey: subscribedByKey)
         }
@@ -137,9 +136,9 @@ enum WatchNextParser {
     }
 
     /// Subscribed states by `subscriptionStateEntity.key`, from `frameworkUpdates`.
-    private static func subscriptionStates(in data: [String: Any]) -> [String: Bool] {
+    private static func subscriptionStates(in frameworkUpdates: Any) -> [String: Bool] {
         var result: [String: Bool] = [:]
-        Self.collectSubscriptionStates(in: data, into: &result)
+        Self.collectSubscriptionStates(in: frameworkUpdates, into: &result)
         return result
     }
 

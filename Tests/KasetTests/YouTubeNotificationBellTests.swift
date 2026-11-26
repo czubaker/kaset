@@ -68,5 +68,15 @@ struct YouTubeNotificationBellTests {
         let none = try #require(preference.options.last)
         await model.setNotificationPreference(none)
         #expect(model.data.notificationPreference?.current?.params == "mock-all")
+        client.error = nil
+
+        // Unsubscribing and subscribing again starts the channel over at
+        // YouTube's default, which the page doesn't know: no bell until reload.
+        #expect(model.notificationPreference != nil)
+        let subscriptions = YouTubeChannelSubscriptions.shared
+        defer { subscriptions.reset() }
+        await subscriptions.setSubscribed(false, channelId: "UCtest", client: client)
+        await subscriptions.setSubscribed(true, channelId: "UCtest", client: client)
+        #expect(model.notificationPreference == nil)
     }
 }
