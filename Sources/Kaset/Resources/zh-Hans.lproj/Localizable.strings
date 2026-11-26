@@ -829,3 +829,13 @@
 "The download doesn't match the release, so it wasn't installed." = "下载内容与发布版本不符，因此未安装。";
 "The download couldn't be unpacked." = "无法解压下载内容。";
 "The download doesn't contain an extension." = "下载内容不包含扩展。";
+
+// Discord Rich Presence
+"Show What's Playing on Discord" = "在 Discord 上显示正在播放的内容";
+"Discord" = "Discord";
+"Your Discord profile shows the song or video playing in Kaset, through the Discord app on this Mac. Nothing is sent anywhere else, and it clears when playback stops." = "通过此 Mac 上的 Discord App，你的 Discord 个人资料会显示 Kaset 中正在播放的歌曲或视频。不会发送到其他任何地方，播放停止后即会清除。";
+"Waiting for Discord to open on this Mac." = "正在等待此 Mac 上的 Discord 打开。";
+"Connected to Discord." = "已连接到 Discord。";
+"Discord refused the connection: %@" = "Discord 拒绝了连接：%@";
+"Couldn't reach Discord: %@" = "无法连接 Discord：%@";
+"Paused" = "已暂停";

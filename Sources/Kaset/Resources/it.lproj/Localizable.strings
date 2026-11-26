@@ -831,3 +831,13 @@
 "The download doesn't match the release, so it wasn't installed." = "Il download non corrisponde alla versione pubblicata, quindi non è stato installato.";
 "The download couldn't be unpacked." = "Impossibile decomprimere il download.";
 "The download doesn't contain an extension." = "Il download non contiene un’estensione.";
+
+// Discord Rich Presence
+"Show What's Playing on Discord" = "Mostra cosa riproduci su Discord";
+"Discord" = "Discord";
+"Your Discord profile shows the song or video playing in Kaset, through the Discord app on this Mac. Nothing is sent anywhere else, and it clears when playback stops." = "Il tuo profilo Discord mostra il brano o il video in riproduzione in Kaset, tramite l’app Discord su questo Mac. Non viene inviato nulla altrove e scompare quando la riproduzione si ferma.";
+"Waiting for Discord to open on this Mac." = "In attesa che Discord venga aperto su questo Mac.";
+"Connected to Discord." = "Connesso a Discord.";
+"Discord refused the connection: %@" = "Discord ha rifiutato la connessione: %@";
+"Couldn't reach Discord: %@" = "Impossibile raggiungere Discord: %@";
+"Paused" = "In pausa";

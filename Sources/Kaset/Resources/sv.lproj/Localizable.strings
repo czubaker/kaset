@@ -831,3 +831,13 @@
 "The download doesn't match the release, so it wasn't installed." = "Hämtningen stämmer inte med versionen, så den installerades inte.";
 "The download couldn't be unpacked." = "Hämtningen kunde inte packas upp.";
 "The download doesn't contain an extension." = "Hämtningen innehåller inget tillägg.";
+
+// Discord Rich Presence
+"Show What's Playing on Discord" = "Visa vad som spelas på Discord";
+"Discord" = "Discord";
+"Your Discord profile shows the song or video playing in Kaset, through the Discord app on this Mac. Nothing is sent anywhere else, and it clears when playback stops." = "Din Discord-profil visar låten eller videon som spelas i Kaset, via Discord-appen på den här datorn. Inget skickas någon annanstans, och det försvinner när uppspelningen stoppas.";
+"Waiting for Discord to open on this Mac." = "Väntar på att Discord öppnas på den här datorn.";
+"Connected to Discord." = "Ansluten till Discord.";
+"Discord refused the connection: %@" = "Discord nekade anslutningen: %@";
+"Couldn't reach Discord: %@" = "Det gick inte att nå Discord: %@";
+"Paused" = "Pausad";

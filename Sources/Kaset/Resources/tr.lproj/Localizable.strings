@@ -831,3 +831,13 @@
 "The download doesn't match the release, so it wasn't installed." = "İndirme sürümle eşleşmediği için yüklenmedi.";
 "The download couldn't be unpacked." = "İndirme açılamadı.";
 "The download doesn't contain an extension." = "İndirme bir uzantı içermiyor.";
+
+// Discord Rich Presence
+"Show What's Playing on Discord" = "Çalınanı Discord’da Göster";
+"Discord" = "Discord";
+"Your Discord profile shows the song or video playing in Kaset, through the Discord app on this Mac. Nothing is sent anywhere else, and it clears when playback stops." = "Discord profiliniz, bu Mac’teki Discord uygulaması aracılığıyla Kaset’te çalan şarkıyı veya videoyu gösterir. Başka hiçbir yere bir şey gönderilmez ve oynatma durunca kaybolur.";
+"Waiting for Discord to open on this Mac." = "Bu Mac’te Discord’un açılması bekleniyor.";
+"Connected to Discord." = "Discord’a bağlandı.";
+"Discord refused the connection: %@" = "Discord bağlantıyı reddetti: %@";
+"Couldn't reach Discord: %@" = "Discord’a ulaşılamadı: %@";
+"Paused" = "Duraklatıldı";

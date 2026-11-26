@@ -826,3 +826,13 @@
 "The download doesn't match the release, so it wasn't installed." = "ダウンロードがリリースと一致しないため、インストールしませんでした。";
 "The download couldn't be unpacked." = "ダウンロードを展開できませんでした。";
 "The download doesn't contain an extension." = "ダウンロードに拡張機能が含まれていません。";
+
+// Discord Rich Presence
+"Show What's Playing on Discord" = "再生中の内容を Discord に表示";
+"Discord" = "Discord";
+"Your Discord profile shows the song or video playing in Kaset, through the Discord app on this Mac. Nothing is sent anywhere else, and it clears when playback stops." = "この Mac の Discord アプリを通じて、Kaset で再生中の曲や動画が Discord のプロフィールに表示されます。ほかの場所には何も送信されず、再生を止めると消えます。";
+"Waiting for Discord to open on this Mac." = "この Mac で Discord が開くのを待っています。";
+"Connected to Discord." = "Discord に接続しました。";
+"Discord refused the connection: %@" = "Discord が接続を拒否しました: %@";
+"Couldn't reach Discord: %@" = "Discord に接続できませんでした: %@";
+"Paused" = "一時停止中";

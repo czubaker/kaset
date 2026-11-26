@@ -43,6 +43,7 @@ final class SettingsManager {
         static let youtubePlayerBarDetails = "settings.playerBar.youtubeDetails"
         static let youtubeWatchPage = "settings.youtubeWatchPage"
         static let youtubeSidebarOrder = "settings.youtubeSidebarOrder"
+        static let discordRichPresenceEnabled = "settings.discord.richPresence.enabled"
         #if DEBUG
             static let useLegacyMacOS15UI = "settings.debug.useLegacyMacOS15UI"
         #endif
@@ -375,6 +376,14 @@ final class SettingsManager {
     var keepMiniPlayerOnTop: Bool {
         didSet {
             UserDefaults.standard.set(self.keepMiniPlayerOnTop, forKey: Keys.keepMiniPlayerOnTop)
+        }
+    }
+
+    /// Whether what's playing shows on the user's Discord profile, through the
+    /// Discord app running on this Mac. Off by default.
+    var discordRichPresenceEnabled: Bool = UserDefaults.standard.object(forKey: Keys.discordRichPresenceEnabled) as? Bool ?? false {
+        didSet {
+            UserDefaults.standard.set(self.discordRichPresenceEnabled, forKey: Keys.discordRichPresenceEnabled)
         }
     }
 

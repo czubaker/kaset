@@ -356,6 +356,13 @@ struct KasetApp: App {
                         youtubePlayerService: self.youtubePlayerService,
                         arbiter: self.playbackArbiter
                     )
+                    DiscordRichPresenceService.shared.configure(
+                        playerService: self.playerService,
+                        youtubePlayerService: self.youtubePlayerService
+                    )
+                }
+                .onChange(of: self.settings.discordRichPresenceEnabled) { _, _ in
+                    DiscordRichPresenceService.shared.refreshEnablement()
                 }
                 .onChange(of: self.playerService.isMiniPlayerVisible) { _, isVisible in
                     self.handleMiniPlayerVisibilityChange(isVisible)

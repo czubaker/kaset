@@ -22,6 +22,7 @@ struct ScrobblingSettingsView: View {
                     ScrobbleServiceRow(service: service)
                 }
             }
+            DiscordSettingsSection()
         }
         .formStyle(.grouped)
         .frame(minWidth: 400, minHeight: 300)
