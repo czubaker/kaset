@@ -862,3 +862,8 @@
 "Autoplay" = "Automatisk uppspelning";
 "Play Now" = "Spela nu";
 "When a video ends, count down and play the next related video." = "När en video tar slut räknas det ner och nästa relaterade video spelas.";
+
+// Watch page description
+"Description" = "Beskrivning";
+"Show More" = "Visa mer";
+"Show Less" = "Visa mindre";

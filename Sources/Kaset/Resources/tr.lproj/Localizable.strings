@@ -862,3 +862,8 @@
 "Autoplay" = "Otomatik oynat";
 "Play Now" = "Şimdi oynat";
 "When a video ends, count down and play the next related video." = "Bir video bittiğinde geri sayım yapılır ve sonraki ilgili video oynatılır.";
+
+// Watch page description
+"Description" = "Açıklama";
+"Show More" = "Daha fazla göster";
+"Show Less" = "Daha az göster";

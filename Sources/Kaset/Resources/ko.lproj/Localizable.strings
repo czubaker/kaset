@@ -862,3 +862,8 @@
 "Autoplay" = "자동 재생";
 "Play Now" = "지금 재생";
 "When a video ends, count down and play the next related video." = "동영상이 끝나면 카운트다운 후 다음 관련 동영상을 재생합니다.";
+
+// Watch page description
+"Description" = "설명";
+"Show More" = "더보기";
+"Show Less" = "간략히";

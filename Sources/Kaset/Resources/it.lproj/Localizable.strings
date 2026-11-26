@@ -862,3 +862,8 @@
 "Autoplay" = "Riproduzione automatica";
 "Play Now" = "Riproduci ora";
 "When a video ends, count down and play the next related video." = "Al termine di un video, parte un conto alla rovescia e si riproduce il video correlato successivo.";
+
+// Watch page description
+"Description" = "Descrizione";
+"Show More" = "Mostra altro";
+"Show Less" = "Mostra meno";

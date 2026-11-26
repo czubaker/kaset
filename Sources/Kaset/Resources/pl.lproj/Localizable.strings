@@ -862,3 +862,8 @@
 "Autoplay" = "Autoodtwarzanie";
 "Play Now" = "Odtwórz teraz";
 "When a video ends, count down and play the next related video." = "Po zakończeniu filmu odlicza i odtwarza następny powiązany film.";
+
+// Watch page description
+"Description" = "Opis";
+"Show More" = "Pokaż więcej";
+"Show Less" = "Pokaż mniej";

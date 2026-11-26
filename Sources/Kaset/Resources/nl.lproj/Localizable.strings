@@ -862,3 +862,8 @@
 "Autoplay" = "Automatisch afspelen";
 "Play Now" = "Nu afspelen";
 "When a video ends, count down and play the next related video." = "Als een video afloopt, wordt er afgeteld en de volgende gerelateerde video afgespeeld.";
+
+// Watch page description
+"Description" = "Beschrijving";
+"Show More" = "Meer weergeven";
+"Show Less" = "Minder weergeven";

@@ -862,3 +862,8 @@
 "Autoplay" = "Автовідтворення";
 "Play Now" = "Відтворити зараз";
 "When a video ends, count down and play the next related video." = "Коли відео закінчується, починається зворотний відлік і вмикається наступне схоже відео.";
+
+// Watch page description
+"Description" = "Опис";
+"Show More" = "Показати більше";
+"Show Less" = "Згорнути";

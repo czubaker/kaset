@@ -862,3 +862,8 @@
 "Autoplay" = "Putar otomatis";
 "Play Now" = "Putar sekarang";
 "When a video ends, count down and play the next related video." = "Saat video berakhir, hitung mundur lalu putar video terkait berikutnya.";
+
+// Watch page description
+"Description" = "Deskripsi";
+"Show More" = "Tampilkan lebih banyak";
+"Show Less" = "Tampilkan lebih sedikit";

@@ -94,6 +94,10 @@ struct YouTubeWatchView: View {
                             self.metadataSection
                         }
 
+                        if self.shows(.videoDescription), let description = self.descriptionText {
+                            YouTubeWatchDescription(text: description, linkDuration: self.timestampLinkDuration)
+                        }
+
                         if showsChapters {
                             if showsMetadata {
                                 Divider()
@@ -487,6 +491,18 @@ struct YouTubeWatchView: View {
         return currentTime < self.viewModel.data.chapters[nextIndex].startTime
     }
 
+    /// The video's description, when it has one.
+    private var descriptionText: String? {
+        let text = self.viewModel.data.descriptionText?.trimmingCharacters(in: .whitespacesAndNewlines)
+        return text?.isEmpty == false ? text : nil
+    }
+
+    /// How far timestamps in the description and comments link: the video's
+    /// length while it's the one playing, otherwise not at all.
+    private var timestampLinkDuration: TimeInterval {
+        self.youtubePlayer.currentVideo?.videoId == self.video.videoId ? self.youtubePlayer.duration : 0
+    }
+
     // MARK: - Related Column
 
     private var relatedColumn: some View {
@@ -681,6 +697,7 @@ private struct CommentThread: View {
     /// replies posted from it.
     let replyAuthor: (name: String, avatarURL: URL?)?
 
+    @Environment(YouTubePlayerService.self) private var youtubePlayer
     @State private var showsReplies = false
     /// The comment the reply field answers: this thread's or one of its replies.
     @State private var replyTarget: YouTubeComment?
@@ -768,6 +785,8 @@ private struct CommentThread: View {
 
     private func row(for comment: YouTubeComment) -> some View {
         CommentRow(
+            linkDuration: self.youtubePlayer.currentVideo?.videoId == self.viewModel.video.videoId
+                ? self.youtubePlayer.duration : 0,
             comment: comment,
             isLiked: self.viewModel.likedComments.contains(comment.id),
             isDisliked: self.viewModel.dislikedComments.contains(comment.id),
@@ -936,6 +955,8 @@ private struct CommentReplyField: View {
 /// One comment: avatar, author + time, text, and working like/dislike and
 /// reply. The author (avatar/name) navigates to their channel.
 private struct CommentRow: View {
+    /// Timestamps up to this many seconds seek the video; 0 links none.
+    let linkDuration: TimeInterval
     let comment: YouTubeComment
     let isLiked: Bool
     let isDisliked: Bool
@@ -946,6 +967,8 @@ private struct CommentRow: View {
     /// Opens the reply field; nil when the comment takes no replies.
     let onReply: (() -> Void)?
     let allowsActions: Bool
+
+    @Environment(YouTubePlayerService.self) private var youtubePlayer
 
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
@@ -969,10 +992,11 @@ private struct CommentRow: View {
                     }
                 }
 
-                Text(self.comment.text)
+                Text(YouTubeLinkedText.attributed(self.comment.text, duration: self.linkDuration))
                     .font(.system(size: 12))
                     .foregroundStyle(.primary)
                     .textSelection(.enabled)
+                    .youtubeSeekLinks(self.youtubePlayer)
 
                 HStack(spacing: 14) {
                     Button(action: self.onLike) {
