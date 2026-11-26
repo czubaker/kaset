@@ -151,6 +151,12 @@ protocol YouTubeClientProtocol: Sendable {
     /// one of its `ChannelNotificationPreference` options.
     func modifyNotificationPreference(params: String) async throws
 
+    /// One poll of a live stream's chat.
+    func getLiveChat(continuation: String) async throws -> YouTubeLiveChatPage
+
+    /// Posts to a live chat, with the `sendParams` of a chat page.
+    func sendLiveChatMessage(text: String, params: String) async throws
+
     /// Adds a video to Watch Later.
     func addToWatchLater(videoId: String) async throws
 

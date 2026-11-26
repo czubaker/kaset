@@ -14,6 +14,7 @@ enum YouTubeWatchPageElement: String, CaseIterable, Identifiable {
     case chapters
     case comments
     case related
+    case liveChat
 
     var id: String {
         self.rawValue
@@ -31,6 +32,7 @@ enum YouTubeWatchPageElement: String, CaseIterable, Identifiable {
         case .chapters: String(localized: "Chapters")
         case .comments: String(localized: "Comments")
         case .related: String(localized: "Related Videos")
+        case .liveChat: String(localized: "Live Chat")
         }
     }
 
@@ -83,7 +85,7 @@ struct YouTubeWatchPageLayout: Equatable {
             return fields.contains(.subscribers)
         case .subscribeButton:
             return playerBar.contains(.subscribe) || playerBar.contains(.subscribeIcon)
-        case .videoDescription, .chapters, .comments, .related:
+        case .videoDescription, .chapters, .comments, .related, .liveChat:
             return false
         }
     }

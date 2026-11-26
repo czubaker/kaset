@@ -116,9 +116,21 @@ struct YouTubeWatchView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                    if self.shows(.related) {
-                        self.relatedColumn
-                            .frame(width: 360)
+                    let liveChat = self.shows(.liveChat) ? self.viewModel.data.liveChatContinuation : nil
+                    if liveChat != nil || self.shows(.related) {
+                        VStack(alignment: .leading, spacing: 16) {
+                            if let liveChat {
+                                YouTubeLiveChatPanel(
+                                    continuation: liveChat,
+                                    client: self.viewModel.client,
+                                    allowsPosting: self.hasPersonalAccount
+                                )
+                            }
+                            if self.shows(.related) {
+                                self.relatedColumn
+                            }
+                        }
+                        .frame(width: 360)
                     }
                 }
             }

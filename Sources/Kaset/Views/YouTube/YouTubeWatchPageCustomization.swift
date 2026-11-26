@@ -132,6 +132,7 @@ struct YouTubeWatchPageCustomizationEditor: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Beside the Video", comment: "Watch page customization section")
                     .font(.headline)
+                self.toggle(for: .liveChat)
                 self.toggle(for: .related)
 
                 Divider()

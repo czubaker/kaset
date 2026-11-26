@@ -171,6 +171,38 @@ struct YouTubeHeatmapMarker: Equatable {
     let intensity: Double
 }
 
+// MARK: - YouTubeLiveChatMessage
+
+/// One message in a live stream's chat.
+struct YouTubeLiveChatMessage: Identifiable, Hashable {
+    let id: String
+    let author: String
+    let authorAvatarURL: URL?
+    let authorChannelId: String?
+    /// The text, with emoji as characters (custom ones as `:shortcut:`).
+    let message: String
+    /// When it was sent, as a short clock time.
+    let timestampText: String?
+    let isVerified: Bool
+    let isModerator: Bool
+    let isMember: Bool
+    let isOwner: Bool
+}
+
+// MARK: - YouTubeLiveChatPage
+
+/// One poll of a live chat: new messages, and the token and delay for the next.
+struct YouTubeLiveChatPage {
+    let messages: [YouTubeLiveChatMessage]
+    let continuation: String?
+    /// The server's wait before the next poll, in milliseconds.
+    let timeoutMs: Int
+    /// For `live_chat/send_message`, present only when the account may post.
+    let sendParams: String?
+    /// Why the account can't post, in YouTube's words ("Subscribers-only mode").
+    var restrictionMessage: String?
+}
+
 // MARK: - WatchNextData
 
 /// Watch-page companion data from the `next` endpoint: video metadata and
@@ -198,6 +230,8 @@ struct WatchNextData {
     var notificationPreference: ChannelNotificationPreference?
     /// The channels credited on a collaboration upload; empty for one channel.
     var collaborators: [VideoCollaborator]
+    /// The live chat's first token, for a live stream or premiere with chat.
+    var liveChatContinuation: String?
 
     init(
         videoTitle: String?,
@@ -211,7 +245,8 @@ struct WatchNextData {
         isSubscribed: Bool? = nil,
         commentsContinuation: String? = nil,
         notificationPreference: ChannelNotificationPreference? = nil,
-        collaborators: [VideoCollaborator] = []
+        collaborators: [VideoCollaborator] = [],
+        liveChatContinuation: String? = nil
     ) {
         self.videoTitle = videoTitle
         self.viewCountText = viewCountText
@@ -225,6 +260,7 @@ struct WatchNextData {
         self.commentsContinuation = commentsContinuation
         self.notificationPreference = notificationPreference
         self.collaborators = collaborators
+        self.liveChatContinuation = liveChatContinuation
     }
 
     static let empty = WatchNextData(

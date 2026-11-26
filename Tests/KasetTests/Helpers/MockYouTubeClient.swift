@@ -439,6 +439,9 @@ final class MockYouTubeClient: YouTubeClientProtocol {
     private(set) var ratedVideos: [(videoId: String, rating: YouTubeRating)] = []
     private(set) var subscriptionChanges: [(channelId: String, subscribed: Bool)] = []
     private(set) var notificationPreferenceChanges: [String] = []
+    var liveChatPages: [String: YouTubeLiveChatPage] = [:]
+    private(set) var liveChatRequests: [String] = []
+    private(set) var sentLiveChatMessages: [(text: String, params: String)] = []
     private(set) var watchLaterAdds: [String] = []
     private(set) var watchLaterRemovals: [String] = []
     /// Returned by `getAddToPlaylistOptions`.
@@ -555,6 +558,22 @@ final class MockYouTubeClient: YouTubeClientProtocol {
             throw error
         }
         self.ratedVideos.append((videoId, rating))
+    }
+
+    func getLiveChat(continuation: String) async throws -> YouTubeLiveChatPage {
+        if let error {
+            throw error
+        }
+        self.liveChatRequests.append(continuation)
+        return self.liveChatPages[continuation]
+            ?? YouTubeLiveChatPage(messages: [], continuation: nil, timeoutMs: 5000, sendParams: nil)
+    }
+
+    func sendLiveChatMessage(text: String, params: String) async throws {
+        if let error {
+            throw error
+        }
+        self.sentLiveChatMessages.append((text, params))
     }
 
     func modifyNotificationPreference(params: String) async throws {

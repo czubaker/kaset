@@ -86,8 +86,21 @@ enum WatchNextParser {
             isSubscribed: isSubscribed,
             commentsContinuation: Self.commentsContinuation(of: data),
             notificationPreference: notificationPreference,
-            collaborators: collaborators
+            collaborators: collaborators,
+            liveChatContinuation: Self.liveChatContinuation(of: data)
         )
+    }
+
+    /// The live chat's first token: `conversationBar.liveChatRenderer`'s
+    /// `reloadContinuationData`, present for a live stream or premiere with
+    /// chat (verified with api-explorer, November 2026).
+    static func liveChatContinuation(of data: [String: Any]) -> String? {
+        let results = (data["contents"] as? [String: Any])?["twoColumnWatchNextResults"] as? [String: Any]
+        let renderer = (results?["conversationBar"] as? [String: Any])?["liveChatRenderer"] as? [String: Any]
+        let continuations = renderer?["continuations"] as? [[String: Any]] ?? []
+        return continuations.lazy.compactMap { continuation in
+            (continuation["reloadContinuationData"] as? [String: Any])?["continuation"] as? String
+        }.first
     }
 
     // MARK: Collaborators

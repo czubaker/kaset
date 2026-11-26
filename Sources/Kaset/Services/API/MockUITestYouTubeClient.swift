@@ -253,6 +253,12 @@ final class MockUITestYouTubeClient: YouTubeClientProtocol {
 
     func modifyNotificationPreference(params _: String) async throws {}
 
+    func getLiveChat(continuation _: String) async throws -> YouTubeLiveChatPage {
+        YouTubeLiveChatPage(messages: [], continuation: nil, timeoutMs: 5000, sendParams: nil)
+    }
+
+    func sendLiveChatMessage(text _: String, params _: String) async throws {}
+
     func addToWatchLater(videoId _: String) async throws {}
 
     func removeFromWatchLater(videoId _: String) async throws {}
