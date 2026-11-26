@@ -938,3 +938,9 @@
 "When the Current Video Ends" = "Saat Video Ini Berakhir";
 "When the Current Track Ends" = "Saat Lagu Ini Berakhir";
 "Sleep Timer: pausing in %@" = "Pengatur Waktu Tidur: jeda dalam %@";
+
+// YouTube video queue
+"Nothing queued" = "Antrean kosong";
+"Right-click a video and choose Play Next or Add to Queue." = "Klik kanan video lalu pilih Putar Berikutnya atau Tambahkan ke Antrean.";
+"%lld queued" = "%lld dalam antrean";
+"Queue: %lld queued" = "Antrean: %lld";

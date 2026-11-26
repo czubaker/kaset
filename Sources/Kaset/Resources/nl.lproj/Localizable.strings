@@ -938,3 +938,9 @@
 "When the Current Video Ends" = "Als de huidige video eindigt";
 "When the Current Track Ends" = "Als het huidige nummer eindigt";
 "Sleep Timer: pausing in %@" = "Slaaptimer: pauze over %@";
+
+// YouTube video queue
+"Nothing queued" = "Niets in de wachtrij";
+"Right-click a video and choose Play Next or Add to Queue." = "Klik met de rechtermuisknop op een video en kies ‘Hierna afspelen’ of ‘Aan wachtrij toevoegen’.";
+"%lld queued" = "%lld in wachtrij";
+"Queue: %lld queued" = "Wachtrij: %lld";

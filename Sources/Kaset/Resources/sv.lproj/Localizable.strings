@@ -938,3 +938,9 @@
 "When the Current Video Ends" = "När den aktuella videon slutar";
 "When the Current Track Ends" = "När det aktuella spåret slutar";
 "Sleep Timer: pausing in %@" = "Insomningstimer: pausar om %@";
+
+// YouTube video queue
+"Nothing queued" = "Inget i kön";
+"Right-click a video and choose Play Next or Add to Queue." = "Högerklicka på en video och välj ”Spela upp härnäst” eller ”Lägg till i kö”.";
+"%lld queued" = "%lld i kö";
+"Queue: %lld queued" = "Kö: %lld";

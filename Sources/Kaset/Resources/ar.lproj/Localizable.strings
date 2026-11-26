@@ -938,3 +938,9 @@
 "When the Current Video Ends" = "عند انتهاء الفيديو الحالي";
 "When the Current Track Ends" = "عند انتهاء المقطع الحالي";
 "Sleep Timer: pausing in %@" = "مؤقت النوم: الإيقاف المؤقت بعد %@";
+
+// YouTube video queue
+"Nothing queued" = "لا شيء في قائمة الانتظار";
+"Right-click a video and choose Play Next or Add to Queue." = "انقر بزر الماوس الأيمن على فيديو واختر ”تشغيل التالي“ أو ”إضافة إلى قائمة الانتظار“.";
+"%lld queued" = "%lld في قائمة الانتظار";
+"Queue: %lld queued" = "قائمة الانتظار: %lld";

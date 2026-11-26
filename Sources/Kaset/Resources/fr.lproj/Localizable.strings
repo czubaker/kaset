@@ -938,3 +938,9 @@
 "When the Current Video Ends" = "À la fin de la vidéo en cours";
 "When the Current Track Ends" = "À la fin du morceau en cours";
 "Sleep Timer: pausing in %@" = "Minuterie de veille : pause dans %@";
+
+// YouTube video queue
+"Nothing queued" = "Rien dans la file d’attente";
+"Right-click a video and choose Play Next or Add to Queue." = "Cliquez avec le bouton droit sur une vidéo et choisissez « Lire ensuite » ou « Ajouter à la file d’attente ».";
+"%lld queued" = "%lld en file d’attente";
+"Queue: %lld queued" = "File d’attente : %lld";

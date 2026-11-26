@@ -933,3 +933,9 @@
 "When the Current Video Ends" = "現在のビデオが終わったとき";
 "When the Current Track Ends" = "現在の曲が終わったとき";
 "Sleep Timer: pausing in %@" = "スリープタイマー：%@後に一時停止";
+
+// YouTube video queue
+"Nothing queued" = "キューは空です";
+"Right-click a video and choose Play Next or Add to Queue." = "ビデオを右クリックして「次に再生」または「キューに追加」を選択します。";
+"%lld queued" = "%lld 本がキューに";
+"Queue: %lld queued" = "キュー：%lld 本";

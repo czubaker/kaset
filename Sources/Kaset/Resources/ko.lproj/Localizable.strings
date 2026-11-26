@@ -938,3 +938,9 @@
 "When the Current Video Ends" = "현재 비디오가 끝나면";
 "When the Current Track Ends" = "현재 곡이 끝나면";
 "Sleep Timer: pausing in %@" = "잠자기 타이머: %@ 후 일시 정지";
+
+// YouTube video queue
+"Nothing queued" = "대기열이 비어 있음";
+"Right-click a video and choose Play Next or Add to Queue." = "비디오를 오른쪽 클릭하고 ‘다음에 재생’ 또는 ‘대기열에 추가’를 선택하세요.";
+"%lld queued" = "대기열에 %lld개";
+"Queue: %lld queued" = "대기열: %lld개";

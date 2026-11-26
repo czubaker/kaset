@@ -232,6 +232,8 @@ struct YouTubePlayerBar: View {
             self.youtubeFloatOnTopButton
         case .pictureInPicture:
             self.pictureInPictureButton
+        case .queue:
+            YouTubePlayerBarQueueButton()
         case .sleepTimer:
             SleepTimerBarButton()
         case .space, .flexibleSpace:

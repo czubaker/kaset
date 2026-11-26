@@ -4,7 +4,8 @@ import SwiftUI
 // MARK: - YouTubeVideoContextMenu
 
 /// A video card's context menu, in line with the overflow menu on youtube.com:
-/// Add to Watch Later and Add to Playlist when signed in, then the card's
+/// Play Next and Add to Queue for videos (not Shorts), Add to Watch Later and
+/// Add to Playlist when signed in, then the card's
 /// "Not interested" / "Don't recommend channel" entries where the page
 /// handles them. A card with nothing to offer gets no menu.
 struct YouTubeVideoContextMenu: ViewModifier {
@@ -15,11 +16,26 @@ struct YouTubeVideoContextMenu: ViewModifier {
     let removal: YouTubeVideoRemoval?
 
     @Environment(AuthService.self) private var authService
+    @Environment(YouTubePlayerService.self) private var youtubePlayer
 
     func body(content: Content) -> some View {
         let canSave = self.authService.hasPersonalAccount
         let feedbackActions = self.sendFeedback == nil ? [] : self.video.feedbackActions
         content.contextMenu {
+            if !self.video.isShort {
+                Button {
+                    self.queue(next: true)
+                } label: {
+                    Label(String(localized: "Play Next"), systemImage: "text.line.first.and.arrowtriangle.forward")
+                }
+                Button {
+                    self.queue(next: false)
+                } label: {
+                    Label(String(localized: "Add to Queue"), systemImage: "text.append")
+                }
+                Divider()
+            }
+
             if canSave {
                 Button {
                     Task { await YouTubeVideoActions.shared.saveToWatchLater(self.video) }
@@ -70,6 +86,22 @@ struct YouTubeVideoContextMenu: ViewModifier {
                 }
             }
         }
+    }
+}
+
+private extension YouTubeVideoContextMenu {
+    /// Queues the video, or plays it when nothing plays yet.
+    func queue(next: Bool) {
+        guard self.youtubePlayer.currentVideo != nil else {
+            YouTubePageRefresh.shared.store?.navigationPath.append(.watch(self.video))
+            return
+        }
+        if next {
+            self.youtubePlayer.playNext(self.video)
+        } else {
+            self.youtubePlayer.addToQueue(self.video)
+        }
+        HapticService.toggle()
     }
 }
 

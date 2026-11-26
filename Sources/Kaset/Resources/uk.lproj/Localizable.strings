@@ -938,3 +938,9 @@
 "When the Current Video Ends" = "Коли закінчиться поточне відео";
 "When the Current Track Ends" = "Коли закінчиться поточний трек";
 "Sleep Timer: pausing in %@" = "Таймер сну: пауза через %@";
+
+// YouTube video queue
+"Nothing queued" = "Черга порожня";
+"Right-click a video and choose Play Next or Add to Queue." = "Клацніть відео правою кнопкою й виберіть «Відтворити наступним» або «Додати до черги».";
+"%lld queued" = "У черзі: %lld";
+"Queue: %lld queued" = "Черга: %lld";

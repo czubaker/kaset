@@ -936,3 +936,9 @@
 "When the Current Video Ends" = "目前影片結束時";
 "When the Current Track Ends" = "目前曲目結束時";
 "Sleep Timer: pausing in %@" = "睡眠計時器：將在 %@ 後暫停";
+
+// YouTube video queue
+"Nothing queued" = "佇列中沒有內容";
+"Right-click a video and choose Play Next or Add to Queue." = "在影片上按右鍵，然後選擇「接著播放」或「加入佇列」。";
+"%lld queued" = "佇列中有 %lld 個";
+"Queue: %lld queued" = "佇列：%lld 個";

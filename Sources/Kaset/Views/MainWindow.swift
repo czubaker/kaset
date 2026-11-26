@@ -612,6 +612,7 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
         }
         .animation(.easeInOut(duration: 0.25), value: self.playerService.showLyrics)
         .animation(.easeInOut(duration: 0.25), value: self.playerService.showQueue)
+        .animation(.easeInOut(duration: 0.25), value: self.youtubePlayerService.showsQueue)
         .toolbar(self.isShowingFullScreenPlayer ? .hidden : .automatic, for: .windowToolbar)
         .frame(minWidth: MainWindowLayout.minimumWidth, minHeight: MainWindowLayout.minimumHeight)
         // Customizable like Finder's toolbar (right-click → Customize
@@ -742,7 +743,15 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
     private func rightSidebarOverlay(client: any YTMusicClientProtocol) -> some View {
         let showRightSidebar = self.playerService.showLyrics || self.playerService.showQueue
 
-        if showRightSidebar {
+        if self.settings.appSource == .video, self.youtubePlayerService.showsQueue {
+            YouTubeQueuePanel()
+                .frame(maxHeight: .infinity)
+                .padding(.top, 12)
+                .padding(.bottom, 76) // Space for the player bar
+                .padding(.trailing, 16)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .transition(.move(edge: .trailing).combined(with: .opacity))
+        } else if showRightSidebar {
             VStack {
                 Spacer()
 

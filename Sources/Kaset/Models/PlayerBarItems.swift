@@ -132,6 +132,7 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
     case audioTrack
     case floatOnTop
     case pictureInPicture
+    case queue
     case sleepTimer
     case space
     case flexibleSpace
@@ -172,6 +173,7 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
         case .audioTrack: String(localized: "Audio track")
         case .floatOnTop: String(localized: "Float on Top")
         case .pictureInPicture: String(localized: "Picture in Picture")
+        case .queue: String(localized: "Queue")
         case .sleepTimer: String(localized: "Sleep Timer")
         case .space: String(localized: "Space")
         case .flexibleSpace: String(localized: "Flexible Space")
@@ -207,6 +209,7 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
         case .audioTrack: "waveform"
         case .floatOnTop: "pin"
         case .pictureInPicture: "pip.enter"
+        case .queue: "list.bullet"
         case .sleepTimer: "moon.zzz"
         case .space: "square.dashed"
         case .flexibleSpace: "arrow.left.and.right"

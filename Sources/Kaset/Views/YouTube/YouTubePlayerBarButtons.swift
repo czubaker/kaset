@@ -105,3 +105,41 @@ struct YouTubePlayerBarShareButton: View {
         .disabled(url == nil)
     }
 }
+
+// MARK: - YouTubePlayerBarQueueButton
+
+/// Shows or hides the queue panel; a dot marks queued videos.
+struct YouTubePlayerBarQueueButton: View {
+    @Environment(YouTubePlayerService.self) private var youtubePlayer
+
+    var body: some View {
+        let isShowing = self.youtubePlayer.showsQueue
+        let count = self.youtubePlayer.videoQueue.count
+        PlayerBarIconButton(
+            action: {
+                HapticService.toggle()
+                withAnimation(AppAnimation.standard) {
+                    self.youtubePlayer.showsQueue.toggle()
+                }
+            },
+            isSelected: isShowing,
+            accessibilityLabel: String(localized: "Queue"),
+            accessibilityValue: count > 0 ? String(localized: "\(count) queued") : nil,
+            icon: {
+                Image(systemName: "list.bullet")
+                    .font(.system(size: 15, weight: .regular))
+                    .frame(width: 16, height: 16)
+                    .foregroundStyle(isShowing ? PackageResourceLookup.brandAccent : .primary)
+                    .overlay(alignment: .topTrailing) {
+                        if count > 0, !isShowing {
+                            Circle()
+                                .fill(PackageResourceLookup.brandAccent)
+                                .frame(width: 6, height: 6)
+                                .offset(x: 3, y: -2)
+                        }
+                    }
+            }
+        )
+        .help(count > 0 ? String(localized: "Queue: \(count) queued") : String(localized: "Queue"))
+    }
+}

@@ -938,3 +938,9 @@
 "When the Current Video Ends" = "Al terminar el vídeo actual";
 "When the Current Track Ends" = "Al terminar la canción actual";
 "Sleep Timer: pausing in %@" = "Temporizador: pausa en %@";
+
+// YouTube video queue
+"Nothing queued" = "No hay nada en cola";
+"Right-click a video and choose Play Next or Add to Queue." = "Haz clic derecho en un vídeo y elige «Reproducir a continuación» o «Añadir a la cola».";
+"%lld queued" = "%lld en cola";
+"Queue: %lld queued" = "Cola: %lld";

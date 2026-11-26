@@ -938,3 +938,9 @@
 "When the Current Video Ends" = "Geçerli Video Bittiğinde";
 "When the Current Track Ends" = "Geçerli Parça Bittiğinde";
 "Sleep Timer: pausing in %@" = "Uyku zamanlayıcısı: %@ sonra duraklatılacak";
+
+// YouTube video queue
+"Nothing queued" = "Sırada bir şey yok";
+"Right-click a video and choose Play Next or Add to Queue." = "Bir videoya sağ tıklayıp “Sonra Çal” veya “Sıraya Ekle”yi seçin.";
+"%lld queued" = "Sırada %lld";
+"Queue: %lld queued" = "Sıra: %lld";

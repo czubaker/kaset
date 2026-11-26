@@ -245,6 +245,12 @@ final class YouTubePlayerService {
     /// Up-next candidates for skip-forward (related videos from the watch page).
     private(set) var upNext: [YouTubeVideo] = []
 
+    /// Videos the user queued, played before anything else when one ends or
+    /// Next is pressed; changed through YouTubePlayerService+Queue.
+    var videoQueue: [YouTubeVideo] = []
+    /// Whether the queue panel shows.
+    var showsQueue = false
+
     /// Navigation chapters for the current video, loaded from the watch page's
     /// companion `next` response.
     private(set) var chapters: [YouTubeChapter] = []
@@ -820,7 +826,7 @@ final class YouTubePlayerService {
     }
 
     func skipForward(ownedBy playbackIntentGeneration: UInt64) async {
-        guard let current = self.currentVideo else { return }
+        guard let current = self.currentVideo, !self.advanceToQueuedVideo() else { return }
 
         var target = self.upNext.first
         if target == nil, let client = self.youtubeClient {
@@ -865,6 +871,7 @@ final class YouTubePlayerService {
             self.rememberInHistory(current)
         }
         self.upNext.removeAll { $0.videoId == video.videoId }
+        self.videoQueue.removeAll { $0.videoId == video.videoId }
 
         self.playbackWillStart?()
         self.currentVideo = video
@@ -1718,7 +1725,9 @@ extension YouTubePlayerService {
             self.watchActivityGeneration += 1
             self.onVideoEnded?(videoId)
         }
-        self.startAutoplayIfEnabled()
+        if !self.playQueueAfterFinish(of: videoId) {
+            self.startAutoplayIfEnabled()
+        }
         return true
     }
 
