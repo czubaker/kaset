@@ -539,5 +539,36 @@ struct ExtensionsManagerTests {
 
         let reloadedManager = self.makeManager(in: rootDirectory)
         #expect(reloadedManager.extensions.isEmpty)
+
+        // With the last one gone, nothing of the extension store is left.
+        let persistenceURL = self.makePersistenceURL(in: rootDirectory)
+        #expect(!FileManager.default.fileExists(atPath: persistenceURL.path))
+        #expect(!FileManager.default.fileExists(atPath: copiedURL.deletingLastPathComponent().path))
+    }
+
+    @Test("An addon goes by its own name and remembers its release; older lists still load")
+    func addonEntriesCarryTheirAddon() throws {
+        let rootDirectory = try self.makeTemporaryDirectory()
+        defer { self.cleanupDirectory(rootDirectory) }
+
+        let sourceURL = try self.makeExtensionSource(
+            in: rootDirectory,
+            folderName: "addon-1234",
+            manifest: ["name": "__MSG_Name__", "manifest_version": 3]
+        )
+        let manager = self.makeManager(in: rootDirectory)
+        try manager.addExtension(at: sourceURL, addon: .sponsorBlock, version: "6.1.7")
+
+        let ext = try #require(manager.extensions.first)
+        #expect(ext.name == "SponsorBlock")
+        #expect(ext.addon == .sponsorBlock)
+        #expect(ext.version == "6.1.7")
+        #expect(self.makeManager(in: rootDirectory).extensions.first?.addon == .sponsorBlock)
+
+        let legacy = Data(#"[{"id": "a", "name": "Old", "isEnabled": false, "relativePath": "a"}]"#.utf8)
+        let decoded = try JSONDecoder().decode([ManagedExtension].self, from: legacy)
+        #expect(decoded.first?.addon == nil)
+        let unknown = Data(#"[{"id": "b", "name": "New", "isEnabled": false, "relativePath": "b", "addonID": "future"}]"#.utf8)
+        #expect(try JSONDecoder().decode([ManagedExtension].self, from: unknown).first?.addon == nil)
     }
 }

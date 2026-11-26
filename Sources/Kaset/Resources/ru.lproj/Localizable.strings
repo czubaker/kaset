@@ -815,3 +815,19 @@
 "Forward 1 minute" = "Вперёд на 1 минуту";
 "Item Options" = "Настройки элементов";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "Добавьте на панель «Сведения» или «Аватар и сведения», чтобы выбрать, что показывают их две строки.";
+
+// Addons
+"Addons" = "Аддоны";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "Скачиваются из официальных выпусков каждого проекта только при установке. Удаление аддона стирает его файлы и данные.";
+"Install" = "Установить";
+"Remove" = "Удалить";
+"Downloading…" = "Загрузка…";
+"Installing…" = "Установка…";
+"Enabled" = "Включено";
+"Blocks ads and trackers in the video player." = "Блокирует рекламу и трекеры в видеоплеере.";
+"Skips sponsors and other segments the community marked." = "Пропускает спонсорские вставки и другие фрагменты, отмеченные сообществом.";
+"The project's latest release has no Safari build to install." = "В последнем выпуске проекта нет сборки для Safari.";
+"The download can't be verified, so it wasn't installed." = "Загрузку не удалось проверить, поэтому она не установлена.";
+"The download doesn't match the release, so it wasn't installed." = "Загрузка не совпадает с выпуском, поэтому она не установлена.";
+"The download couldn't be unpacked." = "Не удалось распаковать загрузку.";
+"The download doesn't contain an extension." = "В загрузке нет расширения.";

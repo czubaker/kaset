@@ -170,6 +170,27 @@ final class WebKitManager: NSObject, WebKitManagerProtocol {
         return nil
     }
 
+    /// Deletes what an extension stored (its local, session, and synced
+    /// storage), keyed by the managed-extension ID its context carries.
+    func removeExtensionData(forExtensionId id: String) async {
+        if #available(macOS 15.4, *) {
+            let types: Set<WKWebExtension.DataType> = [.local, .session, .synchronized]
+            let controller = self.webExtensionController
+            let records = await withCheckedContinuation { continuation in
+                controller.fetchDataRecords(ofTypes: types) { records in
+                    continuation.resume(returning: records)
+                }
+            }
+            let owned = records.filter { $0.uniqueIdentifier == id }
+            guard !owned.isEmpty else { return }
+            await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                controller.removeData(ofTypes: types, from: owned) {
+                    continuation.resume()
+                }
+            }
+        }
+    }
+
     /// Loads all enabled extensions from `ExtensionsManager`.
     func loadExtensions(using manager: ExtensionsManager = .shared) async {
         #if compiler(>=5.9)

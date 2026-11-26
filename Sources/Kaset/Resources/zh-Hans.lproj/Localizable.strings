@@ -813,3 +813,19 @@
 "Forward 1 minute" = "快进 1 分钟";
 "Item Options" = "项目选项";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "将“详细信息”或“头像和详细信息”添加到播放栏，即可选择它们两行显示的内容。";
+
+// Addons
+"Addons" = "附加组件";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "仅在安装时从各项目的官方发布版本下载。移除附加组件会删除其文件和数据。";
+"Install" = "安装";
+"Remove" = "移除";
+"Downloading…" = "正在下载…";
+"Installing…" = "正在安装…";
+"Enabled" = "已启用";
+"Blocks ads and trackers in the video player." = "拦截视频播放器中的广告和跟踪器。";
+"Skips sponsors and other segments the community marked." = "跳过社区标记的赞助和其他片段。";
+"The project's latest release has no Safari build to install." = "该项目的最新版本没有可安装的 Safari 版本。";
+"The download can't be verified, so it wasn't installed." = "无法验证下载内容，因此未安装。";
+"The download doesn't match the release, so it wasn't installed." = "下载内容与发布版本不符，因此未安装。";
+"The download couldn't be unpacked." = "无法解压下载内容。";
+"The download doesn't contain an extension." = "下载内容不包含扩展。";

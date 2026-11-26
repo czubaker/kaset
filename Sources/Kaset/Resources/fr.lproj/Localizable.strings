@@ -815,3 +815,19 @@
 "Forward 1 minute" = "Avancer de 1 minute";
 "Item Options" = "Options des éléments";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "Ajoutez « Détails » ou « Avatar et détails » à la barre pour choisir ce qu’affichent leurs deux lignes.";
+
+// Addons
+"Addons" = "Modules complémentaires";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "Téléchargés depuis les versions officielles de chaque projet uniquement lorsque vous les installez. Supprimer un module efface ses fichiers et ses données.";
+"Install" = "Installer";
+"Remove" = "Supprimer";
+"Downloading…" = "Téléchargement…";
+"Installing…" = "Installation…";
+"Enabled" = "Activé";
+"Blocks ads and trackers in the video player." = "Bloque les publicités et les traqueurs dans le lecteur vidéo.";
+"Skips sponsors and other segments the community marked." = "Passe les sponsors et les autres segments signalés par la communauté.";
+"The project's latest release has no Safari build to install." = "La dernière version du projet ne contient pas de build Safari à installer.";
+"The download can't be verified, so it wasn't installed." = "Le téléchargement ne peut pas être vérifié ; il n’a donc pas été installé.";
+"The download doesn't match the release, so it wasn't installed." = "Le téléchargement ne correspond pas à la version publiée ; il n’a donc pas été installé.";
+"The download couldn't be unpacked." = "Le téléchargement n’a pas pu être décompressé.";
+"The download doesn't contain an extension." = "Le téléchargement ne contient pas d’extension.";

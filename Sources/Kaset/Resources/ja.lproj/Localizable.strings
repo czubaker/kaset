@@ -810,3 +810,19 @@
 "Forward 1 minute" = "1分進む";
 "Item Options" = "項目のオプション";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "「詳細」または「アイコンと詳細」をバーに追加すると、2行に表示する内容を選べます。";
+
+// Addons
+"Addons" = "アドオン";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "インストールしたときにだけ、各プロジェクトの公式リリースからダウンロードされます。アドオンを削除すると、そのファイルとデータも削除されます。";
+"Install" = "インストール";
+"Remove" = "削除";
+"Downloading…" = "ダウンロード中…";
+"Installing…" = "インストール中…";
+"Enabled" = "有効";
+"Blocks ads and trackers in the video player." = "動画プレーヤーの広告とトラッカーをブロックします。";
+"Skips sponsors and other segments the community marked." = "コミュニティが登録したスポンサーなどの区間をスキップします。";
+"The project's latest release has no Safari build to install." = "このプロジェクトの最新リリースにはインストールできる Safari 版がありません。";
+"The download can't be verified, so it wasn't installed." = "ダウンロードを検証できないため、インストールしませんでした。";
+"The download doesn't match the release, so it wasn't installed." = "ダウンロードがリリースと一致しないため、インストールしませんでした。";
+"The download couldn't be unpacked." = "ダウンロードを展開できませんでした。";
+"The download doesn't contain an extension." = "ダウンロードに拡張機能が含まれていません。";

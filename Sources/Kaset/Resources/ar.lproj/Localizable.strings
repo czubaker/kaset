@@ -815,3 +815,19 @@
 "Forward 1 minute" = "تقديم دقيقة واحدة";
 "Item Options" = "خيارات العناصر";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "أضف «التفاصيل» أو «الصورة والتفاصيل» إلى الشريط لاختيار ما يعرضه سطراهما.";
+
+// Addons
+"Addons" = "الإضافات";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "تُنزَّل من الإصدارات الرسمية لكل مشروع عند تثبيتها فقط. تؤدي إزالة الإضافة إلى حذف ملفاتها وبياناتها.";
+"Install" = "تثبيت";
+"Remove" = "إزالة";
+"Downloading…" = "جارٍ التنزيل…";
+"Installing…" = "جارٍ التثبيت…";
+"Enabled" = "مُفعّل";
+"Blocks ads and trackers in the video player." = "يحظر الإعلانات وأدوات التتبع في مشغل الفيديو.";
+"Skips sponsors and other segments the community marked." = "يتخطى الرعاة والمقاطع الأخرى التي حددها المجتمع.";
+"The project's latest release has no Safari build to install." = "لا يتضمن أحدث إصدار للمشروع نسخة Safari لتثبيتها.";
+"The download can't be verified, so it wasn't installed." = "تعذّر التحقق من التنزيل، لذا لم يُثبَّت.";
+"The download doesn't match the release, so it wasn't installed." = "لا يطابق التنزيل الإصدار، لذا لم يُثبَّت.";
+"The download couldn't be unpacked." = "تعذّر فك ضغط التنزيل.";
+"The download doesn't contain an extension." = "لا يحتوي التنزيل على امتداد.";

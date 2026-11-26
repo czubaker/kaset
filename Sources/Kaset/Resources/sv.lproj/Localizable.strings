@@ -815,3 +815,19 @@
 "Forward 1 minute" = "Framåt 1 minut";
 "Item Options" = "Objektalternativ";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "Lägg till ”Detaljer” eller ”Avatar och detaljer” i fältet för att välja vad deras två rader visar.";
+
+// Addons
+"Addons" = "Tillägg";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "Hämtas från varje projekts officiella versioner först när du installerar dem. När du tar bort ett tillägg raderas dess filer och data.";
+"Install" = "Installera";
+"Remove" = "Ta bort";
+"Downloading…" = "Hämtar …";
+"Installing…" = "Installerar …";
+"Enabled" = "Aktiverad";
+"Blocks ads and trackers in the video player." = "Blockerar annonser och spårare i videospelaren.";
+"Skips sponsors and other segments the community marked." = "Hoppar över sponsorer och andra avsnitt som communityn har markerat.";
+"The project's latest release has no Safari build to install." = "Projektets senaste version har ingen Safari-version att installera.";
+"The download can't be verified, so it wasn't installed." = "Hämtningen kan inte verifieras, så den installerades inte.";
+"The download doesn't match the release, so it wasn't installed." = "Hämtningen stämmer inte med versionen, så den installerades inte.";
+"The download couldn't be unpacked." = "Hämtningen kunde inte packas upp.";
+"The download doesn't contain an extension." = "Hämtningen innehåller inget tillägg.";

@@ -815,3 +815,19 @@
 "Forward 1 minute" = "1분 앞으로";
 "Item Options" = "항목 옵션";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "막대에 '세부 정보' 또는 '아바타 및 세부 정보'를 추가하면 두 줄에 표시할 내용을 선택할 수 있습니다.";
+
+// Addons
+"Addons" = "애드온";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "설치할 때만 각 프로젝트의 공식 릴리스에서 다운로드됩니다. 애드온을 제거하면 해당 파일과 데이터가 삭제됩니다.";
+"Install" = "설치";
+"Remove" = "제거";
+"Downloading…" = "다운로드 중…";
+"Installing…" = "설치 중…";
+"Enabled" = "사용";
+"Blocks ads and trackers in the video player." = "동영상 플레이어의 광고와 추적기를 차단합니다.";
+"Skips sponsors and other segments the community marked." = "커뮤니티가 표시한 스폰서 및 기타 구간을 건너뜁니다.";
+"The project's latest release has no Safari build to install." = "프로젝트의 최신 릴리스에 설치할 Safari 빌드가 없습니다.";
+"The download can't be verified, so it wasn't installed." = "다운로드를 확인할 수 없어 설치하지 않았습니다.";
+"The download doesn't match the release, so it wasn't installed." = "다운로드가 릴리스와 일치하지 않아 설치하지 않았습니다.";
+"The download couldn't be unpacked." = "다운로드의 압축을 풀 수 없습니다.";
+"The download doesn't contain an extension." = "다운로드에 확장 프로그램이 없습니다.";

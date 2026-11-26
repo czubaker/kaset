@@ -7,6 +7,7 @@ import SwiftUI
 /// Settings view for managing user-installed web extensions.
 struct ExtensionsSettingsView: View {
     @State private var manager = ExtensionsManager.shared
+    @State private var installer = AddonInstaller.shared
     @State private var showRestartAlert = false
     @State private var pendingChangeDescription = ""
     @State private var configuringExtensionPage: WebKitManager.ExtensionPage?
@@ -17,6 +18,8 @@ struct ExtensionsSettingsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+                self.addonsSection
+
                 // Glass Section
                 CompatGlassContainer(spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
@@ -26,7 +29,7 @@ struct ExtensionsSettingsView: View {
                             .padding(.top, 16)
                             .padding(.bottom, 8)
 
-                        if self.manager.extensions.isEmpty {
+                        if self.addedExtensions.isEmpty {
                             HStack(spacing: 10) {
                                 Image(systemName: "puzzlepiece.extension")
                                     .font(.title2)
@@ -43,9 +46,9 @@ struct ExtensionsSettingsView: View {
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                         } else {
-                            ForEach(self.manager.extensions) { ext in
+                            ForEach(self.addedExtensions) { ext in
                                 self.extensionRow(ext)
-                                if ext.id != self.manager.extensions.last?.id {
+                                if ext.id != self.addedExtensions.last?.id {
                                     Divider()
                                         .padding(.leading, 16)
                                         .opacity(0.3)
@@ -65,6 +68,7 @@ struct ExtensionsSettingsView: View {
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .compatGlass(in: .rect(cornerRadius: 14))
                 }
 
@@ -146,6 +150,134 @@ struct ExtensionsSettingsView: View {
                     }
                 }
             }
+        }
+    }
+
+    /// Extensions the user added from a folder; addons list on their own.
+    private var addedExtensions: [ManagedExtension] {
+        self.manager.extensions.filter { $0.addon == nil }
+    }
+
+    // MARK: - Addons
+
+    private var addonsSection: some View {
+        CompatGlassContainer(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(String(localized: "Addons"))
+                        .font(.headline)
+                    Text(String(localized: "Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data."))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 8)
+
+                ForEach(Addon.allCases) { addon in
+                    self.addonRow(addon)
+                    if addon != Addon.allCases.last {
+                        Divider()
+                            .padding(.leading, 16)
+                            .opacity(0.3)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .compatGlass(in: .rect(cornerRadius: 14))
+        }
+    }
+
+    private func addonRow(_ addon: Addon) -> some View {
+        let installed = self.installer.installedExtension(for: addon)
+        return HStack(spacing: 12) {
+            Image(systemName: addon.systemImage)
+                .foregroundStyle(installed?.isEnabled == true ? .blue : .secondary)
+                .font(.title3)
+                .frame(width: 28)
+
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 6) {
+                    Text(addon.name)
+                        .font(.body)
+                    if let url = addon.projectURL {
+                        Link(destination: url) {
+                            Image(systemName: "arrow.up.forward.square")
+                        }
+                        .help(addon.repository)
+                        .accessibilityLabel(addon.repository)
+                    }
+                }
+                Text(addon.summary)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                if let installed {
+                    Text(self.addonStatus(installed))
+                        .font(.caption)
+                        .foregroundStyle(installed.isEnabled ? .green : .secondary)
+                }
+            }
+
+            Spacer()
+
+            if let phase = self.installer.phases[addon] {
+                ProgressView()
+                    .controlSize(.small)
+                Text(phase == .downloading ? String(localized: "Downloading…") : String(localized: "Installing…"))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else if let installed {
+                if !installed.isEnabled {
+                    Button(String(localized: "Turn On")) {
+                        Task { @MainActor in
+                            await self.reviewPermissions(id: installed.id)
+                        }
+                    }
+                } else if let extensionPage = WebKitManager.shared.extensionPage(forExtensionId: installed.id) {
+                    Button(String(localized: "Options…")) {
+                        self.configuringExtensionPage = extensionPage
+                    }
+                }
+                Button(String(localized: "Remove"), role: .destructive) {
+                    let wasLoaded = installed.isEnabled
+                    Task { @MainActor in
+                        await self.installer.remove(addon)
+                        // One that never loaded is gone already.
+                        if wasLoaded {
+                            self.pendingChangeDescription = "Removing \"\(addon.name)\""
+                            self.showRestartAlert = true
+                        }
+                    }
+                }
+            } else {
+                Button(String(localized: "Install")) {
+                    Task { @MainActor in
+                        await self.install(addon)
+                    }
+                }
+            }
+        }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+    }
+
+    private func addonStatus(_ installed: ManagedExtension) -> String {
+        let state = installed.isEnabled ? String(localized: "Enabled") : String(localized: "Review Required")
+        guard let version = installed.version else { return state }
+        return "\(state) · \(version)"
+    }
+
+    private func install(_ addon: Addon) async {
+        do {
+            let id = try await self.installer.install(addon)
+            await self.reviewPermissions(id: id)
+        } catch is CancellationError {
+            return
+        } catch {
+            DiagnosticsLogger.extensions.error("Failed to install addon: \(error.localizedDescription, privacy: .public)")
+            self.extensionError = error.localizedDescription
         }
     }
 

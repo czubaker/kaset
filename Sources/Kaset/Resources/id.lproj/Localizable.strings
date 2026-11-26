@@ -815,3 +815,19 @@
 "Forward 1 minute" = "Maju 1 menit";
 "Item Options" = "Opsi Item";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "Tambahkan “Detail” atau “Avatar dan Detail” ke bilah untuk memilih isi kedua barisnya.";
+
+// Addons
+"Addons" = "Add-on";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "Diunduh dari rilis resmi tiap proyek hanya saat Anda memasangnya. Menghapus add-on akan menghapus file dan datanya.";
+"Install" = "Pasang";
+"Remove" = "Hapus";
+"Downloading…" = "Mengunduh…";
+"Installing…" = "Memasang…";
+"Enabled" = "Aktif";
+"Blocks ads and trackers in the video player." = "Memblokir iklan dan pelacak di pemutar video.";
+"Skips sponsors and other segments the community marked." = "Melewati sponsor dan segmen lain yang ditandai komunitas.";
+"The project's latest release has no Safari build to install." = "Rilis terbaru proyek ini tidak memiliki build Safari untuk dipasang.";
+"The download can't be verified, so it wasn't installed." = "Unduhan tidak dapat diverifikasi, jadi tidak dipasang.";
+"The download doesn't match the release, so it wasn't installed." = "Unduhan tidak cocok dengan rilis, jadi tidak dipasang.";
+"The download couldn't be unpacked." = "Unduhan tidak dapat diekstrak.";
+"The download doesn't contain an extension." = "Unduhan tidak berisi ekstensi.";

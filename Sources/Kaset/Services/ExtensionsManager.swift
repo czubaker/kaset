@@ -30,6 +30,18 @@ struct ManagedExtension: Codable, Identifiable, Equatable {
     /// Required access explicitly approved by the user; absent for legacy entries.
     var approvedPermissions: ExtensionPermissions?
 
+    /// The addon this entry installs (`Addon.rawValue`); nil for an extension
+    /// the user added from a folder. Kept raw so an unknown addon from a
+    /// newer version doesn't fail decoding the whole list.
+    var addonID: String?
+
+    /// The addon's release, as its project tags it.
+    var version: String?
+
+    var addon: Addon? {
+        self.addonID.flatMap(Addon.init(rawValue:))
+    }
+
     init(id: String = UUID().uuidString,
          name: String,
          isEnabled: Bool,
@@ -37,7 +49,9 @@ struct ManagedExtension: Codable, Identifiable, Equatable {
          optionsPath: String? = nil,
          popupPath: String? = nil,
          localBookmark: Data? = nil,
-         approvedPermissions: ExtensionPermissions? = nil)
+         approvedPermissions: ExtensionPermissions? = nil,
+         addonID: String? = nil,
+         version: String? = nil)
     {
         self.id = id
         self.name = name
@@ -47,6 +61,8 @@ struct ManagedExtension: Codable, Identifiable, Equatable {
         self.popupPath = popupPath
         self.localBookmark = localBookmark
         self.approvedPermissions = approvedPermissions
+        self.addonID = addonID
+        self.version = version
     }
 }
 
@@ -215,7 +231,7 @@ final class ExtensionsManager {
     /// Adds an extension from a folder containing manifest.json.
     /// Analyzes the manifest structure before attempting to copy.
     @discardableResult
-    func addExtension(at url: URL) throws -> String {
+    func addExtension(at url: URL, addon: Addon? = nil, version: String? = nil) throws -> String {
         // 1. Analyze the manifest first
         let manifestURL = url.appendingPathComponent("manifest.json")
         guard FileManager.default.fileExists(atPath: manifestURL.path) else {
@@ -237,7 +253,9 @@ final class ExtensionsManager {
 
         // 2. Extract metadata
         let manifestName = (manifest["name"] as? String) ?? url.lastPathComponent
-        let name = manifestName.hasPrefix("__MSG_") ? url.lastPathComponent : manifestName
+        // An addon's manifest names it through a locale message, and its
+        // unpacked folder has a temporary name, so it goes by its own.
+        let name = addon?.name ?? (manifestName.hasPrefix("__MSG_") ? url.lastPathComponent : manifestName)
         let manifestVersion = (manifest["manifest_version"] as? Int) ?? 0
 
         let optionsPath: String? = if let optionsUI = manifest["options_ui"] as? [String: Any] {
@@ -274,12 +292,21 @@ final class ExtensionsManager {
             relativePath: relativePath,
             optionsPath: optionsPath,
             popupPath: popupPath,
-            localBookmark: localBookmark
+            localBookmark: localBookmark,
+            addonID: addon?.rawValue,
+            version: version
         )
         self.extensions.append(entry)
         self.save()
         self.logger.info("Successfully installed extension: \(name)")
         return entry.id
+    }
+
+    /// Removes an extension and the data it stored, as if it had never
+    /// been added.
+    func removeExtensionAndData(id: String) async {
+        self.removeExtension(id: id)
+        await WebKitManager.shared.removeExtensionData(forExtensionId: id)
     }
 
     /// Removes an extension by its ID.
@@ -293,6 +320,21 @@ final class ExtensionsManager {
 
         self.extensions.remove(at: index)
         self.save()
+        self.removeStorageIfEmpty()
+    }
+
+    /// With the last extension gone, deletes the empty list and folder too,
+    /// so Application Support is as it was before any was added.
+    private func removeStorageIfEmpty() {
+        guard self.extensions.isEmpty else { return }
+        if let url = self.persistenceURL {
+            try? FileManager.default.removeItem(at: url)
+        }
+        if let directory = self.managedExtensionsDirectoryURL,
+           (try? FileManager.default.contentsOfDirectory(atPath: directory.path))?.isEmpty == true
+        {
+            try? FileManager.default.removeItem(at: directory)
+        }
     }
 
     /// Disables an extension. Enabling requires an explicit permission review.

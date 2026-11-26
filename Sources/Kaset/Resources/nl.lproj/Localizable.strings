@@ -815,3 +815,19 @@
 "Forward 1 minute" = "1 minuut vooruit";
 "Item Options" = "Onderdeelopties";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "Voeg ‘Details’ of ‘Avatar en details’ toe aan de balk om te kiezen wat hun twee regels tonen.";
+
+// Addons
+"Addons" = "Add-ons";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "Worden pas gedownload uit de officiële releases van elk project wanneer je ze installeert. Als je een add-on verwijdert, worden de bestanden en gegevens ervan gewist.";
+"Install" = "Installeren";
+"Remove" = "Verwijderen";
+"Downloading…" = "Downloaden…";
+"Installing…" = "Installeren…";
+"Enabled" = "Ingeschakeld";
+"Blocks ads and trackers in the video player." = "Blokkeert advertenties en trackers in de videospeler.";
+"Skips sponsors and other segments the community marked." = "Slaat sponsors en andere door de community gemarkeerde segmenten over.";
+"The project's latest release has no Safari build to install." = "De nieuwste release van het project bevat geen Safari-build om te installeren.";
+"The download can't be verified, so it wasn't installed." = "De download kan niet worden geverifieerd en is daarom niet geïnstalleerd.";
+"The download doesn't match the release, so it wasn't installed." = "De download komt niet overeen met de release en is daarom niet geïnstalleerd.";
+"The download couldn't be unpacked." = "De download kon niet worden uitgepakt.";
+"The download doesn't contain an extension." = "De download bevat geen extensie.";

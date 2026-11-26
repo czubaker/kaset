@@ -815,3 +815,19 @@
 "Forward 1 minute" = "1 dakika ileri";
 "Item Options" = "Öğe Seçenekleri";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "İki satırında ne gösterileceğini seçmek için çubuğa “Ayrıntılar” veya “Avatar ve Ayrıntılar” ekleyin.";
+
+// Addons
+"Addons" = "Eklentiler";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "Yalnızca yüklediğinizde her projenin resmi sürümlerinden indirilir. Bir eklentiyi kaldırmak dosyalarını ve verilerini siler.";
+"Install" = "Yükle";
+"Remove" = "Kaldır";
+"Downloading…" = "İndiriliyor…";
+"Installing…" = "Yükleniyor…";
+"Enabled" = "Etkin";
+"Blocks ads and trackers in the video player." = "Video oynatıcıdaki reklamları ve izleyicileri engeller.";
+"Skips sponsors and other segments the community marked." = "Topluluğun işaretlediği sponsorları ve diğer bölümleri atlar.";
+"The project's latest release has no Safari build to install." = "Projenin son sürümünde yüklenecek bir Safari derlemesi yok.";
+"The download can't be verified, so it wasn't installed." = "İndirme doğrulanamadığı için yüklenmedi.";
+"The download doesn't match the release, so it wasn't installed." = "İndirme sürümle eşleşmediği için yüklenmedi.";
+"The download couldn't be unpacked." = "İndirme açılamadı.";
+"The download doesn't contain an extension." = "İndirme bir uzantı içermiyor.";

@@ -2,6 +2,25 @@
 
 Kaset can load browser extensions that work with Safari/WebKit. No extensions are included by default, so you choose what to add.
 
+## Addons
+
+**Settings → Extensions → Addons** installs a few extensions with one click:
+
+| Addon | What it does | Comes from |
+|---|---|---|
+| uBlock Origin Lite | Blocks ads and trackers (uBlock filters, EasyList, EasyPrivacy) in the video player | [uBlockOrigin/uBOL-home](https://github.com/uBlockOrigin/uBOL-home/releases) |
+| SponsorBlock | Skips sponsors and other segments the community marked | [ajayyy/SponsorBlock](https://github.com/ajayyy/SponsorBlock/releases) |
+
+Nothing of an addon ships with Kaset. **Install** downloads the project's latest
+Safari build from its GitHub releases, accepts it only at the size and SHA-256
+digest the release lists, and then asks you to review what it can access, as
+for any extension. It loads at the next launch. **Remove** deletes its files and
+the data it stored; with nothing else added, Kaset's extension storage is gone
+too. To update an addon, remove it and install it again.
+
+Addons work inside the video player: SponsorBlock skips in the player, but its
+segments don't show on Kaset's own progress bar.
+
 ## Managing Extensions
 
 Open **Settings** (⌘,) and navigate to the **Extensions** tab.

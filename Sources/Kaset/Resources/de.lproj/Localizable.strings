@@ -815,3 +815,19 @@
 "Forward 1 minute" = "1 Minute vor";
 "Item Options" = "Objektoptionen";
 "Add Details or Avatar and Details to the bar to choose what their two lines show." = "Füge „Details“ oder „Bild und Details“ zur Leiste hinzu, um auszuwählen, was ihre beiden Zeilen zeigen.";
+
+// Addons
+"Addons" = "Add-ons";
+"Downloaded from each project's official releases only when you install them. Removing an addon deletes its files and data." = "Werden erst beim Installieren aus den offiziellen Versionen des jeweiligen Projekts geladen. Beim Entfernen eines Add-ons werden seine Dateien und Daten gelöscht.";
+"Install" = "Installieren";
+"Remove" = "Entfernen";
+"Downloading…" = "Wird geladen …";
+"Installing…" = "Wird installiert …";
+"Enabled" = "Aktiviert";
+"Blocks ads and trackers in the video player." = "Blockiert Werbung und Tracker im Videoplayer.";
+"Skips sponsors and other segments the community marked." = "Überspringt Sponsoren und andere von der Community markierte Abschnitte.";
+"The project's latest release has no Safari build to install." = "Die neueste Version des Projekts enthält keinen Safari-Build zum Installieren.";
+"The download can't be verified, so it wasn't installed." = "Der Download kann nicht überprüft werden und wurde daher nicht installiert.";
+"The download doesn't match the release, so it wasn't installed." = "Der Download stimmt nicht mit der Version überein und wurde daher nicht installiert.";
+"The download couldn't be unpacked." = "Der Download konnte nicht entpackt werden.";
+"The download doesn't contain an extension." = "Der Download enthält keine Erweiterung.";
