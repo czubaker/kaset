@@ -17,6 +17,7 @@ extension YouTubePlayerService {
     /// Seeks to a position in seconds.
     func seek(to time: Double) {
         guard !self.isShowingAd else { return }
+        self.clearAutoplayCountdown()
         self.beginYouTubePlaybackIntent()
         self.clearRelativeSeekCoalescingTarget()
         self.performSeek(to: time)
@@ -114,6 +115,7 @@ extension YouTubePlayerService {
 
     private func seekRelative(by delta: Double) {
         guard delta.isFinite, delta != 0, self.currentVideo != nil else { return }
+        self.clearAutoplayCountdown()
         let now = ContinuousClock.now
         let currentVideoId = self.currentVideo?.videoId
         if self.lastRelativeSeekVideoId != currentVideoId {

@@ -39,6 +39,11 @@ extension YouTubePlayerService {
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(1))
                 guard !Task.isCancelled, let self, self.autoplayPendingVideo?.videoId == next.videoId else { return }
+                // Replaying the ended video, or turning Autoplay off, keeps it.
+                guard !self.isPlaying, SettingsManager.shared.youtubeAutoplayEnabled else {
+                    self.clearAutoplayCountdown()
+                    return
+                }
                 self.autoplayCountdownRemaining -= 1
                 if self.autoplayCountdownRemaining <= 0 {
                     self.confirmAutoplayNow()

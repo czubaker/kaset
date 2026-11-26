@@ -1230,6 +1230,18 @@ extension YouTubePlayerServiceTests {
         #expect(self.sut.currentVideo?.videoId == "b")
     }
 
+    @Test("Seeking the ended video clears a pending autoplay")
+    func seekClearsAutoplay() {
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "a"))
+        self.sut.updatePlaybackState(.init(
+            isPlaying: false, progress: 60, duration: 60, hasReadyMedia: true, videoId: "a", boundVideoId: "a"
+        ))
+        self.sut.startAutoplayCountdown(to: MockYouTubeClient.makeVideo(videoId: "b"))
+        self.sut.seek(to: 10)
+        #expect(self.sut.autoplayPendingVideo == nil)
+        #expect(self.sut.currentVideo?.videoId == "a")
+    }
+
     @Test("Playing something else clears a pending autoplay")
     func playClearsAutoplay() {
         self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "a"))
