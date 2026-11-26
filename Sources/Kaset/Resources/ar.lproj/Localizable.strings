@@ -867,3 +867,6 @@
 "Description" = "الوصف";
 "Show More" = "عرض المزيد";
 "Show Less" = "عرض أقل";
+
+// Members only
+"Members only" = "للأعضاء فقط";

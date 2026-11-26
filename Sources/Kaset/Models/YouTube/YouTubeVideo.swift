@@ -29,6 +29,8 @@ struct YouTubeVideo: Identifiable, Hashable {
     /// "Not interested" / "Don't recommend channel" entries from the video's
     /// overflow menu. Empty when signed out or on surfaces without them.
     let feedbackActions: [YouTubeFeedbackAction]
+    /// Whether only the channel's members can watch it ("Members only").
+    let isMembersOnly: Bool
 
     var id: String {
         self.videoId
@@ -46,7 +48,8 @@ struct YouTubeVideo: Identifiable, Hashable {
         isLive: Bool = false,
         isShort: Bool = false,
         watchedPercent: Int? = nil,
-        feedbackActions: [YouTubeFeedbackAction] = []
+        feedbackActions: [YouTubeFeedbackAction] = [],
+        isMembersOnly: Bool = false
     ) {
         self.videoId = videoId
         self.title = title
@@ -60,6 +63,7 @@ struct YouTubeVideo: Identifiable, Hashable {
         self.isShort = isShort
         self.watchedPercent = watchedPercent
         self.feedbackActions = feedbackActions
+        self.isMembersOnly = isMembersOnly
     }
 }
 

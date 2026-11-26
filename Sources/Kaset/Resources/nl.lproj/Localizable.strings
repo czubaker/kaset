@@ -867,3 +867,6 @@
 "Description" = "Beschrijving";
 "Show More" = "Meer weergeven";
 "Show Less" = "Minder weergeven";
+
+// Members only
+"Members only" = "Alleen voor leden";

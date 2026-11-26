@@ -867,3 +867,6 @@
 "Description" = "Descripción";
 "Show More" = "Mostrar más";
 "Show Less" = "Mostrar menos";
+
+// Members only
+"Members only" = "Solo para miembros";

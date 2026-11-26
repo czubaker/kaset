@@ -48,6 +48,9 @@ struct VideoCard: View {
 
     private var accessibilityText: String {
         var parts = [self.video.title]
+        if self.video.isMembersOnly {
+            parts.append(String(localized: "Members only", comment: "Badge on videos only the channel's members can watch"))
+        }
         if let channelName = self.video.channelName {
             parts.append(channelName)
         }
@@ -98,6 +101,27 @@ struct VideoThumbnailView: View {
         .overlay(alignment: .bottomTrailing) {
             self.badge
         }
+        .overlay(alignment: .topLeading) {
+            if self.video.isMembersOnly {
+                self.membersOnlyBadge
+            }
+        }
+    }
+
+    /// Green, as YouTube marks videos only the channel's members can watch.
+    private var membersOnlyBadge: some View {
+        HStack(spacing: 3) {
+            Image(systemName: "star.fill")
+                .font(.system(size: 8))
+            Text("Members only", comment: "Badge on videos only the channel's members can watch")
+                .font(.system(size: 10, weight: .semibold))
+        }
+        .padding(.horizontal, 5)
+        .padding(.vertical, 2)
+        .background(Color(red: 0.18, green: 0.55, blue: 0.34), in: .rect(cornerRadius: 4))
+        .foregroundStyle(.white)
+        .padding(6)
+        .accessibilityElement(children: .combine)
     }
 
     /// Thin red resume-progress bar pinned flush to the thumbnail's bottom edge.

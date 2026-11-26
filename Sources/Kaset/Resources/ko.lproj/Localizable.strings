@@ -867,3 +867,6 @@
 "Description" = "설명";
 "Show More" = "더보기";
 "Show Less" = "간략히";
+
+// Members only
+"Members only" = "회원 전용";

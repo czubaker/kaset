@@ -867,3 +867,6 @@
 "Description" = "Описание";
 "Show More" = "Показать больше";
 "Show Less" = "Свернуть";
+
+// Members only
+"Members only" = "Только для спонсоров";

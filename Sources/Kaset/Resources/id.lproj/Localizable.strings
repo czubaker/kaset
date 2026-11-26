@@ -867,3 +867,6 @@
 "Description" = "Deskripsi";
 "Show More" = "Tampilkan lebih banyak";
 "Show Less" = "Tampilkan lebih sedikit";
+
+// Members only
+"Members only" = "Khusus anggota";

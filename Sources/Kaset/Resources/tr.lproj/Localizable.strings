@@ -867,3 +867,6 @@
 "Description" = "Açıklama";
 "Show More" = "Daha fazla göster";
 "Show Less" = "Daha az göster";
+
+// Members only
+"Members only" = "Yalnızca üyeler";

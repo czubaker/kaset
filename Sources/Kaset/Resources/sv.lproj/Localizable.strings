@@ -867,3 +867,6 @@
 "Description" = "Beskrivning";
 "Show More" = "Visa mer";
 "Show Less" = "Visa mindre";
+
+// Members only
+"Members only" = "Endast för medlemmar";

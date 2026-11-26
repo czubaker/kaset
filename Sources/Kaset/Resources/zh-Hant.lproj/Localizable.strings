@@ -865,3 +865,6 @@
 "Description" = "說明";
 "Show More" = "顯示更多";
 "Show Less" = "收合";
+
+// Members only
+"Members only" = "會員專屬";

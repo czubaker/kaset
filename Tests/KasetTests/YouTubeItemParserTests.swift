@@ -502,4 +502,33 @@ struct YouTubeItemParserTests {
     }
 
     enum FixtureError: Error { case notFound(String), invalidJSON(String) }
+
+    @Test("A members-only badge marks the video, in a lockup's metadata or a video renderer's badges")
+    func parsesMembersOnlyBadge() throws {
+        let badged: [String: Any] = [
+            "contentType": "LOCKUP_CONTENT_TYPE_VIDEO",
+            "contentId": "m1",
+            "metadata": ["lockupMetadataViewModel": [
+                "title": ["content": "Members video"],
+                "metadata": ["contentMetadataViewModel": ["metadataRows": [
+                    ["metadataParts": [["text": ["content": "1K views"]]]],
+                    ["badges": [["badgeViewModel": ["badgeText": "Members only", "badgeStyle": "BADGE_MEMBERS_ONLY"]]]],
+                ]]],
+            ]],
+        ]
+        let plain: [String: Any] = [
+            "contentType": "LOCKUP_CONTENT_TYPE_VIDEO",
+            "contentId": "p1",
+            "metadata": ["lockupMetadataViewModel": ["title": ["content": "Public video"]]],
+        ]
+        #expect(try #require(YouTubeItemParser.video(fromLockup: badged)).isMembersOnly)
+        #expect(try #require(YouTubeItemParser.video(fromLockup: plain)).isMembersOnly == false)
+
+        let renderer: [String: Any] = [
+            "videoId": "r1",
+            "title": ["runs": [["text": "Old video"]]],
+            "badges": [["metadataBadgeRenderer": ["style": "BADGE_STYLE_TYPE_MEMBERS_ONLY", "label": "Members only"]]],
+        ]
+        #expect(try #require(YouTubeItemParser.video(fromVideoRenderer: renderer)).isMembersOnly)
+    }
 }

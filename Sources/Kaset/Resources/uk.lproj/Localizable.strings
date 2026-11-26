@@ -867,3 +867,6 @@
 "Description" = "Опис";
 "Show More" = "Показати більше";
 "Show Less" = "Згорнути";
+
+// Members only
+"Members only" = "Лише для спонсорів";
