@@ -895,3 +895,7 @@
 // Search filters
 "Filters" = "Filter";
 "Clear Filters" = "Hapus filter";
+
+// Save playlist
+"Save to Library" = "Simpan ke Koleksi";
+"Saved" = "Disimpan";

@@ -27,7 +27,45 @@ enum YouTubePlaylistPageParser {
             firstVideoId: deduplicated.first?.videoId
         )
 
-        return YouTubePlaylistDetail(playlist: playlist, videos: deduplicated)
+        return YouTubePlaylistDetail(
+            playlist: playlist,
+            videos: deduplicated,
+            isSavedToLibrary: Self.saveState(of: data, playlistId: playlistId)
+        )
+    }
+
+    /// The header's Save playlist / Remove from Library toggle: a
+    /// `toggleButtonViewModel` in `pageHeaderViewModel.actions` whose default
+    /// button likes this playlist (`likeEndpoint.target.playlistId`), with
+    /// `isToggled` once saved (verified with api-explorer, November 2026).
+    static func saveState(of data: [String: Any], playlistId: String) -> Bool? {
+        let id = playlistId.hasPrefix("VL") ? String(playlistId.dropFirst(2)) : playlistId
+        return Self.findSaveToggle(in: data["header"] ?? [:], playlistId: id)
+    }
+
+    private static func findSaveToggle(in value: Any, playlistId: String) -> Bool? {
+        if let dict = value as? [String: Any] {
+            if let toggle = dict["toggleButtonViewModel"] as? [String: Any],
+               let like = (((((toggle["defaultButtonViewModel"] as? [String: Any])?["buttonViewModel"]
+                       as? [String: Any])?["onTap"] as? [String: Any])?["innertubeCommand"]
+                   as? [String: Any])?["likeEndpoint"]) as? [String: Any],
+               ((like["target"] as? [String: Any])?["playlistId"] as? String) == playlistId
+            {
+                return toggle["isToggled"] as? Bool ?? false
+            }
+            for nested in dict.values {
+                if let found = Self.findSaveToggle(in: nested, playlistId: playlistId) {
+                    return found
+                }
+            }
+        } else if let array = value as? [Any] {
+            for element in array {
+                if let found = Self.findSaveToggle(in: element, playlistId: playlistId) {
+                    return found
+                }
+            }
+        }
+        return nil
     }
 
     // MARK: - Private

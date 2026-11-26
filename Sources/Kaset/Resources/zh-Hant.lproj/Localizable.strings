@@ -893,3 +893,7 @@
 // Search filters
 "Filters" = "篩選條件";
 "Clear Filters" = "清除篩選條件";
+
+// Save playlist
+"Save to Library" = "儲存至資料庫";
+"Saved" = "已儲存";

@@ -46,12 +46,32 @@ final class YouTubePlaylistViewModel {
         }
     }
 
+    private(set) var isSaveInFlight = false
+
+    /// Saves the playlist to the library, or removes it: shown at once and
+    /// put back if YouTube refuses.
+    func toggleSaved() async {
+        guard !self.isSaveInFlight, let detail = self.detail, let wasSaved = detail.isSavedToLibrary else { return }
+        self.isSaveInFlight = true
+        defer { self.isSaveInFlight = false }
+        self.detail?.isSavedToLibrary = !wasSaved
+        do {
+            try await self.client.setPlaylistSaved(!wasSaved, playlistId: self.playlistId)
+        } catch {
+            if self.detail?.playlist.playlistId == detail.playlist.playlistId {
+                self.detail?.isSavedToLibrary = wasSaved
+            }
+            self.logger.error("Failed to change a saved YouTube playlist: \(error.localizedDescription)")
+        }
+    }
+
     /// Drops a video another menu took off this playlist.
     func dropVideo(id videoId: String) {
         guard let detail = self.detail, detail.videos.contains(where: { $0.videoId == videoId }) else { return }
         self.detail = YouTubePlaylistDetail(
             playlist: detail.playlist,
-            videos: detail.videos.filter { $0.videoId != videoId }
+            videos: detail.videos.filter { $0.videoId != videoId },
+            isSavedToLibrary: detail.isSavedToLibrary
         )
     }
 
@@ -64,7 +84,8 @@ final class YouTubePlaylistViewModel {
         let copies = detail.videos.enumerated().filter { $0.element.videoId == video.videoId }
         self.detail = YouTubePlaylistDetail(
             playlist: detail.playlist,
-            videos: detail.videos.filter { $0.videoId != video.videoId }
+            videos: detail.videos.filter { $0.videoId != video.videoId },
+            isSavedToLibrary: detail.isSavedToLibrary
         )
         let removed = await remove(video)
         guard !removed, generation == self.loadGeneration, let current = self.detail,
@@ -74,6 +95,8 @@ final class YouTubePlaylistViewModel {
         for (index, copy) in copies {
             videos.insert(copy, at: min(index, videos.count))
         }
-        self.detail = YouTubePlaylistDetail(playlist: current.playlist, videos: videos)
+        self.detail = YouTubePlaylistDetail(
+            playlist: current.playlist, videos: videos, isSavedToLibrary: current.isSavedToLibrary
+        )
     }
 }

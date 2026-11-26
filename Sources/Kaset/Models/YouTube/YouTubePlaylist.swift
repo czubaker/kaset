@@ -40,4 +40,7 @@ struct YouTubePlaylist: Identifiable, Hashable {
 struct YouTubePlaylistDetail: Hashable {
     let playlist: YouTubePlaylist
     let videos: [YouTubeVideo]
+    /// Whether the account saved this playlist to its library; nil when the
+    /// page offers no Save (the account's own playlists, or signed out).
+    var isSavedToLibrary: Bool?
 }

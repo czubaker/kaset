@@ -895,3 +895,7 @@
 // Search filters
 "Filters" = "Filter";
 "Clear Filters" = "Rensa filter";
+
+// Save playlist
+"Save to Library" = "Spara i biblioteket";
+"Saved" = "Sparad";

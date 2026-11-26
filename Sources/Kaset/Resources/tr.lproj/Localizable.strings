@@ -895,3 +895,7 @@
 // Search filters
 "Filters" = "Filtreler";
 "Clear Filters" = "Filtreleri temizle";
+
+// Save playlist
+"Save to Library" = "Kitaplığa kaydet";
+"Saved" = "Kaydedildi";

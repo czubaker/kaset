@@ -104,6 +104,20 @@ struct YouTubePlaylistDetailView: View {
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
+
+                    if self.authService.hasPersonalAccount, let isSaved = detail.isSavedToLibrary {
+                        Button {
+                            Task { await self.viewModel.toggleSaved() }
+                        } label: {
+                            Label(
+                                isSaved ? String(localized: "Saved") : String(localized: "Save to Library"),
+                                systemImage: isSaved ? "checkmark" : "plus"
+                            )
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(self.viewModel.isSaveInFlight)
+                        .padding(.top, 6)
+                    }
                 }
 
                 if detail.videos.isEmpty {

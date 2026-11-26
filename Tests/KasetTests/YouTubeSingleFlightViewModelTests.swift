@@ -448,6 +448,8 @@ private final class SingleFlightYouTubeClient: YouTubeClientProtocol {
 
     func modifyNotificationPreference(params _: String) async throws {}
 
+    func setPlaylistSaved(_: Bool, playlistId _: String) async throws {}
+
     func getLiveChat(continuation _: String) async throws -> YouTubeLiveChatPage {
         YouTubeLiveChatPage(messages: [], continuation: nil, timeoutMs: 5000, sendParams: nil)
     }

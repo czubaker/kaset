@@ -112,6 +112,10 @@ protocol YouTubeClientProtocol: Sendable {
     /// Fetches a playlist page by playlist ID (without the `VL` prefix).
     func getPlaylist(playlistId: String) async throws -> YouTubePlaylistDetail
 
+    /// Saves someone's playlist to the library, or removes it, the way the
+    /// playlist page's Save button does (`like/like` on the playlist).
+    func setPlaylistSaved(_ saved: Bool, playlistId: String) async throws
+
     /// Fetches a public destination feed (Gaming, News, …) for Explore.
     func getDestinationFeed(_ destination: YouTubeDestination) async throws -> YouTubeFeed
 

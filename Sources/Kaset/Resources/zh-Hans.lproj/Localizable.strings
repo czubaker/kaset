@@ -893,3 +893,7 @@
 // Search filters
 "Filters" = "过滤条件";
 "Clear Filters" = "清除过滤条件";
+
+// Save playlist
+"Save to Library" = "保存到资料库";
+"Saved" = "已保存";

@@ -592,6 +592,14 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         _ = try await self.request("live_chat/send_message", body: body, retry: false)
     }
 
+    func setPlaylistSaved(_ saved: Bool, playlistId: String) async throws {
+        self.logger.info("\(saved ? "Saving" : "Removing") a playlist in the library")
+        let id = playlistId.hasPrefix("VL") ? String(playlistId.dropFirst(2)) : playlistId
+        let body: [String: Any] = ["target": ["playlistId": id]]
+        _ = try await self.request(saved ? "like/like" : "like/removelike", body: body, retry: false)
+        self.cache.invalidate(matching: Self.cachePrefix)
+    }
+
     func modifyNotificationPreference(params: String) async throws {
         self.logger.info("Changing a channel's notification preference")
         _ = try await self.request("notification/modify_channel_preference", body: ["params": params], retry: false)

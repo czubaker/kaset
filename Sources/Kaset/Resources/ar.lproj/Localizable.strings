@@ -895,3 +895,7 @@
 // Search filters
 "Filters" = "عوامل التصفية";
 "Clear Filters" = "مسح عوامل التصفية";
+
+// Save playlist
+"Save to Library" = "حفظ في المكتبة";
+"Saved" = "محفوظة";

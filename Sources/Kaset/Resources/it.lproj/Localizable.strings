@@ -895,3 +895,7 @@
 // Search filters
 "Filters" = "Filtri";
 "Clear Filters" = "Cancella filtri";
+
+// Save playlist
+"Save to Library" = "Salva in libreria";
+"Saved" = "Salvata";

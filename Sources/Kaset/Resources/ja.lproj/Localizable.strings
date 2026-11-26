@@ -890,3 +890,7 @@
 // Search filters
 "Filters" = "フィルタ";
 "Clear Filters" = "フィルタを消去";
+
+// Save playlist
+"Save to Library" = "ライブラリに保存";
+"Saved" = "保存済み";

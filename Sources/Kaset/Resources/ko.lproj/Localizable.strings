@@ -895,3 +895,7 @@
 // Search filters
 "Filters" = "필터";
 "Clear Filters" = "필터 지우기";
+
+// Save playlist
+"Save to Library" = "보관함에 저장";
+"Saved" = "저장됨";

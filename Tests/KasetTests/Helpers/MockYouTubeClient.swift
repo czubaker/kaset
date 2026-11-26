@@ -441,6 +441,7 @@ final class MockYouTubeClient: YouTubeClientProtocol {
     private(set) var ratedVideos: [(videoId: String, rating: YouTubeRating)] = []
     private(set) var subscriptionChanges: [(channelId: String, subscribed: Bool)] = []
     private(set) var notificationPreferenceChanges: [String] = []
+    private(set) var playlistSaveChanges: [(playlistId: String, saved: Bool)] = []
     var liveChatPages: [String: YouTubeLiveChatPage] = [:]
     private(set) var liveChatRequests: [String] = []
     private(set) var sentLiveChatMessages: [(text: String, params: String)] = []
@@ -576,6 +577,13 @@ final class MockYouTubeClient: YouTubeClientProtocol {
             throw error
         }
         self.sentLiveChatMessages.append((text, params))
+    }
+
+    func setPlaylistSaved(_ saved: Bool, playlistId: String) async throws {
+        if let error {
+            throw error
+        }
+        self.playlistSaveChanges.append((playlistId, saved))
     }
 
     func modifyNotificationPreference(params: String) async throws {
