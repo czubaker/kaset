@@ -918,3 +918,15 @@
 "Apple Intelligence can’t summarize this video." = "Apple Intelligence kan deze video niet samenvatten.";
 "Apple Intelligence isn’t available right now." = "Apple Intelligence is momenteel niet beschikbaar.";
 "Couldn’t summarize this video." = "Kan deze video niet samenvatten.";
+
+// YouTube lyrics (LRCLib)
+"Find Lyrics" = "Songtekst zoeken";
+"Looking for “%@” on LRCLib…" = "Zoeken naar ‘%@’ op LRCLib…";
+"Couldn’t reach LRCLib." = "Kan LRCLib niet bereiken.";
+"No lyrics found for “%@”." = "Geen songtekst gevonden voor ‘%@’.";
+"Search Again…" = "Opnieuw zoeken…";
+"Find Automatically" = "Automatisch zoeken";
+"Lyrics Options" = "Songtekstopties";
+"Artist and song" = "Artiest en nummer";
+"Look up lyrics on LRCLib for every video you open." = "Zoek voor elke video die je opent de songtekst op LRCLib.";
+"%@ · LRCLib" = "%@ · LRCLib";

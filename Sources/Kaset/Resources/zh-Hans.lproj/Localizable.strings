@@ -916,3 +916,15 @@
 "Apple Intelligence can’t summarize this video." = "Apple 智能无法为此视频生成摘要。";
 "Apple Intelligence isn’t available right now." = "Apple 智能目前不可用。";
 "Couldn’t summarize this video." = "无法为此视频生成摘要。";
+
+// YouTube lyrics (LRCLib)
+"Find Lyrics" = "查找歌词";
+"Looking for “%@” on LRCLib…" = "正在 LRCLib 上查找“%@”…";
+"Couldn’t reach LRCLib." = "无法连接 LRCLib。";
+"No lyrics found for “%@”." = "未找到“%@”的歌词。";
+"Search Again…" = "重新搜索…";
+"Find Automatically" = "自动查找";
+"Lyrics Options" = "歌词选项";
+"Artist and song" = "艺人和歌曲";
+"Look up lyrics on LRCLib for every video you open." = "为你打开的每个视频在 LRCLib 上查找歌词。";
+"%@ · LRCLib" = "%@ · LRCLib";

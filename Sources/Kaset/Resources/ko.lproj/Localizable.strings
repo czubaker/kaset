@@ -918,3 +918,15 @@
 "Apple Intelligence can’t summarize this video." = "Apple Intelligence가 이 비디오를 요약할 수 없습니다.";
 "Apple Intelligence isn’t available right now." = "현재 Apple Intelligence를 사용할 수 없습니다.";
 "Couldn’t summarize this video." = "이 비디오를 요약할 수 없었습니다.";
+
+// YouTube lyrics (LRCLib)
+"Find Lyrics" = "가사 찾기";
+"Looking for “%@” on LRCLib…" = "LRCLib에서 ‘%@’ 찾는 중…";
+"Couldn’t reach LRCLib." = "LRCLib에 연결할 수 없습니다.";
+"No lyrics found for “%@”." = "‘%@’의 가사를 찾을 수 없습니다.";
+"Search Again…" = "다시 검색…";
+"Find Automatically" = "자동으로 찾기";
+"Lyrics Options" = "가사 옵션";
+"Artist and song" = "아티스트와 노래";
+"Look up lyrics on LRCLib for every video you open." = "여는 모든 비디오의 가사를 LRCLib에서 찾습니다.";
+"%@ · LRCLib" = "%@ · LRCLib";

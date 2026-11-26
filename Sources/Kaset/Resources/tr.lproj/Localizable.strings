@@ -918,3 +918,15 @@
 "Apple Intelligence can’t summarize this video." = "Apple Intelligence bu videoyu özetleyemiyor.";
 "Apple Intelligence isn’t available right now." = "Apple Intelligence şu anda kullanılamıyor.";
 "Couldn’t summarize this video." = "Bu video özetlenemedi.";
+
+// YouTube lyrics (LRCLib)
+"Find Lyrics" = "Şarkı Sözlerini Bul";
+"Looking for “%@” on LRCLib…" = "LRCLib’de “%@” aranıyor…";
+"Couldn’t reach LRCLib." = "LRCLib’e ulaşılamadı.";
+"No lyrics found for “%@”." = "“%@” için şarkı sözü bulunamadı.";
+"Search Again…" = "Yeniden Ara…";
+"Find Automatically" = "Otomatik Olarak Bul";
+"Lyrics Options" = "Şarkı Sözü Seçenekleri";
+"Artist and song" = "Sanatçı ve şarkı";
+"Look up lyrics on LRCLib for every video you open." = "Açtığınız her video için LRCLib’de şarkı sözü arar.";
+"%@ · LRCLib" = "%@ · LRCLib";

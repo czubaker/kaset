@@ -83,3 +83,4 @@ What becomes easier or more difficult because of this change?
 | [0046](0046-discord-rich-presence.md) | Discord Rich Presence from the sandbox | Accepted |
 | [0047](0047-progress-bar-heatmap-and-previews.md) | "Most replayed", frame previews, and LIVE on the YouTube progress bar | Accepted |
 | [0048](0048-youtube-video-summary.md) | Video summaries with Apple Intelligence | Accepted |
+| [0049](0049-youtube-lyrics.md) | Lyrics beside YouTube music videos | Accepted |

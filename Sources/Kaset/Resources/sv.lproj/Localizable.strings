@@ -918,3 +918,15 @@
 "Apple Intelligence can’t summarize this video." = "Apple Intelligence kan inte sammanfatta den här videon.";
 "Apple Intelligence isn’t available right now." = "Apple Intelligence är inte tillgängligt just nu.";
 "Couldn’t summarize this video." = "Det gick inte att sammanfatta den här videon.";
+
+// YouTube lyrics (LRCLib)
+"Find Lyrics" = "Hitta låttext";
+"Looking for “%@” on LRCLib…" = "Söker efter ”%@” på LRCLib …";
+"Couldn’t reach LRCLib." = "Det gick inte att nå LRCLib.";
+"No lyrics found for “%@”." = "Ingen låttext hittades för ”%@”.";
+"Search Again…" = "Sök igen …";
+"Find Automatically" = "Sök automatiskt";
+"Lyrics Options" = "Alternativ för låttext";
+"Artist and song" = "Artist och låt";
+"Look up lyrics on LRCLib for every video you open." = "Sök efter låttext på LRCLib för varje video du öppnar.";
+"%@ · LRCLib" = "%@ · LRCLib";

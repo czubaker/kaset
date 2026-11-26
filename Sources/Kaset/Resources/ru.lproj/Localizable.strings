@@ -918,3 +918,15 @@
 "Apple Intelligence can’t summarize this video." = "Apple Intelligence не может пересказать это видео.";
 "Apple Intelligence isn’t available right now." = "Apple Intelligence сейчас недоступен.";
 "Couldn’t summarize this video." = "Не удалось пересказать это видео.";
+
+// YouTube lyrics (LRCLib)
+"Find Lyrics" = "Найти текст песни";
+"Looking for “%@” on LRCLib…" = "Ищу «%@» на LRCLib…";
+"Couldn’t reach LRCLib." = "Не удалось подключиться к LRCLib.";
+"No lyrics found for “%@”." = "Текст для «%@» не найден.";
+"Search Again…" = "Искать снова…";
+"Find Automatically" = "Искать автоматически";
+"Lyrics Options" = "Параметры текста песни";
+"Artist and song" = "Исполнитель и песня";
+"Look up lyrics on LRCLib for every video you open." = "Искать текст на LRCLib для каждого открытого видео.";
+"%@ · LRCLib" = "%@ · LRCLib";

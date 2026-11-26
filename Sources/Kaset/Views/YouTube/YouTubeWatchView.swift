@@ -126,7 +126,8 @@ struct YouTubeWatchView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                     let liveChat = self.shows(.liveChat) ? self.viewModel.data.liveChatContinuation : nil
-                    if liveChat != nil || self.shows(.related) {
+                    let showsLyrics = self.shows(.lyrics) && !self.video.isLive && liveChat == nil
+                    if liveChat != nil || showsLyrics || self.shows(.related) {
                         VStack(alignment: .leading, spacing: 16) {
                             if let liveChat {
                                 YouTubeLiveChatPanel(
@@ -134,6 +135,14 @@ struct YouTubeWatchView: View {
                                     client: self.viewModel.client,
                                     allowsPosting: self.hasPersonalAccount
                                 )
+                            }
+                            if showsLyrics {
+                                YouTubeLyricsPanel(
+                                    video: self.video,
+                                    title: self.viewModel.data.videoTitle ?? self.video.title,
+                                    channelName: self.viewModel.data.channel?.name ?? self.video.channelName
+                                )
+                                .id(self.video.videoId)
                             }
                             if self.shows(.related) {
                                 self.relatedColumn

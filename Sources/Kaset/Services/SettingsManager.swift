@@ -48,6 +48,7 @@ final class SettingsManager {
         static let discordRichPresenceEnabled = "settings.discord.richPresence.enabled"
         static let appMode = "settings.appMode"
         static let youtubeAutoplayEnabled = "settings.youtube.autoplay.enabled"
+        static let youtubeLyricsAutoFind = "settings.youtube.lyrics.autoFind"
         static let accentColorHex = "settings.accentColorHex"
         #if DEBUG
             static let useLegacyMacOS15UI = "settings.debug.useLegacyMacOS15UI"
@@ -285,6 +286,14 @@ final class SettingsManager {
     var youtubeAutoplayEnabled: Bool = UserDefaults.standard.object(forKey: Keys.youtubeAutoplayEnabled) as? Bool ?? false {
         didSet {
             UserDefaults.standard.set(self.youtubeAutoplayEnabled, forKey: Keys.youtubeAutoplayEnabled)
+        }
+    }
+
+    /// Whether the watch page looks up every video's lyrics on LRCLib by
+    /// itself. Off by default: lyrics are looked up when asked.
+    var youtubeLyricsAutoFind: Bool = UserDefaults.standard.object(forKey: Keys.youtubeLyricsAutoFind) as? Bool ?? false {
+        didSet {
+            UserDefaults.standard.set(self.youtubeLyricsAutoFind, forKey: Keys.youtubeLyricsAutoFind)
         }
     }
 
