@@ -61,4 +61,32 @@ struct YouTubeWatchSurfaceOwnershipTests {
         ))
         #expect(surface.superview === floatingContainer)
     }
+
+    @Test("A host claims the surface only while its container is in a window")
+    func hostClaimsOnlyInWindow() {
+        let container = YouTubeWatchContainerView()
+        var claims = 0
+        container.claimSurface = { claims += 1 }
+
+        // A covered navigation page: alive and updating, but out of the window.
+        container.claimSurfaceIfOnScreen()
+        #expect(claims == 0)
+
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: false
+        )
+        window.isReleasedWhenClosed = false
+        window.contentView?.addSubview(container)
+        #expect(claims == 1)
+
+        container.claimSurfaceIfOnScreen()
+        #expect(claims == 2)
+
+        container.removeFromSuperview()
+        container.claimSurfaceIfOnScreen()
+        #expect(claims == 2)
+    }
 }

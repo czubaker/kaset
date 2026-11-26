@@ -34,12 +34,19 @@ struct YouTubeWatchSurfaceView: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: YouTubeWatchContainerView, context _: Context) {
-        guard self.youtubePlayer.surfaceLocation == self.location else { return }
-        YouTubeWatchWebView.shared.ensureInHierarchy(
-            container: nsView,
-            expectedVideoId: self.expectedVideoId,
-            selectedVideoId: self.youtubePlayer.currentVideo?.videoId
-        )
+        let player = self.youtubePlayer
+        let location = self.location
+        let expectedVideoId = self.expectedVideoId
+        nsView.claimSurface = { [weak nsView] in
+            guard let nsView, player.surfaceLocation == location else { return }
+            YouTubeWatchWebView.shared.ensureInHierarchy(
+                container: nsView,
+                expectedVideoId: expectedVideoId,
+                selectedVideoId: player.currentVideo?.videoId
+            )
+        }
+        guard player.surfaceLocation == location else { return }
+        nsView.claimSurfaceIfOnScreen()
     }
 }
 
@@ -68,6 +75,20 @@ enum YouTubeWatchSurfaceAttachment {
 
 /// Custom NSView that keeps the WebView sized with the container.
 final class YouTubeWatchContainerView: NSView {
+    /// Moves the shared watch surface into this container. Runs only while
+    /// the container is in a window: a navigation stack keeps covered pages
+    /// alive, and updating, outside the window, and a covered watch page for
+    /// the same video (left under the page that docking back from the pop-out
+    /// pushes) would otherwise take the surface from the page on screen,
+    /// leaving it black while the video plays. A page claims it again when it
+    /// comes back into the window.
+    var claimSurface: (() -> Void)?
+
+    func claimSurfaceIfOnScreen() {
+        guard self.window != nil else { return }
+        self.claimSurface?()
+    }
+
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         self.postsFrameChangedNotifications = true
@@ -78,6 +99,11 @@ final class YouTubeWatchContainerView: NSView {
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        self.claimSurfaceIfOnScreen()
     }
 
     override func layout() {
