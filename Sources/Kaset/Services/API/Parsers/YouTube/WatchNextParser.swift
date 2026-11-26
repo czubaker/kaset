@@ -80,19 +80,19 @@ enum WatchNextParser {
     /// `intensityScoreNormalized` from 0 to 1. Ported from KasetPlus
     /// (github.com/Yoddikko/kasetPlus, MIT).
     static func heatmap(of data: [String: Any]) -> [YouTubeHeatmapMarker] {
-        guard let markers = self.firstHeatmapMarkers(in: data, videoId: self.currentVideoId(of: data)),
+        guard let markers = firstHeatmapMarkers(in: data, videoId: currentVideoId(of: data)),
               let last = markers.last,
-              let lastStart = self.intValue(from: last["startMillis"]),
-              let lastDuration = self.intValue(from: last["durationMillis"])
+              let lastStart = intValue(from: last["startMillis"]),
+              let lastDuration = intValue(from: last["durationMillis"])
         else { return [] }
         let span = Double(lastStart + lastDuration)
         guard span > 0 else { return [] }
 
         return markers.compactMap { marker in
-            guard let start = self.intValue(from: marker["startMillis"]),
+            guard let start = Self.intValue(from: marker["startMillis"]),
                   let intensity = (marker["intensityScoreNormalized"] as? NSNumber)?.doubleValue
             else { return nil }
-            let duration = self.intValue(from: marker["durationMillis"]) ?? 0
+            let duration = Self.intValue(from: marker["durationMillis"]) ?? 0
             let middle = Double(start) + Double(duration) / 2
             return YouTubeHeatmapMarker(
                 fraction: min(max(middle / span, 0), 1),
@@ -116,13 +116,13 @@ enum WatchNextParser {
                 }
             }
             for nested in dict.values {
-                if let found = self.firstHeatmapMarkers(in: nested, videoId: videoId) {
+                if let found = Self.firstHeatmapMarkers(in: nested, videoId: videoId) {
                     return found
                 }
             }
         } else if let array = value as? [Any] {
             for element in array {
-                if let found = self.firstHeatmapMarkers(in: element, videoId: videoId) {
+                if let found = Self.firstHeatmapMarkers(in: element, videoId: videoId) {
                     return found
                 }
             }
