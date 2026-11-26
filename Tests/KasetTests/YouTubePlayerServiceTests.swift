@@ -2089,8 +2089,8 @@ extension YouTubePlayerServiceTests {
         #expect(!self.sut.startStoryboardSpecRefreshIfNeeded())
     }
 
-    @Test("Playback tick skips storyboard refresh unless live ambient is active")
-    func playbackTickSkipsStoryboardRefreshForSteadyAmbient() async throws {
+    @Test("Playback fetches the storyboard spec once content plays, not during an ad, whatever the ambient style")
+    func playbackTickFetchesStoryboardForContent() async throws {
         let settings = SettingsManager.shared
         let originalEnabled = settings.ambientBackdropEnabled
         let originalStyle = settings.ambientBackdropStyle
@@ -2099,24 +2099,24 @@ extension YouTubePlayerServiceTests {
             settings.ambientBackdropStyle = originalStyle
         }
 
+        // The progress bar's frame preview needs the spec with any backdrop.
         settings.ambientBackdropEnabled = true
         settings.ambientBackdropStyle = .soft
         self.controller.storyboardSpecResponse = "mock-storyboard-spec"
         self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))
 
         self.sut.updatePlaybackState(.init(
-            isPlaying: true,
-            progress: 1,
-            duration: 60,
-            videoId: "abc",
-            title: nil,
-            isAd: false
+            isPlaying: true, progress: 1, duration: 60, videoId: "abc", title: nil, isAd: true
         ))
-
         try await Task.sleep(for: .milliseconds(20))
-
         #expect(self.controller.storyboardSpecRequests.isEmpty)
-        #expect(self.sut.storyboardSpec == nil)
+
+        self.sut.updatePlaybackState(.init(
+            isPlaying: true, progress: 2, duration: 60, videoId: "abc", title: nil, isAd: false
+        ))
+        try await Task.sleep(for: .milliseconds(20))
+        #expect(self.controller.storyboardSpecRequests == ["abc"])
+        #expect(self.sut.storyboardSpec == "mock-storyboard-spec")
     }
 
     @Test("Stop resets everything and tears down the WebView")

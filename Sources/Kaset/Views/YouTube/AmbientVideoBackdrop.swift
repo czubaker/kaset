@@ -577,16 +577,25 @@ struct StoryboardSheet {
     /// single image; these ceilings sit comfortably above that and fail closed.
     private static let maxGridDimension = 50
     private static let maxFrameCount = 10000
-    private static let maxSheets = 8
+    static let maxSheets = 8
+    /// The most sheets a preview resolves: hours of video at a high level.
+    static let maxPreviewSheets = 64
 
-    init?(spec: String) {
+    /// - Parameters:
+    ///   - level: The storyboard level. Level 0 is the densest single sheet
+    ///     (many tiny cells, right for ambient color); higher levels have
+    ///     fewer, larger cells per sheet (right for the progress bar's frame
+    ///     preview). Clamped to the levels the spec has.
+    ///   - maxSheets: How many sheet URLs to resolve. The backdrop keeps the
+    ///     default; the preview fetches one sheet at a time, so it can cover
+    ///     long videos.
+    init?(spec: String, level: Int = 0, maxSheets: Int = StoryboardSheet.maxSheets) {
         let parts = spec.components(separatedBy: "|")
         guard parts.count >= 2 else { return nil }
         let base = parts[0]
 
-        // Pick Level 0 — the densest single sheet (one fetch, most cells).
-        let levelIndex = 0
-        let fields = parts[1].components(separatedBy: "#")
+        let levelIndex = min(max(0, level), parts.count - 2)
+        let fields = parts[levelIndex + 1].components(separatedBy: "#")
         guard fields.count >= 8,
               let cols = Int(fields[3]),
               let rows = Int(fields[4]),
@@ -603,7 +612,7 @@ struct StoryboardSheet {
         let perSheet = cols * rows
         let sheetCount = min(
             Int((Double(frameCount) / Double(perSheet)).rounded(.up)),
-            Self.maxSheets
+            max(1, min(maxSheets, Self.maxPreviewSheets))
         )
         guard sheetCount > 0 else { return nil }
 
@@ -655,6 +664,15 @@ struct StoryboardSheet {
             ))
         }
         return rects
+    }
+
+    /// The sheet and cell showing the frame at `fraction` (0…1) of the video,
+    /// held to the sheets this instance resolved.
+    func frameLocation(forFraction fraction: Double) -> (sheet: Int, cell: Int) {
+        let perSheet = self.cols * self.rows
+        let lastAvailable = max(0, min(self.frameCount, self.sheetURLs.count * perSheet) - 1)
+        let index = min(lastAvailable, Int(min(max(0, fraction), 1) * Double(self.frameCount)))
+        return (index / perSheet, index % perSheet)
     }
 
     /// Whether a resolved storyboard URL is safe to fetch natively: `https`

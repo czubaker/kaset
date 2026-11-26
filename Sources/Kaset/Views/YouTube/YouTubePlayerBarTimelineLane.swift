@@ -19,6 +19,8 @@ struct YouTubePlayerBarTimelineLane: View {
     @State private var seekValue: Double = 0
     @State private var isSeeking = false
     @State private var seekHold = PlayerBarSeekHold()
+    /// The 0…1 position under the pointer on the bar, for the frame preview.
+    @State private var hoverFraction: Double?
 
     var body: some View {
         PlayerBarProgressLane(
@@ -28,6 +30,8 @@ struct YouTubePlayerBarTimelineLane: View {
             remainingText: "-\(PlayerBarSeekController.formatTime(max(0, self.youtubePlayer.duration - self.progressTextValue)))",
             markers: self.markers,
             segments: self.segments,
+            heatmap: self.isLive ? [] : self.youtubePlayer.heatmap,
+            liveEdge: self.liveEdge,
             isLive: self.isLive,
             canSeek: self.canSeek,
             isLoading: self.youtubePlayer.isPlaybackLoading,
@@ -36,8 +40,12 @@ struct YouTubePlayerBarTimelineLane: View {
                 self.seekValue = fraction
             },
             onCommit: self.performSeek,
-            onMarkerPreviewChange: self.onMarkerPreviewChange
+            onMarkerPreviewChange: self.onMarkerPreviewChange,
+            onHoverFractionChange: { self.hoverFraction = $0 }
         )
+        .overlay(alignment: .topLeading) {
+            self.framePreview
+        }
         .onChange(of: self.youtubePlayer.progress) { _, newValue in
             self.reconcileHold(observedProgress: newValue)
             if !self.isSeeking, !self.seekHold.isActive, self.youtubePlayer.duration > 0 {
@@ -58,6 +66,41 @@ struct YouTubePlayerBarTimelineLane: View {
         }
         .onAppear {
             self.syncSeekValueFromDisplayedProgress()
+        }
+    }
+
+    /// The storyboard frame under the pointer, floating above the bar (and
+    /// its "most replayed" curve), held inside the bar's ends.
+    @ViewBuilder
+    private var framePreview: some View {
+        if let hoverFraction = self.hoverFraction, !self.isLive, self.youtubePlayer.duration > 0,
+           let spec = self.youtubePlayer.storyboardSpec
+        {
+            GeometryReader { proxy in
+                let halfWidth = StoryboardHoverPreview.previewWidth / 2
+                StoryboardHoverPreview(spec: spec, fraction: hoverFraction, duration: self.youtubePlayer.duration)
+                    .position(
+                        x: min(max(halfWidth, proxy.size.width * hoverFraction), max(halfWidth, proxy.size.width - halfWidth)),
+                        y: -StoryboardHoverPreview.totalHeight / 2 - PlayerBarHeatmap.height + 12
+                    )
+            }
+            .allowsHitTesting(false)
+            .transition(.opacity)
+        }
+    }
+
+    /// How far behind the live head still counts as live: the page reports
+    /// the window's end a little ahead of what has buffered.
+    static let liveEdgeTolerance: TimeInterval = 10
+
+    /// For a live stream that can be rewound: LIVE, and a jump to the
+    /// broadcast's head.
+    private var liveEdge: PlayerBarLiveEdge? {
+        let player = self.youtubePlayer
+        guard player.isLiveSeekable, player.duration > 0 else { return nil }
+        let behind = player.duration - self.displayedPlaybackProgress
+        return PlayerBarLiveEdge(isAtEdge: behind <= Self.liveEdgeTolerance) {
+            player.seek(to: player.duration)
         }
     }
 

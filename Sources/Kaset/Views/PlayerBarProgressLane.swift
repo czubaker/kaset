@@ -1,5 +1,14 @@
 import SwiftUI
 
+// MARK: - PlayerBarLiveEdge
+
+/// A rewindable live stream's way back to the broadcast: the lane shows LIVE
+/// in place of the remaining time, red at the live edge and grey behind it.
+struct PlayerBarLiveEdge {
+    let isAtEdge: Bool
+    let jump: () -> Void
+}
+
 // MARK: - PlayerBarProgressLane
 
 struct PlayerBarProgressLane: View {
@@ -9,12 +18,20 @@ struct PlayerBarProgressLane: View {
     let remainingText: String
     let markers: [PlayerBarProgressMarker]
     let segments: [PlayerBarProgressSegment]
+    /// YouTube's "most replayed" samples, drawn above the bar while it's
+    /// hovered or scrubbed.
+    let heatmap: [YouTubeHeatmapMarker]
+    /// Set for a live stream that can be rewound.
+    let liveEdge: PlayerBarLiveEdge?
     let isLive: Bool
     let canSeek: Bool
     let isLoading: Bool
     let onScrub: (Double) -> Void
     let onCommit: () -> Void
     let onMarkerPreviewChange: (PlayerBarProgressMarker?) -> Void
+    /// The 0…1 position under the pointer while the bar is hovered or
+    /// scrubbed, then nil; drives the frame preview.
+    let onHoverFractionChange: ((Double?) -> Void)?
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.colorScheme) private var colorScheme
@@ -40,12 +57,15 @@ struct PlayerBarProgressLane: View {
         remainingText: String,
         markers: [PlayerBarProgressMarker] = [],
         segments: [PlayerBarProgressSegment] = [],
+        heatmap: [YouTubeHeatmapMarker] = [],
+        liveEdge: PlayerBarLiveEdge? = nil,
         isLive: Bool,
         canSeek: Bool,
         isLoading: Bool,
         onScrub: @escaping (Double) -> Void,
         onCommit: @escaping () -> Void,
-        onMarkerPreviewChange: @escaping (PlayerBarProgressMarker?) -> Void = { _ in }
+        onMarkerPreviewChange: @escaping (PlayerBarProgressMarker?) -> Void = { _ in },
+        onHoverFractionChange: ((Double?) -> Void)? = nil
     ) {
         self.fraction = fraction
         self.accent = accent
@@ -53,12 +73,15 @@ struct PlayerBarProgressLane: View {
         self.remainingText = remainingText
         self.markers = markers
         self.segments = segments
+        self.heatmap = heatmap
+        self.liveEdge = liveEdge
         self.isLive = isLive
         self.canSeek = canSeek
         self.isLoading = isLoading
         self.onScrub = onScrub
         self.onCommit = onCommit
         self.onMarkerPreviewChange = onMarkerPreviewChange
+        self.onHoverFractionChange = onHoverFractionChange
     }
 
     var body: some View {
@@ -92,6 +115,23 @@ struct PlayerBarProgressLane: View {
         .accessibilityLabel(String(localized: "Live stream"))
     }
 
+    private func liveEdgeButton(_ liveEdge: PlayerBarLiveEdge) -> some View {
+        Button(action: liveEdge.jump) {
+            HStack(spacing: 4) {
+                Circle()
+                    .fill(liveEdge.isAtEdge ? Color.red : Color.secondary)
+                    .frame(width: 5, height: 5)
+                Text("LIVE")
+                    .foregroundStyle(liveEdge.isAtEdge ? .primary : .secondary)
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .disabled(liveEdge.isAtEdge)
+        .help(String(localized: "Go to the live broadcast"))
+        .accessibilityLabel(String(localized: "Go to the live broadcast"))
+    }
+
     private var playbackTimeline: some View {
         VStack(spacing: 6) {
             HStack(spacing: 8) {
@@ -100,8 +140,12 @@ struct PlayerBarProgressLane: View {
 
                 Spacer(minLength: 8)
 
-                Text(self.remainingText)
-                    .foregroundStyle(.secondary)
+                if let liveEdge = self.liveEdge {
+                    self.liveEdgeButton(liveEdge)
+                } else {
+                    Text(self.remainingText)
+                        .foregroundStyle(.secondary)
+                }
             }
             .font(.system(size: 11))
             .monospacedDigit()
@@ -140,6 +184,13 @@ struct PlayerBarProgressLane: View {
             let previewMarker = self.previewChapterMarker
 
             ZStack(alignment: .topLeading) {
+                if !self.heatmap.isEmpty, self.isHovering || self.isDragging, !self.isLoading {
+                    PlayerBarHeatmap(samples: self.heatmap, accent: self.accent)
+                        .frame(width: width)
+                        .offset(y: -(PlayerBarHeatmap.height + 2))
+                        .transition(.opacity)
+                }
+
                 if self.segments.isEmpty {
                     Capsule()
                         .fill(self.trackColor)
@@ -215,12 +266,14 @@ struct PlayerBarProgressLane: View {
                         let fraction = Double(min(max(0, x / width), 1))
                         self.dragFraction = fraction
                         self.updatePreviewMarker(self.nearestMarker(to: fraction, width: width))
+                        self.onHoverFractionChange?(fraction)
                         self.onScrub(fraction)
                     }
                     .onEnded { value in
                         defer {
                             self.dragFraction = nil
                             self.updatePreviewMarker(nil)
+                            self.onHoverFractionChange?(nil)
                             self.isDragging = false
                         }
                         guard self.canSeek, width > 0 else { return }
@@ -240,11 +293,13 @@ struct PlayerBarProgressLane: View {
                     if self.dragFraction == nil {
                         self.updatePreviewMarker(self.nearestMarker(to: fraction, width: width))
                         self.updateHoveredSegment(self.segment(at: fraction))
+                        self.onHoverFractionChange?(fraction)
                     }
                 case .ended:
                     if self.dragFraction == nil {
                         self.updatePreviewMarker(nil)
                         self.updateHoveredSegment(nil)
+                        self.onHoverFractionChange?(nil)
                     }
                 }
             }
@@ -254,6 +309,7 @@ struct PlayerBarProgressLane: View {
                 if !hovering, self.dragFraction == nil {
                     self.updatePreviewMarker(nil)
                     self.updateHoveredSegment(nil)
+                    self.onHoverFractionChange?(nil)
                 }
             }
         }

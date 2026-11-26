@@ -32,6 +32,30 @@ struct StoryboardSheetTests {
         #expect(!url.absoluteString.contains("$"))
     }
 
+    @Test("A higher level picks its own grid and sheet names, clamped to the levels there are")
+    func picksLevels() throws {
+        let sharp = try #require(StoryboardSheet(spec: Self.validSpec, level: .max))
+        let url = try #require(sharp.sheetURLs.first)
+        #expect(url.absoluteString.contains("storyboard3_L1/M0.jpg"))
+        #expect(url.absoluteString.contains("sigh=PLACEHOLDERSIGH2"))
+        let dense = try #require(StoryboardSheet(spec: Self.validSpec, level: -3))
+        #expect(dense.sheetURLs.first?.absoluteString.contains("storyboard3_L0/default.jpg") == true)
+    }
+
+    @Test("A position maps to the sheet and cell showing it, held to the resolved sheets")
+    func locatesFrames() throws {
+        let spec = "https://i.ytimg.com/sb/V/storyboard3_L$L/$N.jpg?sqp=T" +
+            "|48#27#100#10#10#0#default#S" +
+            "|160#90#250#5#5#2000#M$M#S2"
+        let sheet = try #require(StoryboardSheet(spec: spec, level: 1, maxSheets: 64))
+        #expect(sheet.sheetURLs.count == 10) // 250 frames / 25 per sheet
+        #expect(sheet.frameLocation(forFraction: 0) == (0, 0))
+        #expect(sheet.frameLocation(forFraction: 0.5) == (5, 0)) // frame 125
+        #expect(sheet.frameLocation(forFraction: 1) == (9, 24)) // the last frame
+        let capped = try #require(StoryboardSheet(spec: spec, level: 1, maxSheets: 2))
+        #expect(capped.frameLocation(forFraction: 1) == (1, 24))
+    }
+
     @Test("sheetCount rounds up when frameCount is not a grid multiple")
     func sheetCountRoundsUp() throws {
         // 5×5 = 25 per sheet, 60 frames -> ceil(60/25) = 3 sheets.

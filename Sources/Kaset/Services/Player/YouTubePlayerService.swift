@@ -249,6 +249,9 @@ final class YouTubePlayerService {
     /// companion `next` response.
     private(set) var chapters: [YouTubeChapter] = []
 
+    /// "Most replayed" samples for the current video, from the same response.
+    var heatmap: [YouTubeHeatmapMarker] = []
+
     /// What a watch page loaded about the video it's for: its channel and the
     /// details the player bar can show. Read through the `current…`
     /// accessors, which drop it once another video plays.
@@ -934,6 +937,7 @@ final class YouTubePlayerService {
         self.currentRating = .none
         self.isInWatchLater = false
         self.chapters = []
+        self.heatmap = []
         self.captionTracks = []
         self.activeCaptionLanguageCode = nil
         self.qualityLevels = []
@@ -1482,23 +1486,14 @@ extension YouTubePlayerService {
             }
         }
 
-        // Storyboard color drives the `.live` ambient backdrop, so only fetch it
-        // when that style is actually active and real content (not a preroll ad)
-        // is playing.
-        // Not gated on the one-shot playback-options branch above, so it also
-        // fires when the user enables ambient mid-playback or when content
+        // The storyboard spec drives the progress bar's frame preview and the
+        // `.live` ambient backdrop, so fetch it once real content (not a
+        // preroll ad) plays: one page script per video. Not gated on the
+        // one-shot playback-options branch above, so it also fires when content
         // starts after an ad. `startStoryboardSpecRefreshIfNeeded` is
         // synchronously guarded, so repeated playback updates do not allocate a
         // new Task once a fetch is in-flight or already resolved.
-        if update.isPlaying,
-           !update.isAd,
-           self.currentVideo != nil,
-           AmbientVideoBackdrop.effectiveStyle(
-               requestedStyle: SettingsManager.shared.resolvedAmbientStyle,
-               reduceMotion: NSWorkspace.shared.accessibilityDisplayShouldReduceMotion,
-               lowPowerModeEnabled: ProcessInfo.processInfo.isLowPowerModeEnabled
-           ) == .live
-        {
+        if update.isPlaying, !update.isAd, self.currentVideo != nil {
             self.startStoryboardSpecRefreshIfNeeded()
         }
     }

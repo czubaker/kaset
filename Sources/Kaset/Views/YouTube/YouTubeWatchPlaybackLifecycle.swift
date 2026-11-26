@@ -22,6 +22,7 @@ enum YouTubeWatchPlaybackLifecycle {
         }
         player.setUpNext(data.related)
         player.setChapters(data.chapters)
+        player.heatmap = data.heatmap
         player.activeInlineVideoId = video.videoId
     }
 
@@ -33,6 +34,7 @@ enum YouTubeWatchPlaybackLifecycle {
         guard player.currentVideo?.videoId == videoId else { return }
         player.setUpNext(data.related)
         player.setChapters(data.chapters)
+        player.heatmap = data.heatmap
         player.setCurrentDetails(YouTubeWatchDetails(
             channel: data.channel,
             viewCountText: data.viewCountText,
