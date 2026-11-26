@@ -836,3 +836,8 @@
 "Discord refused the connection: %@" = "Discord が接続を拒否しました: %@";
 "Couldn't reach Discord: %@" = "Discord に接続できませんでした: %@";
 "Paused" = "一時停止中";
+
+// Discord errors
+"Discord isn't running." = "Discord が起動していません。";
+"The connection to Discord failed (error %lld)." = "Discord への接続に失敗しました（エラー %lld）。";
+"Discord stopped answering." = "Discord が応答しなくなりました。";

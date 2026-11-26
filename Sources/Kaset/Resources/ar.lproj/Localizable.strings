@@ -841,3 +841,8 @@
 "Discord refused the connection: %@" = "رفض Discord الاتصال: %@";
 "Couldn't reach Discord: %@" = "تعذّر الوصول إلى Discord: %@";
 "Paused" = "متوقف مؤقتًا";
+
+// Discord errors
+"Discord isn't running." = "Discord لا يعمل.";
+"The connection to Discord failed (error %lld)." = "فشل الاتصال بـ Discord (الخطأ %lld).";
+"Discord stopped answering." = "توقف Discord عن الاستجابة.";

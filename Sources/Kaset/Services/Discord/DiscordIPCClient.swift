@@ -3,7 +3,7 @@ import Foundation
 
 // MARK: - DiscordIPCError
 
-enum DiscordIPCError: Error, Equatable {
+enum DiscordIPCError: LocalizedError, Equatable {
     /// No `discord-ipc-N` socket exists — Discord is not running.
     case discordNotRunning
     case connectionFailed(errno: Int32)
@@ -11,6 +11,19 @@ enum DiscordIPCError: Error, Equatable {
     case connectionClosed
     /// Discord rejected the handshake. 4000 means the Application ID is wrong.
     case rejected(code: Int, message: String)
+
+    var errorDescription: String? {
+        switch self {
+        case .discordNotRunning:
+            String(localized: "Discord isn't running.")
+        case let .connectionFailed(code):
+            String(localized: "The connection to Discord failed (error \(Int(code))).")
+        case .writeFailed, .connectionClosed:
+            String(localized: "Discord stopped answering.")
+        case let .rejected(_, message):
+            message
+        }
+    }
 }
 
 // MARK: - DiscordIPCClient
@@ -41,6 +54,7 @@ actor DiscordIPCClient {
     /// reads so a corrupt or hostile header cannot make us allocate wildly.
     private static let maximumFrameBytes = 64 * 1024
     private static let socketCandidates = 0 ... 9
+    private static let ioTimeoutSeconds = 3
 
     private var descriptor: Int32?
     private let logger = DiagnosticsLogger.player
@@ -89,6 +103,7 @@ actor DiscordIPCClient {
         guard !paths.isEmpty else { throw DiscordIPCError.discordNotRunning }
 
         var lastError: DiscordIPCError = .discordNotRunning
+        var onlyStaleSockets = true
         for path in paths {
             do {
                 let descriptor = try Self.openSocket(at: path)
@@ -108,10 +123,15 @@ actor DiscordIPCClient {
                 if case .rejected = error {
                     throw error
                 }
+                // ECONNREFUSED or ENOENT: a socket left behind by a Discord
+                // that quit or crashed.
+                if case let .connectionFailed(code) = error, code == ECONNREFUSED || code == ENOENT {} else {
+                    onlyStaleSockets = false
+                }
                 lastError = error
             }
         }
-        throw lastError
+        throw onlyStaleSockets ? DiscordIPCError.discordNotRunning : lastError
     }
 
     func disconnect() {
@@ -134,6 +154,13 @@ actor DiscordIPCClient {
             &noSignalPipe,
             socklen_t(MemoryLayout<Int32>.size)
         )
+        // A Discord that accepts but never answers (starting up, hung) must
+        // not hold the actor: reads and writes give up after a few seconds,
+        // and the service backs off and reconnects.
+        var timeout = timeval(tv_sec: Self.ioTimeoutSeconds, tv_usec: 0)
+        let timeoutSize = socklen_t(MemoryLayout<timeval>.size)
+        _ = setsockopt(descriptor, SOL_SOCKET, SO_RCVTIMEO, &timeout, timeoutSize)
+        _ = setsockopt(descriptor, SOL_SOCKET, SO_SNDTIMEO, &timeout, timeoutSize)
 
         var address = sockaddr_un()
         address.sun_family = sa_family_t(AF_UNIX)

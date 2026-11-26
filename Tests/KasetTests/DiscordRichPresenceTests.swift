@@ -259,4 +259,11 @@ struct DiscordRichPresenceTests {
         #expect(DiscordIPCClient.socketPaths().first == folder + "discord-ipc-0")
         #expect(DiscordIPCClient.socketPaths().count == 10)
     }
+
+    @Test("Errors read as sentences a person can act on")
+    func errorsAreReadable() {
+        #expect(DiscordIPCError.discordNotRunning.errorDescription?.isEmpty == false)
+        #expect(DiscordIPCError.connectionClosed.errorDescription == DiscordIPCError.writeFailed(errno: EPIPE).errorDescription)
+        #expect(DiscordIPCError.rejected(code: 4000, message: "Invalid Client ID").errorDescription == "Invalid Client ID")
+    }
 }

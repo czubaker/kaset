@@ -841,3 +841,8 @@
 "Discord refused the connection: %@" = "Discord отклонил подключение: %@";
 "Couldn't reach Discord: %@" = "Не удалось связаться с Discord: %@";
 "Paused" = "На паузе";
+
+// Discord errors
+"Discord isn't running." = "Discord не запущен.";
+"The connection to Discord failed (error %lld)." = "Не удалось подключиться к Discord (ошибка %lld).";
+"Discord stopped answering." = "Discord перестал отвечать.";

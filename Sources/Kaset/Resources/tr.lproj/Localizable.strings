@@ -841,3 +841,8 @@
 "Discord refused the connection: %@" = "Discord bağlantıyı reddetti: %@";
 "Couldn't reach Discord: %@" = "Discord’a ulaşılamadı: %@";
 "Paused" = "Duraklatıldı";
+
+// Discord errors
+"Discord isn't running." = "Discord çalışmıyor.";
+"The connection to Discord failed (error %lld)." = "Discord bağlantısı başarısız oldu (hata %lld).";
+"Discord stopped answering." = "Discord yanıt vermeyi bıraktı.";

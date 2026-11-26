@@ -841,3 +841,8 @@
 "Discord refused the connection: %@" = "Discord ha rechazado la conexión: %@";
 "Couldn't reach Discord: %@" = "No se ha podido conectar con Discord: %@";
 "Paused" = "En pausa";
+
+// Discord errors
+"Discord isn't running." = "Discord no se está ejecutando.";
+"The connection to Discord failed (error %lld)." = "Ha fallado la conexión con Discord (error %lld).";
+"Discord stopped answering." = "Discord ha dejado de responder.";

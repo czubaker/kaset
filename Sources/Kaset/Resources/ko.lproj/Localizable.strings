@@ -841,3 +841,8 @@
 "Discord refused the connection: %@" = "Discord가 연결을 거부했습니다: %@";
 "Couldn't reach Discord: %@" = "Discord에 연결할 수 없습니다: %@";
 "Paused" = "일시 정지됨";
+
+// Discord errors
+"Discord isn't running." = "Discord가 실행 중이 아닙니다.";
+"The connection to Discord failed (error %lld)." = "Discord에 연결하지 못했습니다(오류 %lld).";
+"Discord stopped answering." = "Discord가 응답하지 않습니다.";

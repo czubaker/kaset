@@ -841,3 +841,8 @@
 "Discord refused the connection: %@" = "Discord menolak koneksi: %@";
 "Couldn't reach Discord: %@" = "Tidak dapat menjangkau Discord: %@";
 "Paused" = "Dijeda";
+
+// Discord errors
+"Discord isn't running." = "Discord tidak berjalan.";
+"The connection to Discord failed (error %lld)." = "Koneksi ke Discord gagal (kesalahan %lld).";
+"Discord stopped answering." = "Discord berhenti merespons.";

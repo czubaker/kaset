@@ -839,3 +839,8 @@
 "Discord refused the connection: %@" = "Discord 拒绝了连接：%@";
 "Couldn't reach Discord: %@" = "无法连接 Discord：%@";
 "Paused" = "已暂停";
+
+// Discord errors
+"Discord isn't running." = "Discord 未运行。";
+"The connection to Discord failed (error %lld)." = "连接 Discord 失败（错误 %lld）。";
+"Discord stopped answering." = "Discord 已停止响应。";

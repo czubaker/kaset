@@ -841,3 +841,8 @@
 "Discord refused the connection: %@" = "Discord nekade anslutningen: %@";
 "Couldn't reach Discord: %@" = "Det gick inte att nå Discord: %@";
 "Paused" = "Pausad";
+
+// Discord errors
+"Discord isn't running." = "Discord körs inte.";
+"The connection to Discord failed (error %lld)." = "Anslutningen till Discord misslyckades (fel %lld).";
+"Discord stopped answering." = "Discord svarar inte längre.";

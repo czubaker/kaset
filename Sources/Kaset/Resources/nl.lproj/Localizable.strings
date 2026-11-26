@@ -841,3 +841,8 @@
 "Discord refused the connection: %@" = "Discord heeft de verbinding geweigerd: %@";
 "Couldn't reach Discord: %@" = "Kan Discord niet bereiken: %@";
 "Paused" = "Gepauzeerd";
+
+// Discord errors
+"Discord isn't running." = "Discord is niet actief.";
+"The connection to Discord failed (error %lld)." = "Verbinding met Discord mislukt (fout %lld).";
+"Discord stopped answering." = "Discord reageert niet meer.";

@@ -146,9 +146,21 @@ final class DiscordRichPresenceService {
 
     // MARK: - Snapshot
 
-    /// Reads whichever player is actually playing. Video wins when it has a
-    /// current video, matching how the rest of the app treats source priority.
+    /// Reads whichever player is actually playing; with neither playing, the
+    /// paused video, then the paused song.
     private func currentSnapshot() -> DiscordPresenceSnapshot? {
+        let videoSnapshot = self.videoSnapshot()
+        let musicSnapshot = self.musicSnapshot()
+        if let videoSnapshot, videoSnapshot.isPlaying {
+            return videoSnapshot
+        }
+        if let musicSnapshot, musicSnapshot.isPlaying {
+            return musicSnapshot
+        }
+        return videoSnapshot ?? musicSnapshot
+    }
+
+    private func videoSnapshot() -> DiscordPresenceSnapshot? {
         if let youtube = self.youtubePlayerService, let video = youtube.currentVideo {
             return DiscordPresenceSnapshot(
                 title: video.title,
@@ -160,6 +172,10 @@ final class DiscordRichPresenceService {
                 startedAt: Self.startInstant(elapsed: youtube.progress, isPlaying: youtube.isPlaying)
             )
         }
+        return nil
+    }
+
+    private func musicSnapshot() -> DiscordPresenceSnapshot? {
         if let player = self.playerService, let track = player.currentTrack {
             let isPlaying = player.state == .playing
             return DiscordPresenceSnapshot(
