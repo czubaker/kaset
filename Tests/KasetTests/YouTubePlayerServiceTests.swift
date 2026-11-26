@@ -1955,6 +1955,51 @@ extension YouTubePlayerServiceTests {
         #expect(self.sut.currentMediaIsLive)
     }
 
+    @Test("A rewindable live stream (DVR) can be scrubbed; one without DVR can't")
+    func liveDvrIsSeekable() {
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "live", isLive: true))
+        self.sut.updatePlaybackState(.init(
+            isPlaying: true,
+            progress: 50,
+            duration: 3600,
+            hasReadyMedia: true,
+            videoId: "live",
+            boundVideoId: "live",
+            isLive: true,
+            isLiveDvr: true
+        ))
+        #expect(self.sut.isLiveSeekable)
+
+        self.sut.updatePlaybackState(.init(
+            isPlaying: true,
+            progress: 51,
+            duration: 0,
+            hasReadyMedia: true,
+            videoId: "live",
+            boundVideoId: "live",
+            isLive: true
+        ))
+        #expect(!self.sut.isLiveSeekable)
+    }
+
+    @Test("Refresh reloads the playing video where it was")
+    func refreshReloadsCurrentVideo() {
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))
+        self.sut.updatePlaybackState(.init(
+            isPlaying: true,
+            progress: 42,
+            duration: 100,
+            hasReadyMedia: true,
+            videoId: "abc",
+            boundVideoId: "abc"
+        ))
+
+        self.sut.reloadCurrentVideo()
+
+        #expect(self.controller.reloadedVideoIds == ["abc"])
+        #expect(self.sut.currentVideo?.videoId == "abc")
+    }
+
     @Test("Source switch pauses the docked video in place — no pop-out")
     func sourceSwitchPausesInPlace() {
         self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))

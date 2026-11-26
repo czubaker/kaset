@@ -15,8 +15,15 @@ struct YouTubeWatchSurfaceView: NSViewRepresentable {
     /// from the newly active page.
     let expectedVideoId: String?
 
-    init(expectedVideoId: String? = nil) {
+    /// Where this host shows the video. It claims the WebView only while the
+    /// player's surface is there: the floating window closes a moment after
+    /// playback docks inline, and its host would otherwise take the WebView
+    /// back into the closing window, leaving the watch page black.
+    let location: YouTubePlayerService.SurfaceLocation
+
+    init(expectedVideoId: String? = nil, location: YouTubePlayerService.SurfaceLocation = .inline) {
         self.expectedVideoId = expectedVideoId
+        self.location = location
     }
 
     func makeNSView(context _: Context) -> YouTubeWatchContainerView {
@@ -27,6 +34,7 @@ struct YouTubeWatchSurfaceView: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: YouTubeWatchContainerView, context _: Context) {
+        guard self.youtubePlayer.surfaceLocation == self.location else { return }
         YouTubeWatchWebView.shared.ensureInHierarchy(
             container: nsView,
             expectedVideoId: self.expectedVideoId,

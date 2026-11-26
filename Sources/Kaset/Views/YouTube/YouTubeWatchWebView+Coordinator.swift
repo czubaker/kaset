@@ -58,6 +58,7 @@ extension YouTubeWatchWebView {
                 title: body["title"] as? String,
                 isAd: body["isAd"] as? Bool ?? false,
                 isLive: body["isLive"] as? Bool ?? false,
+                isLiveDvr: body["isLiveDvr"] as? Bool ?? false,
                 didApplyPendingSeek: body["pendingSeekApplied"] as? Bool ?? false,
                 didFailPendingSeek: body["pendingSeekFailed"] as? Bool ?? false,
                 pendingSeekTarget: body["pendingSeekTarget"] as? Double,

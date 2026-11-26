@@ -160,8 +160,11 @@ struct YouTubeWatchView: View {
                 data: self.viewModel.data
             )
         }
-        // Reloads the page around the video; playback carries on.
+        // Reloads the page and the player itself, which picks up where it was.
         .youtubePageRefreshable {
+            if self.youtubePlayer.currentVideo?.videoId == self.video.videoId {
+                self.youtubePlayer.reloadCurrentVideo()
+            }
             await self.viewModel.refresh()
             // A newer request, or leaving the page, cancelled this reload.
             guard !Task.isCancelled else { return }

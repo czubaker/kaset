@@ -204,6 +204,10 @@ final class YouTubePlayerService {
     /// feed model is incomplete, including URL launches and SPA drift.
     @ObservationIgnored var currentMediaIsLive = false
 
+    /// Whether the live stream playing can be rewound (DVR): the bar scrubs
+    /// and skips within its seekable window then.
+    private(set) var isLiveSeekable = false
+
     @ObservationIgnored private var playbackLoadingTimeoutTask: Task<Void, Never>?
     @ObservationIgnored private var playbackLoadingGeneration: UInt64 = 0
 
@@ -373,7 +377,7 @@ final class YouTubePlayerService {
     // MARK: - Commands
 
     /// Starts playback of a video, docked inline.
-    func play(video: YouTubeVideo, usesCookieFreeDataStore: Bool = false, startAt: Double? = nil) {
+    func play(video: YouTubeVideo, usesCookieFreeDataStore: Bool = false, startAt: Double? = nil, forceReload: Bool = false) {
         self.beginYouTubePlaybackIntent()
         self.autoplayRecoveryRequestGeneration &+= 1
         self.shouldRecoverAutoplayTransitionOnResume = false
@@ -410,7 +414,7 @@ final class YouTubePlayerService {
             playerService: self,
             usesCookieFreeDataStore: self.usesCookieFreePlaybackDataStore
         )
-        if let normalizedStartAt {
+        if forceReload || normalizedStartAt != nil {
             self.playbackController.reloadVideo(videoId: video.videoId, resumeAt: normalizedStartAt)
         } else {
             self.playbackController.loadVideo(videoId: video.videoId)
@@ -779,33 +783,6 @@ final class YouTubePlayerService {
         self.playbackController.tearDown()
     }
 
-    // MARK: - Surface Placement
-
-    /// Moves the surface to the floating video window.
-    func popOutToWindow() {
-        guard self.currentVideo != nil else { return }
-        self.logger.info("YouTubePlayer: pop out to floating window")
-        self.surfaceLocation = .floating
-    }
-
-    /// Docks the surface back into the inline watch view.
-    func dockInline() {
-        guard self.currentVideo != nil else { return }
-        self.logger.info("YouTubePlayer: dock inline")
-        self.surfaceLocation = .inline
-    }
-
-    /// The floating window asked to dock the video back into the app.
-    func requestPopIn() {
-        guard self.surfaceLocation == .floating, let video = self.currentVideo else { return }
-        self.popInRequest = video
-    }
-
-    /// Marks the pop-in request as handled.
-    func consumePopInRequest() {
-        self.popInRequest = nil
-    }
-
     // MARK: - Skipping
 
     /// Supplies up-next candidates (the watch page's related list).
@@ -956,6 +933,7 @@ final class YouTubePlayerService {
         self.activeAudioTrackID = nil
         self.playbackRates = []
         self.currentMediaIsLive = false
+        self.isLiveSeekable = false
         self.storyboardSpec = nil
         self.storyboardFetchVideoId = nil
         self.storyboardFetchInFlightVideoId = nil
@@ -1227,6 +1205,9 @@ extension YouTubePlayerService {
         var title: String?
         var isAd = false
         var isLive = false
+        /// A live stream the viewer can rewind: progress and duration count
+        /// within its seekable window.
+        var isLiveDvr = false
         var didApplyPendingSeek = false
         var didFailPendingSeek = false
         var pendingSeekTarget: Double?
@@ -1387,6 +1368,7 @@ extension YouTubePlayerService {
         {
             let resolvedIsLive = update.isLive || self.currentVideo?.isLive == true
             self.currentMediaIsLive = resolvedIsLive
+            self.isLiveSeekable = resolvedIsLive && update.isLiveDvr
             if resolvedIsLive {
                 self.updateCurrentVideoLiveness(true, videoId: metadataVideoId)
             }
@@ -1540,6 +1522,7 @@ extension YouTubePlayerService {
             && update.isLive
         self.resetPerVideoState()
         self.currentMediaIsLive = driftedIsLive
+        self.isLiveSeekable = driftedIsLive && update.isLiveDvr
         self.currentVideo = YouTubeVideo(
             videoId: videoId,
             title: update.title ?? current.title,
@@ -1958,5 +1941,53 @@ extension YouTubePlayerService {
             return
         }
         self.loadedDetails = details.map { (videoId, $0) }
+    }
+}
+
+// MARK: - Reloading
+
+extension YouTubePlayerService {
+    /// Loads the playing video's watch document again where it was, as a
+    /// browser's reload does: the toolbar's Refresh on the watch page brings a
+    /// stuck or broken player back. A live stream rejoins the broadcast.
+    func reloadCurrentVideo() {
+        guard let video = self.currentVideo else { return }
+        let isLive = video.isLive || self.currentMediaIsLive
+        let resumeAt = isLive ? nil : self.interruptionResumeAt(for: video.videoId)
+        self.play(
+            video: video,
+            usesCookieFreeDataStore: self.usesCookieFreePlaybackDataStore,
+            startAt: resumeAt,
+            forceReload: true
+        )
+    }
+}
+
+// MARK: - Surface Placement
+
+extension YouTubePlayerService {
+    /// Moves the surface to the floating video window.
+    func popOutToWindow() {
+        guard self.currentVideo != nil else { return }
+        self.logger.info("YouTubePlayer: pop out to floating window")
+        self.surfaceLocation = .floating
+    }
+
+    /// Docks the surface back into the inline watch view.
+    func dockInline() {
+        guard self.currentVideo != nil else { return }
+        self.logger.info("YouTubePlayer: dock inline")
+        self.surfaceLocation = .inline
+    }
+
+    /// The floating window asked to dock the video back into the app.
+    func requestPopIn() {
+        guard self.surfaceLocation == .floating, let video = self.currentVideo else { return }
+        self.popInRequest = video
+    }
+
+    /// Marks the pop-in request as handled.
+    func consumePopInRequest() {
+        self.popInRequest = nil
     }
 }

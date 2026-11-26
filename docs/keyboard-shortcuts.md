@@ -39,8 +39,8 @@ in YouTube mode, `⌘1`/`⌘2`/`⌘F` go to the YouTube Home/Explore/Search
 surfaces and `⌘3` goes to Playlists.
 `⇧⌘R` refreshes YouTube Music's Home feed and bypasses its cached suggestions.
 In YouTube mode it reloads the page on screen, as the toolbar's Refresh button
-does: a feed, channel, playlist, search, or the watch page around the video,
-which keeps playing.
+does: a feed, channel, playlist, search, or the watch page, whose player also
+loads again and picks up where it was (a live stream rejoins the broadcast).
 `⌘+` and `⌘−` (View → Zoom In / Zoom Out) make the cards of YouTube's grid
 pages (Home, Subscriptions, Explore, channels, playlists, History) larger or
 smaller without changing the rest of the app; the watch page, Search, and

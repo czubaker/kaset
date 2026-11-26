@@ -146,7 +146,7 @@ struct YouTubePlayerBar: View {
         case .subscribe:
             self.hasPersonalAccount && self.currentChannelId != nil
         case .skipBack, .skipForward:
-            !self.isLive
+            !self.isUnseekableLive
         case .floatOnTop:
             self.showsFloatOnTopControl
         case .settingsMenu:
@@ -404,7 +404,7 @@ struct YouTubePlayerBar: View {
                         accent: Self.brandAccent,
                         markers: self.chapterProgressMarkers,
                         segments: self.chapterProgressSegments,
-                        isLive: self.isLive,
+                        isLive: self.isUnseekableLive,
                         canSeek: self.canSeek,
                         onMarkerPreviewChange: { self.chapterPreviewMarker = $0 }
                     )
@@ -702,9 +702,17 @@ struct YouTubePlayerBar: View {
         self.youtubePlayer.currentVideo?.isLive == true
     }
 
-    /// A live stream can report a finite DVR duration, so duration alone does not enable seeking.
+    /// A live stream seeks only when the streamer allows rewinding (DVR); the
+    /// page then reports its seekable window as the duration.
     private var canSeek: Bool {
-        self.youtubePlayer.duration > 0 && !self.youtubePlayer.isShowingAd && !self.isLive
+        self.youtubePlayer.duration > 0 && !self.youtubePlayer.isShowingAd
+            && (!self.isLive || self.youtubePlayer.isLiveSeekable)
+    }
+
+    /// A live stream without DVR: nothing to scrub or skip, and the lane
+    /// shows LIVE instead of times.
+    private var isUnseekableLive: Bool {
+        self.isLive && !self.youtubePlayer.isLiveSeekable
     }
 
     private var canNavigateToCurrentChannel: Bool {

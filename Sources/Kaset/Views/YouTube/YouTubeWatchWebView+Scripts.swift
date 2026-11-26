@@ -116,6 +116,32 @@ extension YouTubeWatchWebView {
                         (data && data.isLive === true)
                         || (hasReadyMedia && !isFinite(video.duration))
                     );
+                    // A live stream the streamer lets viewers rewind (DVR):
+                    // report the position and length within its seekable
+                    // window, so the bar can scrub it like a video. The
+                    // player response says so; without it, a window longer
+                    // than two minutes is taken as DVR.
+                    let liveWindowStart = null;
+                    let liveWindowEnd = null;
+                    if (isLive && video.seekable && video.seekable.length > 0) {
+                        const start = video.seekable.start(0);
+                        const end = video.seekable.end(video.seekable.length - 1);
+                        let dvrFlag;
+                        try {
+                            const player = moviePlayer();
+                            const response = player && typeof player.getPlayerResponse === 'function'
+                                ? player.getPlayerResponse() : null;
+                            dvrFlag = response && response.videoDetails
+                                ? response.videoDetails.isLiveDvrEnabled : undefined;
+                        } catch (e) {}
+                        const isDvr = dvrFlag === true || (dvrFlag !== false && end - start > 120);
+                        if (isDvr && isFinite(start) && isFinite(end) && end > start) {
+                            liveWindowStart = start;
+                            liveWindowEnd = end;
+                        }
+                    }
+                    const isLiveDvr = liveWindowStart !== null;
+                    window.__kasetLiveWindowStart = liveWindowStart;
                     const pendingSeekApplied = window.__kasetPendingSeekApplied === true;
                     const pendingSeekFailed = window.__kasetPendingSeekFailed === true;
                     const pendingSeekTarget = window.__kasetPendingSeekResultTarget;
@@ -127,8 +153,12 @@ extension YouTubeWatchWebView {
                         documentGeneration: window.__kasetDocumentGeneration,
                         mediaGeneration: video.__kasetMediaGeneration || mediaGeneration,
                         isPlaying: !video.paused && !video.ended,
-                        progress: video.currentTime || 0,
-                        duration: (video.duration && isFinite(video.duration)) ? video.duration : 0,
+                        progress: isLiveDvr
+                            ? Math.max(0, (video.currentTime || 0) - liveWindowStart)
+                            : (video.currentTime || 0),
+                        duration: isLiveDvr
+                            ? liveWindowEnd - liveWindowStart
+                            : ((video.duration && isFinite(video.duration)) ? video.duration : 0),
                         hasReadyMedia: hasReadyMedia,
                         hasMediaError: hasMediaError,
                         videoId: videoId,
@@ -136,6 +166,7 @@ extension YouTubeWatchWebView {
                         title: currentTitle(),
                         isAd: isAdShowing(),
                         isLive: isLive,
+                        isLiveDvr: isLiveDvr,
                         pendingSeekApplied: pendingSeekApplied,
                         pendingSeekFailed: pendingSeekFailed,
                         pendingSeekTarget: pendingSeekTarget,
@@ -299,9 +330,13 @@ extension YouTubeWatchWebView {
                     const firstSeekable = video.seekable.start(0);
                     const lastSeekable = video.seekable.end(video.seekable.length - 1);
                     const hasFiniteDuration = video.duration && isFinite(video.duration);
+                    // A rewindable live stream's positions count from its
+                    // seekable window's start (see sendUpdate).
+                    const liveOffset = !hasFiniteDuration && typeof window.__kasetLiveWindowStart === 'number'
+                        ? firstSeekable : 0;
                     const resolvedTarget = hasFiniteDuration
                         ? Math.min(Math.max(target, 0), video.duration)
-                        : Math.min(Math.max(target, firstSeekable), lastSeekable);
+                        : Math.min(Math.max(liveOffset + target, firstSeekable), lastSeekable);
                     window.__kasetPendingSeekWaits = 0;
                     video.currentTime = resolvedTarget;
                     function reportSeekResult() {
@@ -814,14 +849,18 @@ extension YouTubeWatchWebView {
         )
     }
 
-    /// Seeks to a position in seconds.
+    /// Seeks to a position in seconds. In a rewindable live stream the
+    /// position counts from the start of its seekable window, as the observer
+    /// reports it.
     func seek(to time: Double) {
         guard time.isFinite, time >= 0 else { return }
         self.webView?.evaluateJavaScript(
             """
             (function() {
                 const video = document.querySelector('#movie_player video') || document.querySelector('video');
-                if (video) { video.currentTime = \(time); }
+                if (!video) { return; }
+                const offset = typeof window.__kasetLiveWindowStart === 'number' ? window.__kasetLiveWindowStart : 0;
+                video.currentTime = offset + \(time);
             })();
             """,
             completionHandler: nil
