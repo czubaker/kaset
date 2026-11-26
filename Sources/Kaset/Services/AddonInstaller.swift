@@ -147,9 +147,13 @@ final class AddonInstaller {
 
     // MARK: Unpacking
 
-    /// Unpacks a zip into a new temporary folder with the system's `ditto`,
-    /// and refuses archives with links or entries outside that folder.
+    /// Unpacks a zip into a new temporary folder with the system's `ditto`.
+    /// The archive's entries are checked first (no links, absolute paths, or
+    /// `..` steps), and the unpacked folder again after.
     nonisolated static func unpack(_ archive: URL) async throws -> URL {
+        guard let entries = try? AddonArchive.entries(of: archive), AddonArchive.isSafe(entries) else {
+            throw InstallError.badArchive
+        }
         let destination = FileManager.default.temporaryDirectory
             .appendingPathComponent("addon-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true)

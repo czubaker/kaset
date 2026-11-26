@@ -170,9 +170,27 @@ final class WebKitManager: NSObject, WebKitManagerProtocol {
         return nil
     }
 
-    /// Deletes what an extension stored (its local, session, and synced
-    /// storage), keyed by the managed-extension ID its context carries.
+    /// Stops an extension that's running and deletes what it stored (its
+    /// local, session, and synced storage), keyed by the managed-extension ID
+    /// its context carries. The ID stays queued until a launch has cleared it
+    /// again before loading extensions, in case anything was written after.
     func removeExtensionData(forExtensionId id: String) async {
+        if let context = self.extensionContexts.removeValue(forKey: id) {
+            try? self.webExtensionController.unload(context)
+        }
+        ExtensionDataRemovalQueue.add(id)
+        await self.clearExtensionData(forExtensionIds: [id])
+    }
+
+    /// Clears the data of extensions removed before this launch.
+    private func clearQueuedExtensionData() async {
+        let queued = ExtensionDataRemovalQueue.ids
+        guard !queued.isEmpty else { return }
+        await self.clearExtensionData(forExtensionIds: queued)
+        ExtensionDataRemovalQueue.remove(queued)
+    }
+
+    private func clearExtensionData(forExtensionIds ids: Set<String>) async {
         if #available(macOS 15.4, *) {
             let types: Set<WKWebExtension.DataType> = [.local, .session, .synchronized]
             let controller = self.webExtensionController
@@ -181,7 +199,7 @@ final class WebKitManager: NSObject, WebKitManagerProtocol {
                     continuation.resume(returning: records)
                 }
             }
-            let owned = records.filter { $0.uniqueIdentifier == id }
+            let owned = records.filter { ids.contains($0.uniqueIdentifier) }
             guard !owned.isEmpty else { return }
             await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
                 controller.removeData(ofTypes: types, from: owned) {
@@ -193,6 +211,7 @@ final class WebKitManager: NSObject, WebKitManagerProtocol {
 
     /// Loads all enabled extensions from `ExtensionsManager`.
     func loadExtensions(using manager: ExtensionsManager = .shared) async {
+        await self.clearQueuedExtensionData()
         #if compiler(>=5.9)
             if #available(macOS 14.0, *) {
                 let resolvedURLs = manager.resolvedURLs()

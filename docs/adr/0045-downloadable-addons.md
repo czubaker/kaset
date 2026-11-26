@@ -26,14 +26,18 @@ the playback web views through `WKWebExtensionController`).
 - **Install** asks GitHub's API for the latest release, takes the project's
   Safari build, and accepts the download only from `github.com` or
   `*.githubusercontent.com` over HTTPS, at the size and the SHA-256 digest
-  the release lists. `ditto` unpacks it into a temporary folder; an archive
-  with links or entries outside that folder is refused. The folder with
+  the release lists. Its zip directory is read first, and an archive with
+  links, absolute paths, or `..` steps is refused before anything is
+  written; `ditto` then unpacks it into a temporary folder, which is
+  checked again. The folder with
   `manifest.json` goes through `ExtensionsManager.addExtension`, tagged with
   the addon and its release, and then through the same permission review as
   any extension (#589) before it loads at the next launch.
-- **Remove** deletes the extension's files and the storage its context kept
-  (`WKWebExtensionController.removeData`, matched by the managed ID), and
-  asks for a restart if it had loaded. Removing the last extension also
+- **Remove** unloads the extension if it is running, deletes its files and
+  the storage its context kept (`WKWebExtensionController.removeData`,
+  matched by the managed ID), and asks for a restart if it had loaded. The
+  ID stays queued (`ExtensionDataRemovalQueue`) until the next launch has
+  cleared its storage again before any extension loads. Removing the last extension also
   deletes the empty list and folder.
 - Addon entries list under Addons, not under Installed Extensions.
 - Return YouTube Dislike and DeArrow are not addons here: they change the

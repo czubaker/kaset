@@ -130,4 +130,195 @@ struct AddonInstallerTests {
         defer { try? FileManager.default.removeItem(at: unpacked) }
         #expect(try AddonInstaller.extensionFolder(in: unpacked).lastPathComponent == "Addon")
     }
+
+    // MARK: Archive checks
+
+    @Test("Archives with links, absolute paths, or .. steps are refused before unpacking")
+    func checksEntriesBeforeUnpacking() {
+        let plain = [AddonArchive.Entry(name: "ext/manifest.json", isSymbolicLink: false)]
+        #expect(AddonArchive.isSafe(plain))
+        #expect(!AddonArchive.isSafe(plain + [AddonArchive.Entry(name: "ext/link", isSymbolicLink: true)]))
+        #expect(!AddonArchive.isSafe(plain + [AddonArchive.Entry(name: "../escape.js", isSymbolicLink: false)]))
+        #expect(!AddonArchive.isSafe(plain + [AddonArchive.Entry(name: "ext/../../escape.js", isSymbolicLink: false)]))
+        #expect(!AddonArchive.isSafe(plain + [AddonArchive.Entry(name: "/etc/escape", isSymbolicLink: false)]))
+        #expect(!AddonArchive.isSafe(plain + [AddonArchive.Entry(name: "..\\escape.js", isSymbolicLink: false)]))
+        #expect(AddonArchive.isSafe(plain + [AddonArchive.Entry(name: "ext/a..b.js", isSymbolicLink: false)]))
+    }
+
+    @Test("A zip's directory lists its entries and marks links")
+    func readsZipDirectory() async throws {
+        let directory = try self.makeTemporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let source = directory.appendingPathComponent("Addon", isDirectory: true)
+        try FileManager.default.createDirectory(at: source, withIntermediateDirectories: true)
+        try Data("{}".utf8).write(to: source.appendingPathComponent("manifest.json"))
+        try FileManager.default.createSymbolicLink(
+            at: source.appendingPathComponent("escape"),
+            withDestinationURL: URL(fileURLWithPath: "/etc")
+        )
+        let archive = directory.appendingPathComponent("Addon.zip")
+        try Self.runTool("/usr/bin/zip", ["-q", "-r", "-y", archive.path, "Addon"], in: directory)
+
+        let entries = try AddonArchive.entries(of: archive)
+        #expect(entries.contains(AddonArchive.Entry(name: "Addon/manifest.json", isSymbolicLink: false)))
+        #expect(entries.contains(AddonArchive.Entry(name: "Addon/escape", isSymbolicLink: true)))
+        await #expect(throws: AddonInstaller.InstallError.badArchive) {
+            _ = try await AddonInstaller.unpack(archive)
+        }
+    }
+
+    // MARK: Install pipeline
+
+    @Test("Install verifies the release's size, digest, and host before adding the addon")
+    func installVerifiesDownloads() async throws {
+        let directory = try self.makeTemporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let archive = try Self.makeAddonArchive(in: directory)
+        let body = try Data(contentsOf: archive)
+        let digest = try AddonInstaller.sha256(of: archive)
+
+        struct Case {
+            let name: String
+            let size: Int
+            let digest: String?
+            var finalURL: String?
+            let expected: AddonInstaller.InstallError
+        }
+        let cases = [
+            Case(name: "wrong digest", size: body.count, digest: String(repeating: "0", count: 64), expected: .verificationFailed),
+            Case(name: "wrong size", size: body.count + 1, digest: digest, expected: .verificationFailed),
+            Case(name: "no digest", size: body.count, digest: nil, expected: .unverifiable),
+            Case(
+                name: "off GitHub", size: body.count, digest: digest,
+                finalURL: "https://downloads.example.com/SafariExtension.zip", expected: .unverifiable
+            ),
+        ]
+        for testCase in cases {
+            let manager = ExtensionsManager(persistenceURL: directory.appendingPathComponent("\(testCase.name).json"))
+            let installer = AddonInstaller(manager: manager, session: Self.stubbedSession(
+                release: Self.release(size: testCase.size, digest: testCase.digest),
+                archive: body,
+                archiveResponseURL: testCase.finalURL
+            ))
+            let leftoversBefore = Self.temporaryAddonItems()
+            await #expect(throws: testCase.expected, "\(testCase.name)") {
+                _ = try await installer.install(.sponsorBlock)
+            }
+            #expect(manager.extensions.isEmpty, "\(testCase.name)")
+            #expect(Self.temporaryAddonItems() == leftoversBefore, "\(testCase.name)")
+        }
+
+        let manager = ExtensionsManager(persistenceURL: directory.appendingPathComponent("ok.json"))
+        let installer = AddonInstaller(manager: manager, session: Self.stubbedSession(
+            release: Self.release(size: body.count, digest: digest),
+            archive: body,
+            archiveResponseURL: nil
+        ))
+        let id = try await installer.install(.sponsorBlock)
+        let installed = try #require(installer.installedExtension(for: .sponsorBlock))
+        #expect(installed.id == id)
+        #expect(installed.version == "1.0")
+        #expect(!installed.isEnabled)
+    }
+
+    @Test("A release the API doesn't serve installs nothing")
+    func installFailsWithoutRelease() async throws {
+        let directory = try self.makeTemporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let manager = ExtensionsManager(persistenceURL: directory.appendingPathComponent("extensions.json"))
+        AddonStubProtocol.stubs = [Self.releaseURL: AddonStub(status: 404, body: Data())]
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [AddonStubProtocol.self]
+        let installer = AddonInstaller(manager: manager, session: URLSession(configuration: configuration))
+        await #expect(throws: URLError.self) {
+            _ = try await installer.install(.sponsorBlock)
+        }
+        #expect(manager.extensions.isEmpty)
+    }
+
+    // MARK: Helpers
+
+    private static let releaseURL = "https://api.github.com/repos/ajayyy/SponsorBlock/releases/latest"
+    private static let assetURL = "https://github.com/ajayyy/SponsorBlock/releases/download/1.0/SafariExtension.zip"
+
+    private static func release(size: Int, digest: String?) -> Data {
+        let digestField = digest.map { ", \"digest\": \"sha256:\($0)\"" } ?? ""
+        return Data("""
+        {"tag_name": "1.0", "assets": [{"name": "SafariExtension.zip", "browser_download_url": "\(self.assetURL)",
+         "size": \(size)\(digestField)}]}
+        """.utf8)
+    }
+
+    private static func stubbedSession(release: Data, archive: Data, archiveResponseURL: String?) -> URLSession {
+        AddonStubProtocol.stubs = [
+            self.releaseURL: AddonStub(status: 200, body: release),
+            self.assetURL: AddonStub(status: 200, responseURL: archiveResponseURL, body: archive),
+        ]
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [AddonStubProtocol.self]
+        return URLSession(configuration: configuration)
+    }
+
+    private static func makeAddonArchive(in directory: URL) throws -> URL {
+        let source = directory.appendingPathComponent("SponsorBlock", isDirectory: true)
+        try FileManager.default.createDirectory(at: source, withIntermediateDirectories: true)
+        let manifest = #"{"name": "__MSG_Name__", "manifest_version": 3, "version": "1.0"}"#
+        try Data(manifest.utf8).write(to: source.appendingPathComponent("manifest.json"))
+        let archive = directory.appendingPathComponent("SafariExtension.zip")
+        try self.runTool("/usr/bin/ditto", ["-c", "-k", "--keepParent", source.path, archive.path], in: directory)
+        return archive
+    }
+
+    private static func runTool(_ path: String, _ arguments: [String], in directory: URL) throws {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: path)
+        process.arguments = arguments
+        process.currentDirectoryURL = directory
+        try process.run()
+        process.waitUntilExit()
+    }
+
+    private static func temporaryAddonItems() -> Set<String> {
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: FileManager.default.temporaryDirectory.path)) ?? []
+        return Set(names.filter { $0.hasPrefix("addon-") })
+    }
+}
+
+// MARK: - AddonStub
+
+struct AddonStub {
+    let status: Int
+    var responseURL: String?
+    let body: Data
+}
+
+// MARK: - AddonStubProtocol
+
+/// Serves canned responses by URL; a response URL other than the request's
+/// stands for a redirect that ended there.
+final class AddonStubProtocol: URLProtocol {
+    nonisolated(unsafe) static var stubs: [String: AddonStub] = [:]
+
+    override static func canInit(with _: URLRequest) -> Bool {
+        true
+    }
+
+    override static func canonicalRequest(for request: URLRequest) -> URLRequest {
+        request
+    }
+
+    override func startLoading() {
+        guard let url = self.request.url, let stub = Self.stubs[url.absoluteString],
+              let responseURL = URL(string: stub.responseURL ?? url.absoluteString),
+              let response = HTTPURLResponse(url: responseURL, statusCode: stub.status, httpVersion: nil, headerFields: nil)
+        else {
+            self.client?.urlProtocol(self, didFailWithError: URLError(.fileDoesNotExist))
+            return
+        }
+        self.client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        self.client?.urlProtocol(self, didLoad: stub.body)
+        self.client?.urlProtocolDidFinishLoading(self)
+    }
+
+    override func stopLoading() {}
 }

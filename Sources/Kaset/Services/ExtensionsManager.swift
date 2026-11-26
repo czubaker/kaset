@@ -344,3 +344,28 @@ final class ExtensionsManager {
         self.save()
     }
 }
+
+// MARK: - ExtensionDataRemovalQueue
+
+/// IDs of removed extensions whose stored data the next launch clears again,
+/// before any extension loads.
+enum ExtensionDataRemovalQueue {
+    private static let key = "extensions.pendingDataRemoval"
+
+    static var ids: Set<String> {
+        Set(UserDefaults.standard.stringArray(forKey: self.key) ?? [])
+    }
+
+    static func add(_ id: String) {
+        UserDefaults.standard.set(Array(self.ids.union([id])).sorted(), forKey: self.key)
+    }
+
+    static func remove(_ cleared: Set<String>) {
+        let remaining = self.ids.subtracting(cleared)
+        if remaining.isEmpty {
+            UserDefaults.standard.removeObject(forKey: self.key)
+        } else {
+            UserDefaults.standard.set(Array(remaining).sorted(), forKey: self.key)
+        }
+    }
+}
