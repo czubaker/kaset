@@ -134,6 +134,17 @@ actor DiscordIPCClient {
         throw onlyStaleSockets ? DiscordIPCError.discordNotRunning : lastError
     }
 
+    /// Whether Discord is still on the other end, without blocking: reads
+    /// away its pending answers and drops the socket if it closed.
+    func isAlive() -> Bool {
+        guard let descriptor else { return false }
+        guard case .open = Self.drain(descriptor: descriptor) else {
+            self.disconnect()
+            return false
+        }
+        return true
+    }
+
     func disconnect() {
         guard let descriptor else { return }
         Darwin.close(descriptor)

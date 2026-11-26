@@ -266,4 +266,31 @@ struct DiscordRichPresenceTests {
         #expect(DiscordIPCError.connectionClosed.errorDescription == DiscordIPCError.writeFailed(errno: EPIPE).errorDescription)
         #expect(DiscordIPCError.rejected(code: 4000, message: "Invalid Client ID").errorDescription == "Invalid Client ID")
     }
+
+    @Test("A short pause keeps the presence; a longer one clears it")
+    func pausedGrace() {
+        let start = Date(timeIntervalSince1970: 1_000_000)
+        #expect(DiscordRichPresenceService.isWithinPausedGrace(since: start, now: start.addingTimeInterval(10)))
+        #expect(DiscordRichPresenceService.isWithinPausedGrace(
+            since: start,
+            now: start.addingTimeInterval(DiscordRichPresenceService.pausedGrace)
+        ))
+        #expect(!DiscordRichPresenceService.isWithinPausedGrace(
+            since: start,
+            now: start.addingTimeInterval(DiscordRichPresenceService.pausedGrace + 1)
+        ))
+    }
+
+    @Test("A socket whose peer closed reads as dead; an open, quiet one as alive")
+    func drainSeesClosedPeers() {
+        var pair: [Int32] = [0, 0]
+        #expect(socketpair(AF_UNIX, SOCK_STREAM, 0, &pair) == 0)
+        defer { close(pair[0]) }
+        #expect(DiscordIPCClient.drain(descriptor: pair[0]) == .open)
+        let reply = Array("{}".utf8)
+        #expect(write(pair[1], reply, reply.count) == reply.count)
+        #expect(DiscordIPCClient.drain(descriptor: pair[0]) == .open)
+        close(pair[1])
+        #expect(DiscordIPCClient.drain(descriptor: pair[0]) == .closed)
+    }
 }

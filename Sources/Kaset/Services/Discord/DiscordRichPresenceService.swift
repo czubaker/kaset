@@ -45,6 +45,14 @@ final class DiscordRichPresenceService {
     /// Backoff when Discord is not running, so we are not stat-ing ten socket
     /// paths every five seconds all day.
     private static let idleRetryInterval: Duration = .seconds(30)
+    /// Reconnecting after Discord dropped us (a restart, an update) waits only
+    /// this long.
+    private static let reconnectInterval: Duration = .seconds(2)
+    /// A pause shorter than this keeps the presence (as paused); a longer
+    /// one clears it, so a stopped player doesn't stay on the profile.
+    nonisolated static let pausedGrace: TimeInterval = 30
+    /// When the presented snapshot was first seen paused.
+    private var pausedSince: Date?
 
     private init() {}
 
@@ -124,7 +132,15 @@ final class DiscordRichPresenceService {
             }
         }
 
-        let snapshot = self.currentSnapshot()
+        // Notice a Discord that quit or restarted even while nothing changes.
+        guard await self.client.isAlive() else {
+            self.isConnected = false
+            self.lastSnapshot = nil
+            self.status = .waitingForDiscord
+            return Self.reconnectInterval
+        }
+
+        let snapshot = self.presentedSnapshot(self.currentSnapshot(), now: Date())
         guard snapshot != self.lastSnapshot else { return Self.pollInterval }
 
         do {
@@ -139,9 +155,24 @@ final class DiscordRichPresenceService {
             self.lastSnapshot = nil
             self.status = .waitingForDiscord
             await self.client.disconnect()
-            return Self.idleRetryInterval
+            return Self.reconnectInterval
         }
         return Self.pollInterval
+    }
+
+    /// The snapshot to show: a paused one only within `pausedGrace`.
+    private func presentedSnapshot(_ snapshot: DiscordPresenceSnapshot?, now: Date) -> DiscordPresenceSnapshot? {
+        guard let snapshot, !snapshot.isPlaying else {
+            self.pausedSince = nil
+            return snapshot
+        }
+        let since = self.pausedSince ?? now
+        self.pausedSince = since
+        return Self.isWithinPausedGrace(since: since, now: now) ? snapshot : nil
+    }
+
+    nonisolated static func isWithinPausedGrace(since: Date, now: Date) -> Bool {
+        now.timeIntervalSince(since) <= self.pausedGrace
     }
 
     // MARK: - Snapshot
