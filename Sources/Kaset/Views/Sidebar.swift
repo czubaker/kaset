@@ -84,7 +84,7 @@ struct Sidebar: View {
             // Source toggle + profile section at bottom (shared with YouTubeSidebar)
             SidebarFooterView()
         }
-        .navigationSplitViewColumnWidth(min: 200, ideal: 220, max: 300)
+        .navigationSplitViewColumnWidth(min: SidebarLayout.minimumWidth, ideal: 220, max: 300)
     }
 
     private var hasPersonalAccount: Bool {

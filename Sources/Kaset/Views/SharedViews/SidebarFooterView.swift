@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - SidebarFooterView
+
 /// Shared bottom area for both sidebars: source toggle above the profile section.
 ///
 /// Used by `Sidebar` (YouTube Music) and `YouTubeSidebar` so the toggle and
@@ -22,6 +24,14 @@ struct SidebarFooterView: View {
             }
         }
     }
+}
+
+// MARK: - SidebarLayout
+
+enum SidebarLayout {
+    /// Narrower than the source toggle with its names: below that width it
+    /// shows only its icons.
+    static let minimumWidth: CGFloat = 150
 }
 
 #Preview {

@@ -6,6 +6,7 @@ import SwiftUI
 /// YouTube Music and YouTube video experiences.
 ///
 /// Lives at the bottom of both sidebars, just above the profile section.
+/// In a sidebar too narrow for the names, the segments show only their icons.
 struct SourceToggleView: View {
     private static var brandAccent: Color {
         PackageResourceLookup.brandAccent
@@ -33,15 +34,23 @@ struct SourceToggleView: View {
     }
 
     private var segments: some View {
+        // The names when they fit, otherwise just the icons.
+        ViewThatFits(in: .horizontal) {
+            self.segmentRow(showsTitles: true)
+            self.segmentRow(showsTitles: false)
+        }
+    }
+
+    private func segmentRow(showsTitles: Bool) -> some View {
         HStack(spacing: 2) {
             ForEach(AppSource.allCases) { source in
-                self.segment(for: source)
+                self.segment(for: source, showsTitle: showsTitles)
             }
         }
         .padding(3)
     }
 
-    private func segment(for source: AppSource) -> some View {
+    private func segment(for source: AppSource, showsTitle: Bool) -> some View {
         let isSelected = self.settings.appSource == source
 
         return Button {
@@ -49,11 +58,15 @@ struct SourceToggleView: View {
         } label: {
             HStack(spacing: 5) {
                 Image(systemName: source.icon)
-                    .font(.system(size: 10, weight: .semibold))
-                Text(source.displayName)
-                    .font(.system(size: 11, weight: .semibold))
-                    .lineLimit(1)
+                    .font(.system(size: showsTitle ? 10 : 12, weight: .semibold))
+                if showsTitle {
+                    Text(source.displayName)
+                        .font(.system(size: 11, weight: .semibold))
+                        .lineLimit(1)
+                        .fixedSize()
+                }
             }
+            .padding(.horizontal, showsTitle ? 8 : 10)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 5)
             .contentShape(Capsule())

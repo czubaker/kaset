@@ -51,7 +51,7 @@ struct YouTubeSidebar: View {
             SidebarFooterView()
         }
         .compatTranslucentSidebar()
-        .navigationSplitViewColumnWidth(min: 200, ideal: 220, max: 300)
+        .navigationSplitViewColumnWidth(min: SidebarLayout.minimumWidth, ideal: 220, max: 300)
         .onAppear(perform: self.startWatchingModifiers)
         .onDisappear(perform: self.stopWatchingModifiers)
         // A ⌘ released while another app is in front never reaches the
