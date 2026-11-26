@@ -11,7 +11,14 @@ enum YouTubeLinkedText {
     /// turns into a seek.
     static let seekScheme = "kasetseek"
 
-    private static let timestampPattern = "(?<![\\d:])\\d{1,2}:\\d{2}(?::\\d{2})?(?![\\d:])"
+    /// Built once: comments render this on every update, and making a data
+    /// detector is costly. Both are immutable and safe to share.
+    nonisolated(unsafe) static let linkDetector = try? NSDataDetector(
+        types: NSTextCheckingResult.CheckingType.link.rawValue
+    )
+    nonisolated(unsafe) static let timestampRegex = try? NSRegularExpression(
+        pattern: "(?<![\\d:])\\d{1,2}:\\d{2}(?::\\d{2})?(?![\\d:])"
+    )
 
     /// The seconds a `M:SS` or `H:MM:SS` timestamp stands for.
     static func seconds(fromTimestamp token: String) -> Int? {
@@ -36,7 +43,7 @@ enum YouTubeLinkedText {
         let whole = NSRange(text.startIndex..., in: text)
         var linked: [Range<String.Index>] = []
 
-        if let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue) {
+        if let detector = Self.linkDetector {
             for match in detector.matches(in: text, range: whole) {
                 guard let url = match.url, url.scheme == "https" || url.scheme == "http",
                       let range = Range(match.range, in: text),
@@ -47,7 +54,7 @@ enum YouTubeLinkedText {
             }
         }
 
-        guard duration > 0, let regex = try? NSRegularExpression(pattern: Self.timestampPattern) else { return result }
+        guard duration > 0, let regex = Self.timestampRegex else { return result }
         for match in regex.matches(in: text, range: whole) {
             guard let range = Range(match.range, in: text),
                   !linked.contains(where: { $0.overlaps(range) }),
