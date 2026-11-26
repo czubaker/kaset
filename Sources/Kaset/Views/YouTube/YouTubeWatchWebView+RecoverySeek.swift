@@ -153,7 +153,7 @@ extension YouTubeWatchWebView {
             if (!video.seekable || video.seekable.length === 0) { return 'armed'; }
             // A rewindable live stream reports positions within its seekable
             // window; a video's are absolute.
-            const liveOffset = !isFinite(video.duration) && typeof window.__kasetLiveWindowStart === 'number'
+            const liveOffset = typeof window.__kasetLiveWindowStart === 'number'
                 ? video.seekable.start(0) : 0;
             video.currentTime = liveOffset + \(target);
             return 'seeked';

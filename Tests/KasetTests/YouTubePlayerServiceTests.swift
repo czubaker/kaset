@@ -2000,6 +2000,31 @@ extension YouTubePlayerServiceTests {
         #expect(self.sut.currentVideo?.videoId == "abc")
     }
 
+    @Test("Refresh leaves a popped-out video in its window")
+    func refreshKeepsPoppedOutVideo() {
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))
+        self.sut.popOutToWindow()
+
+        self.sut.reloadCurrentVideo()
+
+        #expect(self.controller.reloadedVideoIds == ["abc"])
+        #expect(self.sut.surfaceLocation == .floating)
+    }
+
+    @Test("Refresh on a paused video reloads it on resume instead of starting it")
+    func refreshWaitsForPausedVideo() {
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))
+        self.sut.updatePlaybackState(.init(
+            isPlaying: true, progress: 30, duration: 100, hasReadyMedia: true, videoId: "abc", boundVideoId: "abc"
+        ))
+        self.sut.pause()
+
+        self.sut.reloadCurrentVideo()
+
+        #expect(self.controller.reloadedVideoIds.isEmpty)
+        #expect(self.sut.pendingPausedIdentityReloadVideoId == "abc")
+    }
+
     @Test("Source switch pauses the docked video in place — no pop-out")
     func sourceSwitchPausesInPlace() {
         self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "abc"))

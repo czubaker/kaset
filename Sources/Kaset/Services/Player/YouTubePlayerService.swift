@@ -377,7 +377,15 @@ final class YouTubePlayerService {
     // MARK: - Commands
 
     /// Starts playback of a video, docked inline.
-    func play(video: YouTubeVideo, usesCookieFreeDataStore: Bool = false, startAt: Double? = nil, forceReload: Bool = false) {
+    /// - Parameter keepsSurfaceLocation: leaves a popped-out video in its
+    ///   window instead of docking it inline (a reload of the same video).
+    func play(
+        video: YouTubeVideo,
+        usesCookieFreeDataStore: Bool = false,
+        startAt: Double? = nil,
+        forceReload: Bool = false,
+        keepsSurfaceLocation: Bool = false
+    ) {
         self.beginYouTubePlaybackIntent()
         self.autoplayRecoveryRequestGeneration &+= 1
         self.shouldRecoverAutoplayTransitionOnResume = false
@@ -406,7 +414,9 @@ final class YouTubePlayerService {
             )
         }
         self.beginPlaybackLoading()
-        self.surfaceLocation = .inline
+        if !keepsSurfaceLocation || self.surfaceLocation == .none {
+            self.surfaceLocation = .inline
+        }
 
         // Create the WebView on demand; containers reparent it on appear.
         self.playbackController.prepare(
@@ -1949,16 +1959,25 @@ extension YouTubePlayerService {
 extension YouTubePlayerService {
     /// Loads the playing video's watch document again where it was, as a
     /// browser's reload does: the toolbar's Refresh on the watch page brings a
-    /// stuck or broken player back. A live stream rejoins the broadcast.
+    /// stuck or broken player back. A live stream rejoins the broadcast. The
+    /// video stays where it is (inline or popped out); a paused one reloads
+    /// when it's resumed instead of starting now.
     func reloadCurrentVideo() {
         guard let video = self.currentVideo else { return }
         let isLive = video.isLive || self.currentMediaIsLive
         let resumeAt = isLive ? nil : self.interruptionResumeAt(for: video.videoId)
+        guard self.desiredPlaybackIntent == .playing else {
+            self.pendingPausedIdentityReloadVideoId = video.videoId
+            self.pendingPausedIdentityReloadResumeAt = resumeAt
+            self.userUpdatedPendingPausedIdentityReloadSeek = false
+            return
+        }
         self.play(
             video: video,
             usesCookieFreeDataStore: self.usesCookieFreePlaybackDataStore,
             startAt: resumeAt,
-            forceReload: true
+            forceReload: true,
+            keepsSurfaceLocation: true
         )
     }
 }

@@ -117,9 +117,14 @@ struct YouTubeChannelView: View {
                 Task { await self.viewModel.select(tab) }
             }
         } else {
+            // Starts the tab's load if nothing is loading it (a refresh cut
+            // short); a load already running makes this a no-op.
             ProgressView()
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 40)
+                .task(id: tab.params) {
+                    await self.viewModel.select(tab)
+                }
         }
     }
 

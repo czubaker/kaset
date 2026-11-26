@@ -70,7 +70,13 @@ final class YouTubeChannelViewModel {
 
     /// Reloads the header and Home, and the tab on screen from its first page.
     func refresh() async {
-        self.tabPages = [:]
+        // The tab on screen keeps its page until the new one arrives, so a
+        // refresh cut short doesn't leave it empty.
+        var kept: [String: YouTubeChannelTabPage] = [:]
+        if let tab = self.selectedTab, let page = self.tabPages[tab.params] {
+            kept[tab.params] = page
+        }
+        self.tabPages = kept
         self.tabErrors = [:]
         self.loadMoreFailedTabs = []
         await self.load()

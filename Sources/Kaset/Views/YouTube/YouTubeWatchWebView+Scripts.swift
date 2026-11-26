@@ -331,12 +331,14 @@ extension YouTubeWatchWebView {
                     const lastSeekable = video.seekable.end(video.seekable.length - 1);
                     const hasFiniteDuration = video.duration && isFinite(video.duration);
                     // A rewindable live stream's positions count from its
-                    // seekable window's start (see sendUpdate).
-                    const liveOffset = !hasFiniteDuration && typeof window.__kasetLiveWindowStart === 'number'
-                        ? firstSeekable : 0;
-                    const resolvedTarget = hasFiniteDuration
-                        ? Math.min(Math.max(target, 0), video.duration)
-                        : Math.min(Math.max(liveOffset + target, firstSeekable), lastSeekable);
+                    // seekable window's start (see sendUpdate), whether or
+                    // not the element reports a finite duration.
+                    const isLiveWindow = typeof window.__kasetLiveWindowStart === 'number';
+                    const resolvedTarget = isLiveWindow
+                        ? Math.min(Math.max(firstSeekable + target, firstSeekable), lastSeekable)
+                        : hasFiniteDuration
+                            ? Math.min(Math.max(target, 0), video.duration)
+                            : Math.min(Math.max(target, firstSeekable), lastSeekable);
                     window.__kasetPendingSeekWaits = 0;
                     video.currentTime = resolvedTarget;
                     function reportSeekResult() {
