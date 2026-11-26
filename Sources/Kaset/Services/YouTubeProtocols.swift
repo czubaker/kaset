@@ -45,7 +45,9 @@ protocol YouTubeClientProtocol: Sendable {
     // MARK: Search
 
     /// Searches YouTube with an optional result-kind filter.
-    func search(query: String, filter: YouTubeSearchFilter) async throws -> YouTubeSearchResponse
+    /// Searches; `filterParams`, from a `YouTubeSearchFilterGroup` option,
+    /// take the place of the result kind's params when set.
+    func search(query: String, filter: YouTubeSearchFilter, filterParams: String?) async throws -> YouTubeSearchResponse
 
     /// Fetches the next page of the current search, or `nil` when exhausted.
     func getSearchContinuation() async throws -> YouTubeSearchResponse?
@@ -193,6 +195,10 @@ protocol YouTubeClientProtocol: Sendable {
 // MARK: - YouTubeClientProtocol Convenience
 
 extension YouTubeClientProtocol {
+    func search(query: String, filter: YouTubeSearchFilter) async throws -> YouTubeSearchResponse {
+        try await self.search(query: query, filter: filter, filterParams: nil)
+    }
+
     /// Fetches watch history using the cache (the default for normal loads).
     func getHistory() async throws -> YouTubeFeed {
         try await self.getHistory(forceRefresh: false)

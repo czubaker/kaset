@@ -60,7 +60,7 @@ final class MockUITestYouTubeClient: YouTubeClientProtocol {
         YouTubeFeed(videos: Self.sampleVideos, continuation: nil)
     }
 
-    func search(query _: String, filter: YouTubeSearchFilter) async throws -> YouTubeSearchResponse {
+    func search(query _: String, filter: YouTubeSearchFilter, filterParams _: String?) async throws -> YouTubeSearchResponse {
         switch filter {
         case .all:
             YouTubeSearchResponse(

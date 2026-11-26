@@ -275,11 +275,11 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
 
     // MARK: - Search
 
-    func search(query: String, filter: YouTubeSearchFilter) async throws -> YouTubeSearchResponse {
-        self.logger.info("Searching YouTube (filter: \(filter.rawValue))")
+    func search(query: String, filter: YouTubeSearchFilter, filterParams: String?) async throws -> YouTubeSearchResponse {
+        self.logger.info("Searching YouTube (filter: \(filter.rawValue), filtered: \(filterParams != nil))")
 
         var body: [String: Any] = ["query": query]
-        if let params = filter.params {
+        if let params = filterParams ?? filter.params {
             body["params"] = params
         }
 

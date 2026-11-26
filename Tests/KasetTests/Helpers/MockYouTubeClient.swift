@@ -183,14 +183,16 @@ final class MockYouTubeClient: YouTubeClientProtocol {
     /// Awaited inside `search` before it returns, so a test can hold one
     /// search request open while a newer query/filter search completes first.
     var beforeSearchReturn: (@Sendable (String, YouTubeSearchFilter) async -> Void)?
+    private(set) var lastSearchFilterParams: String?
 
-    func search(query: String, filter: YouTubeSearchFilter) async throws -> YouTubeSearchResponse {
+    func search(query: String, filter: YouTubeSearchFilter, filterParams: String?) async throws -> YouTubeSearchResponse {
         if let error {
             throw error
         }
         self.searchCallCount += 1
         self.lastSearchQuery = query
         self.lastSearchFilter = filter
+        self.lastSearchFilterParams = filterParams
         if let beforeSearchReturn {
             await beforeSearchReturn(query, filter)
         }

@@ -29,7 +29,44 @@ enum YouTubeSearchParser {
             }
         }
 
+        response.filterGroups = Self.filterGroups(in: data)
         return response
+    }
+
+    /// The filter dialog's groups: `header.searchHeaderRenderer
+    /// .searchFilterButton…openPopupAction.popup.searchFilterOptionsDialogRenderer
+    /// .groups[].searchFilterGroupRenderer`, each `searchFilterRenderer` with a
+    /// label, `FILTER_STATUS_SELECTED` for the one in effect, and
+    /// `navigationEndpoint.searchEndpoint.params` (percent-encoded) for the
+    /// others (verified with api-explorer, November 2026). YouTube lists
+    /// Type first, which Kaset offers as its own tabs, so it's left out.
+    /// Ported in spirit from KasetPlus (github.com/Yoddikko/kasetPlus, MIT).
+    static func filterGroups(in data: [String: Any]) -> [YouTubeSearchFilterGroup] {
+        let dialog = ((((((data["header"] as? [String: Any])?["searchHeaderRenderer"] as? [String: Any])?[
+            "searchFilterButton"
+        ] as? [String: Any])?["buttonRenderer"] as? [String: Any])?["command"] as? [String: Any])?[
+            "openPopupAction"
+        ] as? [String: Any])?["popup"] as? [String: Any]
+        let groups = ((dialog?["searchFilterOptionsDialogRenderer"] as? [String: Any])?["groups"] as? [[String: Any]]) ?? []
+        return groups.dropFirst().compactMap { group in
+            guard let renderer = group["searchFilterGroupRenderer"] as? [String: Any],
+                  let title = YouTubeItemParser.text(from: renderer["title"])
+            else { return nil }
+            let options: [YouTubeSearchFilterGroup.Option] = (renderer["filters"] as? [[String: Any]] ?? []).compactMap { filter in
+                guard let option = filter["searchFilterRenderer"] as? [String: Any],
+                      let label = YouTubeItemParser.text(from: option["label"])
+                else { return nil }
+                let rawParams = ((option["navigationEndpoint"] as? [String: Any])?["searchEndpoint"] as? [String: Any])?[
+                    "params"
+                ] as? String
+                return YouTubeSearchFilterGroup.Option(
+                    label: label,
+                    params: rawParams.map { $0.removingPercentEncoding ?? $0 },
+                    isSelected: option["status"] as? String == "FILTER_STATUS_SELECTED"
+                )
+            }
+            return options.isEmpty ? nil : YouTubeSearchFilterGroup(title: title, options: options)
+        }
     }
 
     /// Parses a search continuation response.

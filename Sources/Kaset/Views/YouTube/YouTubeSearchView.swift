@@ -120,14 +120,20 @@ struct YouTubeSearchView: View {
             .padding(.vertical, 8)
             .background(.quaternary.opacity(0.5), in: Capsule())
 
-            Picker(String(localized: "Filter"), selection: self.$viewModel.selectedFilter) {
-                ForEach(YouTubeSearchFilter.allCases) { filter in
-                    Text(filter.displayName).tag(filter)
+            HStack(spacing: 10) {
+                Picker(String(localized: "Filter"), selection: self.$viewModel.selectedFilter) {
+                    ForEach(YouTubeSearchFilter.allCases) { filter in
+                        Text(filter.displayName).tag(filter)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .accessibilityIdentifier(AccessibilityID.YouTubeContent.searchFilter)
+
+                if !self.viewModel.filterGroups.isEmpty {
+                    YouTubeSearchFiltersMenu(viewModel: self.viewModel)
                 }
             }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-            .accessibilityIdentifier(AccessibilityID.YouTubeContent.searchFilter)
         }
         .padding(.horizontal, 20)
         .padding(.top, 16)

@@ -24,8 +24,37 @@ final class YouTubeSearchViewModel {
     var selectedFilter: YouTubeSearchFilter = .all {
         didSet {
             guard oldValue != self.selectedFilter else { return }
+            // Another kind starts over from YouTube's unfiltered results.
+            // The old kind's options carry that kind in their params, so they
+            // go too until the new results bring their own.
+            self.filterParams = nil
+            self.filterGroups = []
             self.handleFilterChange()
         }
+    }
+
+    /// YouTube's filters for the results on screen; kept while a filtered
+    /// search loads.
+    private(set) var filterGroups: [YouTubeSearchFilterGroup] = []
+
+    /// The applied filters' params, from YouTube's own options; nil for none.
+    private(set) var filterParams: String?
+
+    var hasSearchFilters: Bool {
+        self.filterParams != nil
+    }
+
+    /// Searches again with a filter option, on top of the ones applied.
+    func applySearchFilter(_ option: YouTubeSearchFilterGroup.Option) {
+        guard let params = option.params else { return }
+        self.filterParams = params
+        self.handleFilterChange()
+    }
+
+    func clearSearchFilters() {
+        guard self.filterParams != nil else { return }
+        self.filterParams = nil
+        self.handleFilterChange()
     }
 
     /// YouTube searches made in Kaset, most recent first.
@@ -346,7 +375,7 @@ final class YouTubeSearchViewModel {
     private var currentSearchContext: SearchContext? {
         let query = Self.normalizedQuery(self.query)
         guard !query.isEmpty else { return nil }
-        return SearchContext(query: query, filter: self.selectedFilter)
+        return SearchContext(query: query, filter: self.selectedFilter, filterParams: self.filterParams)
     }
 
     private static func normalizedQuery(_ query: String) -> String {
@@ -360,6 +389,9 @@ final class YouTubeSearchViewModel {
 
         self.invalidateInFlightSearch()
 
+        // A new query starts without filters.
+        self.filterParams = nil
+        self.filterGroups = []
         if newQuery.isEmpty {
             self.resetForEmptyQuery()
         } else if self.publishedSearchContext?.query != newQuery {
@@ -415,11 +447,18 @@ final class YouTubeSearchViewModel {
         }
 
         do {
-            let results = try await client.search(query: request.context.query, filter: request.context.filter)
+            let results = try await client.search(
+                query: request.context.query,
+                filter: request.context.filter,
+                filterParams: request.context.filterParams
+            )
             guard self.isCurrentSearch(request) else { return }
             guard !Task.isCancelled else { return }
 
             self.results = results
+            if !results.filterGroups.isEmpty {
+                self.filterGroups = results.filterGroups
+            }
             self.publishedSearchContext = request.context
             self.publishedSearchGeneration = request.generation
             self.loadingState = .loaded
@@ -547,6 +586,7 @@ final class YouTubeSearchViewModel {
 private struct SearchContext: Equatable {
     let query: String
     let filter: YouTubeSearchFilter
+    let filterParams: String?
 }
 
 // MARK: - SearchRequest

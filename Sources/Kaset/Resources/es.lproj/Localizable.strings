@@ -891,3 +891,7 @@
 "Couldn't send the message." = "No se ha podido enviar el mensaje.";
 "Couldn't load the chat." = "No se ha podido cargar el chat.";
 "The chat has ended." = "El chat ha terminado.";
+
+// Search filters
+"Filters" = "Filtros";
+"Clear Filters" = "Borrar filtros";

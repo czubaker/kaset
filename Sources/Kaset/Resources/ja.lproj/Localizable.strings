@@ -886,3 +886,7 @@
 "Couldn't send the message." = "メッセージを送信できませんでした。";
 "Couldn't load the chat." = "チャットを読み込めませんでした。";
 "The chat has ended." = "チャットは終了しました。";
+
+// Search filters
+"Filters" = "フィルタ";
+"Clear Filters" = "フィルタを消去";

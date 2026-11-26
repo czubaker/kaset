@@ -107,6 +107,8 @@ struct YouTubeSearchResponse {
     var channels: [YouTubeChannel]
     var playlists: [YouTubePlaylist]
     var continuation: String?
+    /// YouTube's search filters for these results (upload date, duration…).
+    var filterGroups: [YouTubeSearchFilterGroup] = []
 
     static let empty = YouTubeSearchResponse(
         videos: [],
@@ -117,6 +119,31 @@ struct YouTubeSearchResponse {
 
     var isEmpty: Bool {
         self.videos.isEmpty && self.channels.isEmpty && self.playlists.isEmpty
+    }
+}
+
+// MARK: - YouTubeSearchFilterGroup
+
+/// One group of YouTube's search filters, as the search response's filter
+/// dialog lists it: a title ("Upload date") and its options, each with the
+/// `params` that search with it on top of what's already applied.
+struct YouTubeSearchFilterGroup: Hashable, Identifiable {
+    struct Option: Hashable, Identifiable {
+        let label: String
+        /// Nil for the option that's in effect.
+        let params: String?
+        let isSelected: Bool
+
+        var id: String {
+            self.label
+        }
+    }
+
+    let title: String
+    let options: [Option]
+
+    var id: String {
+        self.title
     }
 }
 

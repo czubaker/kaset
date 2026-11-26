@@ -891,3 +891,7 @@
 "Couldn't send the message." = "تعذّر إرسال الرسالة.";
 "Couldn't load the chat." = "تعذّر تحميل الدردشة.";
 "The chat has ended." = "انتهت الدردشة.";
+
+// Search filters
+"Filters" = "عوامل التصفية";
+"Clear Filters" = "مسح عوامل التصفية";

@@ -891,3 +891,7 @@
 "Couldn't send the message." = "Pesan tidak dapat dikirim.";
 "Couldn't load the chat." = "Chat tidak dapat dimuat.";
 "The chat has ended." = "Chat telah berakhir.";
+
+// Search filters
+"Filters" = "Filter";
+"Clear Filters" = "Hapus filter";

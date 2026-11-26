@@ -889,3 +889,7 @@
 "Couldn't send the message." = "無法傳送訊息。";
 "Couldn't load the chat." = "無法載入聊天室。";
 "The chat has ended." = "聊天室已結束。";
+
+// Search filters
+"Filters" = "篩選條件";
+"Clear Filters" = "清除篩選條件";
