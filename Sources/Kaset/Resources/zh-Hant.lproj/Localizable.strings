@@ -871,3 +871,9 @@
 
 // Notification bell
 "Notifications" = "通知";
+
+// Collaborators
+"%lld channels" = "%lld 個頻道";
+"Collaborators" = "協作者";
+"Subscribe…" = "訂閱…";
+"Verified" = "已驗證";

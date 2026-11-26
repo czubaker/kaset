@@ -873,3 +873,9 @@
 
 // Notification bell
 "Notifications" = "Bildirimler";
+
+// Collaborators
+"%lld channels" = "%lld kanal";
+"Collaborators" = "Ortak çalışanlar";
+"Subscribe…" = "Abone ol…";
+"Verified" = "Doğrulanmış";

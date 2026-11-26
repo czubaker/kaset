@@ -196,6 +196,8 @@ struct WatchNextData {
     var commentsContinuation: String?
     /// The channel's notification bell, when the account is subscribed.
     var notificationPreference: ChannelNotificationPreference?
+    /// The channels credited on a collaboration upload; empty for one channel.
+    var collaborators: [VideoCollaborator]
 
     init(
         videoTitle: String?,
@@ -208,7 +210,8 @@ struct WatchNextData {
         descriptionText: String? = nil,
         isSubscribed: Bool? = nil,
         commentsContinuation: String? = nil,
-        notificationPreference: ChannelNotificationPreference? = nil
+        notificationPreference: ChannelNotificationPreference? = nil,
+        collaborators: [VideoCollaborator] = []
     ) {
         self.videoTitle = videoTitle
         self.viewCountText = viewCountText
@@ -221,6 +224,7 @@ struct WatchNextData {
         self.isSubscribed = isSubscribed
         self.commentsContinuation = commentsContinuation
         self.notificationPreference = notificationPreference
+        self.collaborators = collaborators
     }
 
     static let empty = WatchNextData(

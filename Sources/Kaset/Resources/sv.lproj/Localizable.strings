@@ -873,3 +873,9 @@
 
 // Notification bell
 "Notifications" = "Notiser";
+
+// Collaborators
+"%lld channels" = "%lld kanaler";
+"Collaborators" = "Medarbetare";
+"Subscribe…" = "Prenumerera …";
+"Verified" = "Verifierad";

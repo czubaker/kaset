@@ -163,7 +163,12 @@ final class YouTubeWatchViewModel {
             guard generation == self.loadGeneration else { return }
             self.data = page.data
             self.loadedIsSubscribed = page.data.isSubscribed ?? false
-            if let channelId = page.data.channel?.channelId {
+            if !page.data.collaborators.isEmpty {
+                // A collaboration upload says per channel whether it's followed.
+                for collaborator in page.data.collaborators {
+                    YouTubeChannelSubscriptions.shared.seed(collaborator.isSubscribed, channelId: collaborator.channelId)
+                }
+            } else if let channelId = page.data.channel?.channelId {
                 YouTubeChannelSubscriptions.shared.seed(self.loadedIsSubscribed, channelId: channelId)
             }
             self.commentsContinuation = page.data.commentsContinuation

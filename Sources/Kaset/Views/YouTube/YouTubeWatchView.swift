@@ -366,7 +366,16 @@ struct YouTubeWatchView: View {
         let showsChannel = self.shows(.channel)
         let showsSubscribers = self.shows(.subscriberCount)
         let showsSubscribe = self.shows(.subscribeButton) && self.hasPersonalAccount
-        if showsChannel || (showsSubscribers && channel.subscriberCountText != nil) || showsSubscribe {
+        if !self.viewModel.data.collaborators.isEmpty, showsChannel || showsSubscribe {
+            YouTubeWatchCollaborators(
+                title: channel.name,
+                collaborators: self.viewModel.data.collaborators,
+                allowsSubscribing: showsSubscribe,
+                client: self.viewModel.client
+            ) { channelId in
+                YouTubePageRefresh.shared.store?.navigationPath.append(YouTubeRoute.channel(channelId: channelId))
+            }
+        } else if showsChannel || (showsSubscribers && channel.subscriberCountText != nil) || showsSubscribe {
             HStack(spacing: 12) {
                 if showsChannel {
                     self.channelLink(channel, showsSubscribers: showsSubscribers)

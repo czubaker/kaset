@@ -873,3 +873,9 @@
 
 // Notification bell
 "Notifications" = "알림";
+
+// Collaborators
+"%lld channels" = "채널 %lld개";
+"Collaborators" = "공동 작업자";
+"Subscribe…" = "구독…";
+"Verified" = "인증됨";

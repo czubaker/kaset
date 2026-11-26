@@ -873,3 +873,9 @@
 
 // Notification bell
 "Notifications" = "Notifikasi";
+
+// Collaborators
+"%lld channels" = "%lld saluran";
+"Collaborators" = "Kolaborator";
+"Subscribe…" = "Berlangganan…";
+"Verified" = "Terverifikasi";

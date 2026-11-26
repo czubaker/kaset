@@ -873,3 +873,9 @@
 
 // Notification bell
 "Notifications" = "الإشعارات";
+
+// Collaborators
+"%lld channels" = "%lld قنوات";
+"Collaborators" = "المتعاونون";
+"Subscribe…" = "اشتراك…";
+"Verified" = "تم التحقق";

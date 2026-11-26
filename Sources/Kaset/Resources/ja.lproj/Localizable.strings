@@ -868,3 +868,9 @@
 
 // Notification bell
 "Notifications" = "通知";
+
+// Collaborators
+"%lld channels" = "%lld チャンネル";
+"Collaborators" = "コラボレーター";
+"Subscribe…" = "登録…";
+"Verified" = "確認済み";

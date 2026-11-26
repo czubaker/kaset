@@ -14,6 +14,7 @@ enum WatchNextParser {
         var channel: YouTubeChannel?
         var isSubscribed: Bool?
         var notificationPreference: ChannelNotificationPreference?
+        var collaborators: [VideoCollaborator] = []
         var secondaryDescriptionText: String?
 
         let primaryContents = (
@@ -39,6 +40,20 @@ enum WatchNextParser {
                     as? [String: Any]
                 {
                     channel = Self.channel(fromVideoOwner: owner)
+                    collaborators = Self.collaborators(
+                        fromVideoOwner: owner,
+                        subscribedByKey: Self.subscriptionStates(in: data)
+                    )
+                    // A collaboration upload has no single owner: it goes by its
+                    // channels together ("A and B") and links to the first.
+                    if channel == nil, let first = collaborators.first {
+                        channel = YouTubeChannel(
+                            channelId: first.channelId,
+                            name: YouTubeItemParser.text(from: owner["attributedTitle"]) ?? first.name,
+                            handle: first.handle,
+                            thumbnailURL: first.avatarURL
+                        )
+                    }
                 }
                 if let subscribeButton = (secondaryInfo["subscribeButton"] as? [String: Any])?["subscribeButtonRenderer"]
                     as? [String: Any]
@@ -73,8 +88,103 @@ enum WatchNextParser {
             descriptionText: Self.descriptionText(of: data) ?? secondaryDescriptionText,
             isSubscribed: isSubscribed,
             commentsContinuation: Self.commentsContinuation(of: data),
-            notificationPreference: notificationPreference
+            notificationPreference: notificationPreference,
+            collaborators: collaborators
         )
+    }
+
+    // MARK: Collaborators
+
+    /// The channels credited on a collaboration upload, from the owner's
+    /// "Collaborators" dialog: `videoOwnerRenderer.navigationEndpoint
+    /// .showDialogCommand…dialogViewModel.customContent.listViewModel.listItems`,
+    /// each a `listItemViewModel` with the name, "@handle • N subscribers", an
+    /// avatar, and a `subscribeButtonViewModel` (verified with api-explorer,
+    /// November 2026). Empty for a video with one owner. Ported from KasetPlus
+    /// (github.com/Yoddikko/kasetPlus, MIT).
+    static func collaborators(fromVideoOwner owner: [String: Any], subscribedByKey: [String: Bool]) -> [VideoCollaborator] {
+        let dialog = ((((owner["navigationEndpoint"] as? [String: Any])?["showDialogCommand"]
+                as? [String: Any])?["panelLoadingStrategy"] as? [String: Any])?["inlineContent"]
+            as? [String: Any])?["dialogViewModel"] as? [String: Any]
+        let items = (((dialog?["customContent"] as? [String: Any])?["listViewModel"]
+                as? [String: Any])?["listItems"] as? [[String: Any]]) ?? []
+        return items.compactMap { item in
+            Self.collaborator(fromListItem: item["listItemViewModel"] as? [String: Any], subscribedByKey: subscribedByKey)
+        }
+    }
+
+    private static func collaborator(fromListItem item: [String: Any]?, subscribedByKey: [String: Bool]) -> VideoCollaborator? {
+        guard let item,
+              let title = item["title"] as? [String: Any],
+              let name = title["content"] as? String,
+              let subscribe = ((item["trailingButtons"] as? [String: Any])?["buttons"]
+                  as? [[String: Any]])?.first?["subscribeButtonViewModel"] as? [String: Any],
+              let channelId = subscribe["channelId"] as? String
+        else { return nil }
+
+        let (handle, subscriberText) = Self.splitCollaboratorSubtitle((item["subtitle"] as? [String: Any])?["content"] as? String)
+        let avatarSources = ((((item["leadingAccessory"] as? [String: Any])?["avatarViewModel"]
+                as? [String: Any])?["image"] as? [String: Any])?["sources"]) as? [[String: Any]]
+        return VideoCollaborator(
+            channelId: channelId,
+            name: name,
+            isVerified: Self.containsImageName(title["attachmentRuns"], "CHECK_CIRCLE_FILLED"),
+            handle: handle,
+            subscriberText: subscriberText,
+            avatarURL: (avatarSources?.last?["url"] as? String).flatMap(URL.init(string:)),
+            isSubscribed: (subscribe["stateEntityStoreKey"] as? String).flatMap { subscribedByKey[$0] } ?? false
+        )
+    }
+
+    /// Subscribed states by `subscriptionStateEntity.key`, from `frameworkUpdates`.
+    private static func subscriptionStates(in data: [String: Any]) -> [String: Bool] {
+        var result: [String: Bool] = [:]
+        Self.collectSubscriptionStates(in: data, into: &result)
+        return result
+    }
+
+    private static func collectSubscriptionStates(in value: Any, into result: inout [String: Bool]) {
+        if let dict = value as? [String: Any] {
+            if let entity = dict["subscriptionStateEntity"] as? [String: Any],
+               let key = entity["key"] as? String,
+               let subscribed = entity["subscribed"] as? Bool
+            {
+                result[key] = subscribed
+            }
+            for nested in dict.values {
+                Self.collectSubscriptionStates(in: nested, into: &result)
+            }
+        } else if let array = value as? [Any] {
+            for element in array {
+                Self.collectSubscriptionStates(in: element, into: &result)
+            }
+        }
+    }
+
+    /// "@handle • 246K subscribers" into its parts, without the bidi isolate
+    /// marks YouTube wraps each part in.
+    static func splitCollaboratorSubtitle(_ subtitle: String?) -> (handle: String?, subscribers: String?) {
+        guard let subtitle else { return (nil, nil) }
+        let cleaned = String(String.UnicodeScalarView(subtitle.unicodeScalars.filter {
+            !(0x2066 ... 0x2069).contains($0.value) && $0.value != 0x200E && $0.value != 0x200F
+        }))
+        let parts = cleaned.split(separator: "•", maxSplits: 1).map { $0.trimmingCharacters(in: .whitespaces) }
+        let handle = parts.first { $0.hasPrefix("@") }
+        let subscribers = parts.first { !$0.hasPrefix("@") && !$0.isEmpty }
+        return (handle, subscribers)
+    }
+
+    private static func containsImageName(_ value: Any?, _ imageName: String) -> Bool {
+        if let dict = value as? [String: Any] {
+            if dict["imageName"] as? String == imageName {
+                return true
+            }
+            return dict.values.contains { Self.containsImageName($0, imageName) }
+        }
+        if let array = value as? [Any] {
+            return array.contains { Self.containsImageName($0, imageName) }
+        }
+        return false
     }
 
     /// The bell's menu from a `subscribeButtonRenderer`: the
