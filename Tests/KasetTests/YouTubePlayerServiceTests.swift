@@ -1190,6 +1190,57 @@ extension YouTubePlayerServiceTests {
         }
     }
 
+    @Test("With Autoplay off, a finished video just ends")
+    func autoplayOffQueuesNothing() {
+        let settings = SettingsManager.shared
+        let previous = settings.youtubeAutoplayEnabled
+        defer { settings.youtubeAutoplayEnabled = previous }
+        settings.youtubeAutoplayEnabled = false
+
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "a"))
+        self.sut.setUpNext([MockYouTubeClient.makeVideo(videoId: "b")])
+        self.sut.handleVideoEnded(videoId: "a")
+
+        #expect(self.sut.autoplayPendingVideo == nil)
+        #expect(self.sut.currentVideo?.videoId == "a")
+    }
+
+    @Test("With Autoplay on, a finish counts down to the next video; Play Now plays it, Cancel doesn't")
+    func autoplayCountsDown() {
+        let settings = SettingsManager.shared
+        let previous = settings.youtubeAutoplayEnabled
+        defer { settings.youtubeAutoplayEnabled = previous }
+        settings.youtubeAutoplayEnabled = true
+
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "a"))
+        self.sut.setUpNext([MockYouTubeClient.makeVideo(videoId: "b")])
+        self.sut.handleVideoEnded(videoId: "a")
+        #expect(self.sut.autoplayPendingVideo?.videoId == "b")
+        #expect(self.sut.autoplayCountdownRemaining == YouTubePlayerService.autoplayCountdownSeconds)
+        #expect(self.sut.currentVideo?.videoId == "a")
+
+        self.sut.cancelAutoplay()
+        #expect(self.sut.autoplayPendingVideo == nil)
+        #expect(self.sut.currentVideo?.videoId == "a")
+
+        self.sut.handleVideoEnded(videoId: "a")
+        self.sut.startAutoplayCountdown(to: MockYouTubeClient.makeVideo(videoId: "b"))
+        self.sut.confirmAutoplayNow()
+        #expect(self.sut.autoplayPendingVideo == nil)
+        #expect(self.sut.currentVideo?.videoId == "b")
+    }
+
+    @Test("Playing something else clears a pending autoplay")
+    func playClearsAutoplay() {
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "a"))
+        self.sut.startAutoplayCountdown(to: MockYouTubeClient.makeVideo(videoId: "b"))
+        self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "c"))
+        #expect(self.sut.autoplayPendingVideo == nil)
+        self.sut.startAutoplayCountdown(to: MockYouTubeClient.makeVideo(videoId: "d"))
+        self.sut.stop()
+        #expect(self.sut.autoplayPendingVideo == nil)
+    }
+
     @Test("A post-end user seek supersedes deferred autoplay recovery")
     func postEndSeekRecoversCurrentVideo() {
         self.sut.play(video: MockYouTubeClient.makeVideo(videoId: "a"))

@@ -573,6 +573,9 @@ private struct YouTubeVideoWindowContent: View {
             ZStack(alignment: .bottom) {
                 YouTubeWatchSurfaceView(location: .floating)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .overlay {
+                        YouTubeAutoplayCountdownOverlay()
+                    }
 
                 if self.showsWindowChrome {
                     // The full player bar — same items as the main window, plus

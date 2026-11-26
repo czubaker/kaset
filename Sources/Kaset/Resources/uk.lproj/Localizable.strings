@@ -857,3 +857,8 @@
 
 // Live edge
 "Go to the live broadcast" = "Перейти до прямого ефіру";
+
+// Autoplay
+"Autoplay" = "Автовідтворення";
+"Play Now" = "Відтворити зараз";
+"When a video ends, count down and play the next related video." = "Коли відео закінчується, починається зворотний відлік і вмикається наступне схоже відео.";

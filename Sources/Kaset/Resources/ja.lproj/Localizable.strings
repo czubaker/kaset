@@ -852,3 +852,8 @@
 
 // Live edge
 "Go to the live broadcast" = "ライブ配信に移動";
+
+// Autoplay
+"Autoplay" = "自動再生";
+"Play Now" = "今すぐ再生";
+"When a video ends, count down and play the next related video." = "動画が終わると、カウントダウンの後に次の関連動画を再生します。";

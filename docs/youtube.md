@@ -378,9 +378,11 @@ the native scrubber is disabled; YouTube Premium accounts see no ads.
   invent additional multi-turn fields, and still omits `streaming_panel`, brand
   accounts, persisted conversations, telemetry, clickable generated links, and
   Apple Intelligence dependencies.
-- No auto-advance to the next related video after `VIDEO_ENDED` (YouTube
-  autonav is disabled; Kaset shows the ended state — the bar's next
-  button advances manually).
+- YouTube's own autonav stays disabled. With Autoplay on (the switch over
+  Related, or Settings → YouTube), a video that plays to its end shows an
+  "Up Next" card over the video and plays the first related video after five
+  seconds; the card can play it now or cancel. Off by default, a finished
+  video shows its ended state and the bar's next button advances manually.
 - Initial like state is not parsed (actions are optimistic from
   `.none`); subscribe state is seeded from watch-next.
 - Watch-page DOM selectors (`#movie_player`, autonav toggle) can shift;

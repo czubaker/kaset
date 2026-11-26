@@ -252,6 +252,12 @@ final class YouTubePlayerService {
     /// "Most replayed" samples for the current video, from the same response.
     var heatmap: [YouTubeHeatmapMarker] = []
 
+    /// The video a finished one counts down to with Autoplay on, and the
+    /// whole seconds left (see YouTubePlayerService+Autoplay).
+    var autoplayPendingVideo: YouTubeVideo?
+    var autoplayCountdownRemaining = 0
+    @ObservationIgnored var autoplayCountdownTask: Task<Void, Never>?
+
     /// What a watch page loaded about the video it's for: its channel and the
     /// details the player bar can show. Read through the `current…`
     /// accessors, which drop it once another video plays.
@@ -389,6 +395,7 @@ final class YouTubePlayerService {
         forceReload: Bool = false,
         keepsSurfaceLocation: Bool = false
     ) {
+        self.clearAutoplayCountdown()
         self.beginYouTubePlaybackIntent()
         self.autoplayRecoveryRequestGeneration &+= 1
         self.shouldRecoverAutoplayTransitionOnResume = false
@@ -755,6 +762,7 @@ final class YouTubePlayerService {
 
     /// Stops playback entirely and releases the surface.
     func stop() {
+        self.clearAutoplayCountdown()
         self.beginYouTubePlaybackIntent()
         self.autoplayRecoveryRequestGeneration &+= 1
         self.shouldRecoverAutoplayTransitionOnResume = false
@@ -804,15 +812,6 @@ final class YouTubePlayerService {
         self.upNext = videos.filter { $0.videoId != currentId && !$0.isShort }
     }
 
-    /// Supplies chapter navigation markers for the current video.
-    func setChapters(_ chapters: [YouTubeChapter]) {
-        guard let currentId = self.currentVideo?.videoId else {
-            self.chapters = []
-            return
-        }
-        self.chapters = chapters.filter { $0.videoId == nil || $0.videoId == currentId }
-    }
-
     /// Skips to the next video (first up-next candidate; fetched lazily
     /// when none are known, e.g. when playing in the floating window).
     func skipForward() async {
@@ -857,7 +856,8 @@ final class YouTubePlayerService {
         self.skipNavigationRequest = nil
     }
 
-    private func advance(to video: YouTubeVideo, recordingHistory: Bool = true) {
+    func advance(to video: YouTubeVideo, recordingHistory: Bool = true) {
+        self.clearAutoplayCountdown()
         self.autoplayRecoveryRequestGeneration &+= 1
         self.shouldRecoverAutoplayTransitionOnResume = false
         self.logger.info("YouTubePlayer: advancing to another video")
@@ -1718,6 +1718,7 @@ extension YouTubePlayerService {
             self.watchActivityGeneration += 1
             self.onVideoEnded?(videoId)
         }
+        self.startAutoplayIfEnabled()
         return true
     }
 
@@ -2003,5 +2004,18 @@ extension YouTubePlayerService {
     /// Marks the pop-in request as handled.
     func consumePopInRequest() {
         self.popInRequest = nil
+    }
+}
+
+// MARK: - Chapters
+
+extension YouTubePlayerService {
+    /// Supplies chapter navigation markers for the current video.
+    func setChapters(_ chapters: [YouTubeChapter]) {
+        guard let currentId = self.currentVideo?.videoId else {
+            self.chapters = []
+            return
+        }
+        self.chapters = chapters.filter { $0.videoId == nil || $0.videoId == currentId }
     }
 }

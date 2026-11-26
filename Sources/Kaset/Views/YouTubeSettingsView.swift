@@ -43,6 +43,9 @@ struct YouTubeSettingsView: View {
                 Toggle(String(localized: "Float on Top"), isOn: self.$settings.keepYouTubeVideoOnTop)
                     .help(String(localized: "Keep the video above standard windows on this Space."))
 
+                Toggle(String(localized: "Autoplay"), isOn: self.$settings.youtubeAutoplayEnabled)
+                    .help(String(localized: "When a video ends, count down and play the next related video."))
+
                 Toggle(String(localized: "Pop Out Video When Navigating Away"), isOn: self.$settings.popOutVideoOnNavigateAway)
                     .help(String(localized: "Keep a playing video in a floating window when you leave the page. When off, the video stops instead."))
             } header: {

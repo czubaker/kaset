@@ -232,6 +232,10 @@ struct YouTubeWatchView: View {
             YouTubeWatchSurfaceView()
                 .accessibilityIdentifier(AccessibilityID.YouTubeContent.watchSurface)
                 .aspectRatio(16 / 9, contentMode: .fit)
+                .overlay {
+                    YouTubeAutoplayCountdownOverlay()
+                }
+                .animation(.easeInOut(duration: 0.25), value: self.youtubePlayer.autoplayPendingVideo == nil)
                 .youtubeInlineVideoControls(isEnabled: self.showsControlsOnVideo)
                 .clipShape(.rect(cornerRadius: 12))
         } else if self.playsInFloatingWindow {
@@ -487,8 +491,21 @@ struct YouTubeWatchView: View {
 
     private var relatedColumn: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Related", comment: "Related videos section header")
-                .font(.title3.bold())
+            HStack(alignment: .firstTextBaseline) {
+                Text("Related", comment: "Related videos section header")
+                    .font(.title3.bold())
+                Spacer(minLength: 12)
+                // Like YouTube's switch over its Up Next list.
+                Toggle(isOn: self.$settings.youtubeAutoplayEnabled) {
+                    Text("Autoplay", comment: "Toggle: play the next related video when one ends")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.secondary)
+                }
+                .toggleStyle(.switch)
+                .controlSize(.mini)
+                .fixedSize()
+                .help(String(localized: "When a video ends, count down and play the next related video."))
+            }
 
             switch self.viewModel.loadingState {
             case .idle, .loading:

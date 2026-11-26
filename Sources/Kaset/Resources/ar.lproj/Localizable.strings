@@ -857,3 +857,8 @@
 
 // Live edge
 "Go to the live broadcast" = "الانتقال إلى البث المباشر";
+
+// Autoplay
+"Autoplay" = "تشغيل تلقائي";
+"Play Now" = "تشغيل الآن";
+"When a video ends, count down and play the next related video." = "عند انتهاء الفيديو، يبدأ عدّ تنازلي ثم يُشغَّل الفيديو المرتبط التالي.";

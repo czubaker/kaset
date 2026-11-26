@@ -857,3 +857,8 @@
 
 // Live edge
 "Go to the live broadcast" = "Buka siaran langsung";
+
+// Autoplay
+"Autoplay" = "Putar otomatis";
+"Play Now" = "Putar sekarang";
+"When a video ends, count down and play the next related video." = "Saat video berakhir, hitung mundur lalu putar video terkait berikutnya.";

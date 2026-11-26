@@ -857,3 +857,8 @@
 
 // Live edge
 "Go to the live broadcast" = "Gå till direktsändningen";
+
+// Autoplay
+"Autoplay" = "Automatisk uppspelning";
+"Play Now" = "Spela nu";
+"When a video ends, count down and play the next related video." = "När en video tar slut räknas det ner och nästa relaterade video spelas.";

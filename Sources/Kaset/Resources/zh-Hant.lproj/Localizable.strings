@@ -855,3 +855,8 @@
 
 // Live edge
 "Go to the live broadcast" = "前往直播";
+
+// Autoplay
+"Autoplay" = "自動播放";
+"Play Now" = "立即播放";
+"When a video ends, count down and play the next related video." = "影片結束時，倒數後播放下一部相關影片。";

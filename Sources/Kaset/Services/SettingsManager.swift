@@ -47,6 +47,7 @@ final class SettingsManager {
         static let youtubeSidebarOrder = "settings.youtubeSidebarOrder"
         static let discordRichPresenceEnabled = "settings.discord.richPresence.enabled"
         static let appMode = "settings.appMode"
+        static let youtubeAutoplayEnabled = "settings.youtube.autoplay.enabled"
         static let accentColorHex = "settings.accentColorHex"
         #if DEBUG
             static let useLegacyMacOS15UI = "settings.debug.useLegacyMacOS15UI"
@@ -276,6 +277,14 @@ final class SettingsManager {
                 return
             }
             UserDefaults.standard.set(self.appSource.rawValue, forKey: Keys.appSource)
+        }
+    }
+
+    /// Whether a finished YouTube video counts down to the next related video
+    /// and plays it. Off by default; YouTube's own autonav stays off.
+    var youtubeAutoplayEnabled: Bool = UserDefaults.standard.object(forKey: Keys.youtubeAutoplayEnabled) as? Bool ?? false {
+        didSet {
+            UserDefaults.standard.set(self.youtubeAutoplayEnabled, forKey: Keys.youtubeAutoplayEnabled)
         }
     }
 

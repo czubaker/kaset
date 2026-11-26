@@ -857,3 +857,8 @@
 
 // Live edge
 "Go to the live broadcast" = "Canlı yayına git";
+
+// Autoplay
+"Autoplay" = "Otomatik oynat";
+"Play Now" = "Şimdi oynat";
+"When a video ends, count down and play the next related video." = "Bir video bittiğinde geri sayım yapılır ve sonraki ilgili video oynatılır.";
