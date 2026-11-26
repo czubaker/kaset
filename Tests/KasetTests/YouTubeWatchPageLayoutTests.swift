@@ -89,6 +89,11 @@ struct YouTubeWatchPageLayoutTests {
         #expect(layout.shows(.channel, playerBar: bar, details: details))
         #expect(layout.shows(.subscriberCount, playerBar: bar, details: details))
         #expect(layout.shows(.comments, playerBar: bar, details: details))
+
+        let compactBar = PlayerBarConfiguration<YouTubePlayerBarItem>(
+            leading: [.thumbnail], center: [.subscribeIcon, .playPause], trailing: [], settingsMenu: []
+        )
+        #expect(!layout.shows(.subscribeButton, playerBar: compactBar, details: details))
     }
 
     @Test("Decoding drops elements it doesn't know")

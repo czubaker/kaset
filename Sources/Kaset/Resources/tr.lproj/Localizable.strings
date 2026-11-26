@@ -800,3 +800,18 @@
 // Channel tabs
 "Channel Section" = "Kanal Bölümü";
 "Sort Order" = "Sıralama";
+
+// Player bar items
+"Small Subscribe Button" = "Küçük Abone Ol Düğmesi";
+"Previous Video" = "Önceki video";
+"Next Video" = "Sonraki video";
+"Back 5 seconds" = "5 saniye geri";
+"Forward 5 seconds" = "5 saniye ileri";
+"Back 10 seconds" = "10 saniye geri";
+"Forward 10 seconds" = "10 saniye ileri";
+"Back 15 seconds" = "15 saniye geri";
+"Forward 15 seconds" = "15 saniye ileri";
+"Back 1 minute" = "1 dakika geri";
+"Forward 1 minute" = "1 dakika ileri";
+"Item Options" = "Öğe Seçenekleri";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "İki satırında ne gösterileceğini seçmek için çubuğa “Ayrıntılar” veya “Avatar ve Ayrıntılar” ekleyin.";

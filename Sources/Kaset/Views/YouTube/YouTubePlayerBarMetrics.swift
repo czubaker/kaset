@@ -59,7 +59,7 @@ enum YouTubePlayerBarMetrics {
     /// layout's leading side holds. Controls placed there stay.
     static func hidesWhenNarrow(_ item: YouTubePlayerBarItem) -> Bool {
         switch item {
-        case .thumbnail, .channelAvatar, .videoInfo, .channelInfo, .subscribe, .like, .dislike: true
+        case .thumbnail, .channelAvatar, .videoInfo, .channelInfo, .subscribe, .subscribeIcon, .like, .dislike: true
         default: false
         }
     }

@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import Testing
 @testable import Kaset
@@ -221,5 +222,41 @@ struct YouTubePlayerBarTests {
             timeText: nil,
             thumbnailURL: nil
         )
+    }
+
+    @Test("Every item's symbol exists, so the palette and the seek buttons draw")
+    func itemSymbolsExist() {
+        for item in YouTubePlayerBarItem.allCases {
+            #expect(NSImage(systemSymbolName: item.systemImage, accessibilityDescription: nil) != nil, "\(item)")
+        }
+        for seconds in [5, 10, 15, 30, 60] {
+            #expect(NSImage(systemSymbolName: "gobackward.\(seconds)", accessibilityDescription: nil) != nil)
+            #expect(NSImage(systemSymbolName: "goforward.\(seconds)", accessibilityDescription: nil) != nil)
+        }
+        for name in ["person.crop.circle.badge.plus", "person.crop.circle.badge.checkmark"] {
+            #expect(NSImage(systemSymbolName: name, accessibilityDescription: nil) != nil, "\(name)")
+        }
+    }
+
+    @Test("Skip buttons seek 5, 10, 15, 30, and 60 seconds each way; other items don't seek")
+    func seekIntervals() {
+        let back: [YouTubePlayerBarItem] = [.skipBack5, .skipBack10, .skipBack15, .skipBack, .skipBack60]
+        let forward: [YouTubePlayerBarItem] = [.skipForward5, .skipForward10, .skipForward15, .skipForward, .skipForward60]
+        #expect(back.compactMap(\.seek?.seconds) == [5, 10, 15, 30, 60])
+        #expect(forward.compactMap(\.seek?.seconds) == [5, 10, 15, 30, 60])
+        #expect(back.allSatisfy { $0.seek?.isForward == false })
+        #expect(forward.allSatisfy { $0.seek?.isForward == true })
+        #expect(YouTubePlayerBarItem.skipBack.systemImage == "gobackward.30")
+        #expect(YouTubePlayerBarItem.skipForward60.systemImage == "goforward.60")
+        #expect(YouTubePlayerBarItem.playPause.seek == nil)
+        #expect(YouTubePlayerBarItem.nextVideo.seek == nil)
+    }
+
+    @Test("A video shares its watch link; a Short shares its Shorts link")
+    func shareURLs() {
+        let video = YouTubeVideo(videoId: "abc123", title: "Video")
+        let short = YouTubeVideo(videoId: "short1", title: "Short", isShort: true)
+        #expect(video.shareURL?.absoluteString == "https://www.youtube.com/watch?v=abc123")
+        #expect(short.shareURL?.absoluteString == "https://www.youtube.com/shorts/short1")
     }
 }

@@ -95,10 +95,12 @@ struct YouTubePlayerBarDetailsBlock: View {
 
 /// Subscribe / Subscribed for the current video's channel, sharing its state
 /// with the watch page's button. Disabled until a watch page has said whether
-/// the account is subscribed.
+/// the account is subscribed. The compact style is an icon button the size
+/// of the bar's other buttons.
 struct YouTubePlayerBarSubscribeButton: View {
     let channelId: String
     let client: (any YouTubeClientProtocol)?
+    var isCompact = false
 
     private let subscriptions = YouTubeChannelSubscriptions.shared
     private static let brandAccent = PackageResourceLookup.brandAccent
@@ -106,27 +108,50 @@ struct YouTubePlayerBarSubscribeButton: View {
     var body: some View {
         let state = self.subscriptions.isSubscribed(to: self.channelId)
         let isSubscribed = state ?? false
-        Button {
-            guard let client else { return }
-            Task {
-                await self.subscriptions.setSubscribed(!isSubscribed, channelId: self.channelId, client: client)
-            }
-        } label: {
-            Text(isSubscribed ? String(localized: "Subscribed") : String(localized: "Subscribe"))
-                .font(.system(size: 12, weight: .semibold))
-                .lineLimit(1)
-                .minimumScaleFactor(0.75)
-                .foregroundStyle(isSubscribed ? AnyShapeStyle(.primary) : AnyShapeStyle(.white))
-                .frame(width: YouTubePlayerBarMetrics.subscribeWidth, height: 26)
-                .background(
-                    isSubscribed ? AnyShapeStyle(.quaternary) : AnyShapeStyle(Self.brandAccent),
-                    in: Capsule()
+        Group {
+            if self.isCompact {
+                PlayerBarIconButton(
+                    action: { self.toggle(isSubscribed: isSubscribed) },
+                    isSelected: isSubscribed,
+                    accessibilityID: AccessibilityID.YouTubeContent.playerBarSubscribeButton,
+                    accessibilityLabel: isSubscribed ? String(localized: "Subscribed") : String(localized: "Subscribe"),
+                    icon: {
+                        Image(systemName: isSubscribed ? "person.crop.circle.badge.checkmark" : "person.crop.circle.badge.plus")
+                            .font(.system(size: 16, weight: .regular))
+                            .frame(width: 20, height: 16)
+                            .foregroundStyle(isSubscribed ? AnyShapeStyle(.primary) : AnyShapeStyle(Self.brandAccent))
+                            .contentTransition(.symbolEffect(.replace))
+                    }
                 )
-                .contentShape(Capsule())
+                .help(isSubscribed ? String(localized: "Subscribed") : String(localized: "Subscribe"))
+            } else {
+                Button {
+                    self.toggle(isSubscribed: isSubscribed)
+                } label: {
+                    Text(isSubscribed ? String(localized: "Subscribed") : String(localized: "Subscribe"))
+                        .font(.system(size: 12, weight: .semibold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
+                        .foregroundStyle(isSubscribed ? AnyShapeStyle(.primary) : AnyShapeStyle(.white))
+                        .frame(width: YouTubePlayerBarMetrics.subscribeWidth, height: 26)
+                        .background(
+                            isSubscribed ? AnyShapeStyle(.quaternary) : AnyShapeStyle(Self.brandAccent),
+                            in: Capsule()
+                        )
+                        .contentShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier(AccessibilityID.YouTubeContent.playerBarSubscribeButton)
+            }
         }
-        .buttonStyle(.plain)
         .disabled(state == nil || self.client == nil)
-        .accessibilityIdentifier(AccessibilityID.YouTubeContent.playerBarSubscribeButton)
+    }
+
+    private func toggle(isSubscribed: Bool) {
+        guard let client else { return }
+        Task {
+            await self.subscriptions.setSubscribed(!isSubscribed, channelId: self.channelId, client: client)
+        }
     }
 }
 

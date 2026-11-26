@@ -97,15 +97,30 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
     /// The channel's avatar beside two lines of details.
     case channelInfo
     case subscribe
+    /// Subscribe as a small icon button.
+    case subscribeIcon
     case like
     case dislike
+    case previousVideo
+    /// 30 seconds back; the shorter and longer skips follow `nextVideo`.
     case skipBack
     case playPause
+    /// 30 seconds forward.
     case skipForward
+    case nextVideo
+    case skipBack5
+    case skipForward5
+    case skipBack10
+    case skipForward10
+    case skipBack15
+    case skipForward15
+    case skipBack60
+    case skipForward60
     case volume
     case fullView
     case watchLater
     case saveToPlaylist
+    case share
     case airPlay
     case captions
     case settingsMenu
@@ -124,15 +139,27 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
         case .videoInfo: String(localized: "Details")
         case .channelInfo: String(localized: "Avatar and Details")
         case .subscribe: String(localized: "Subscribe Button")
+        case .subscribeIcon: String(localized: "Small Subscribe Button")
         case .like: String(localized: "Like")
         case .dislike: String(localized: "Dislike")
+        case .previousVideo: String(localized: "Previous Video")
         case .skipBack: String(localized: "Back 30 seconds")
         case .playPause: String(localized: "Play/Pause")
         case .skipForward: String(localized: "Forward 30 seconds")
+        case .nextVideo: String(localized: "Next Video")
+        case .skipBack5: String(localized: "Back 5 seconds")
+        case .skipForward5: String(localized: "Forward 5 seconds")
+        case .skipBack10: String(localized: "Back 10 seconds")
+        case .skipForward10: String(localized: "Forward 10 seconds")
+        case .skipBack15: String(localized: "Back 15 seconds")
+        case .skipForward15: String(localized: "Forward 15 seconds")
+        case .skipBack60: String(localized: "Back 1 minute")
+        case .skipForward60: String(localized: "Forward 1 minute")
         case .volume: String(localized: "Volume")
         case .fullView: String(localized: "Full view")
         case .watchLater: String(localized: "Watch Later")
         case .saveToPlaylist: String(localized: "Save to Playlist")
+        case .share: String(localized: "Share")
         case .airPlay: String(localized: "AirPlay")
         case .captions: String(localized: "Closed captions")
         case .settingsMenu: String(localized: "Video settings")
@@ -153,15 +180,20 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
         case .videoInfo: "text.alignleft"
         case .channelInfo: "person.text.rectangle"
         case .subscribe: "person.badge.plus"
+        case .subscribeIcon: "person.crop.circle.badge.plus"
         case .like: "hand.thumbsup"
         case .dislike: "hand.thumbsdown"
-        case .skipBack: "gobackward.30"
+        case .previousVideo: "backward.end.fill"
         case .playPause: "playpause.fill"
-        case .skipForward: "goforward.30"
+        case .nextVideo: "forward.end.fill"
+        case .skipBack, .skipForward, .skipBack5, .skipForward5, .skipBack10, .skipForward10,
+             .skipBack15, .skipForward15, .skipBack60, .skipForward60:
+            self.seekSymbol
         case .volume: "speaker.wave.2.fill"
         case .fullView: "arrow.up.left.and.arrow.down.right"
         case .watchLater: "clock"
         case .saveToPlaylist: "text.badge.plus"
+        case .share: "square.and.arrow.up"
         case .airPlay: "airplayvideo"
         case .captions: "captions.bubble"
         case .settingsMenu: "gearshape"
@@ -193,6 +225,29 @@ enum YouTubePlayerBarItem: String, PlayerBarItemKind {
     /// Whether the item is a details block whose two lines the user picks.
     var hasDetailLines: Bool {
         self == .videoInfo || self == .channelInfo
+    }
+
+    /// For a skip button, how many seconds it seeks and which way.
+    var seek: (seconds: Int, isForward: Bool)? {
+        switch self {
+        case .skipBack5: (5, false)
+        case .skipForward5: (5, true)
+        case .skipBack10: (10, false)
+        case .skipForward10: (10, true)
+        case .skipBack15: (15, false)
+        case .skipForward15: (15, true)
+        case .skipBack: (30, false)
+        case .skipForward: (30, true)
+        case .skipBack60: (60, false)
+        case .skipForward60: (60, true)
+        default: nil
+        }
+    }
+
+    /// The skip button's symbol: SF Symbols draws the seconds in the arrow.
+    private var seekSymbol: String {
+        guard let seek = self.seek else { return "goforward" }
+        return "\(seek.isForward ? "goforward" : "gobackward").\(seek.seconds)"
     }
 }
 

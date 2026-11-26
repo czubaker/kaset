@@ -111,7 +111,9 @@ struct PlayerBarCustomizationSheet: View {
             case (.music, _):
                 PlayerBarCustomizationEditor(configuration: self.$settings.musicPlayerBar)
             case (.video, .playerBar):
-                PlayerBarCustomizationEditor(configuration: self.$settings.youtubePlayerBar)
+                PlayerBarCustomizationEditor(configuration: self.$settings.youtubePlayerBar) {
+                    YouTubePlayerBarItemOptions()
+                }
             case (.video, .watchPage):
                 YouTubeWatchPageCustomizationEditor()
             }
@@ -207,9 +209,11 @@ private extension PlayerBarConfiguration {
 
 // MARK: - PlayerBarCustomizationEditor
 
-/// The bar preview and the palette for one source.
-private struct PlayerBarCustomizationEditor<Item: PlayerBarItemKind>: View {
+/// The bar preview and the palette for one source, with the settings of the
+/// items on the bar that have any between them.
+private struct PlayerBarCustomizationEditor<Item: PlayerBarItemKind, Options: View>: View {
     @Binding var configuration: PlayerBarConfiguration<Item>
+    @ViewBuilder var options: () -> Options
 
     private var hasSettingsMenu: Bool {
         Item.allCases.contains { $0.allowedAreas.contains(.settingsMenu) }
@@ -243,9 +247,17 @@ private struct PlayerBarCustomizationEditor<Item: PlayerBarItemKind>: View {
                 }
             }
 
+            self.options()
+
             PlayerBarPalette(configuration: self.$configuration)
         }
         .animation(AppAnimation.quick, value: self.configuration)
+    }
+}
+
+extension PlayerBarCustomizationEditor where Options == EmptyView {
+    init(configuration: Binding<PlayerBarConfiguration<Item>>) {
+        self.init(configuration: configuration) { EmptyView() }
     }
 }
 

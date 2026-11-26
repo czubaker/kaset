@@ -798,3 +798,18 @@
 // Channel tabs
 "Channel Section" = "频道版块";
 "Sort Order" = "排序方式";
+
+// Player bar items
+"Small Subscribe Button" = "小订阅按钮";
+"Previous Video" = "上一个视频";
+"Next Video" = "下一个视频";
+"Back 5 seconds" = "后退 5 秒";
+"Forward 5 seconds" = "快进 5 秒";
+"Back 10 seconds" = "后退 10 秒";
+"Forward 10 seconds" = "快进 10 秒";
+"Back 15 seconds" = "后退 15 秒";
+"Forward 15 seconds" = "快进 15 秒";
+"Back 1 minute" = "后退 1 分钟";
+"Forward 1 minute" = "快进 1 分钟";
+"Item Options" = "项目选项";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "将“详细信息”或“头像和详细信息”添加到播放栏，即可选择它们两行显示的内容。";

@@ -795,3 +795,18 @@
 // Channel tabs
 "Channel Section" = "チャンネルのセクション";
 "Sort Order" = "並べ替え";
+
+// Player bar items
+"Small Subscribe Button" = "小さい登録ボタン";
+"Previous Video" = "前の動画";
+"Next Video" = "次の動画";
+"Back 5 seconds" = "5秒戻る";
+"Forward 5 seconds" = "5秒進む";
+"Back 10 seconds" = "10秒戻る";
+"Forward 10 seconds" = "10秒進む";
+"Back 15 seconds" = "15秒戻る";
+"Forward 15 seconds" = "15秒進む";
+"Back 1 minute" = "1分戻る";
+"Forward 1 minute" = "1分進む";
+"Item Options" = "項目のオプション";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "「詳細」または「アイコンと詳細」をバーに追加すると、2行に表示する内容を選べます。";

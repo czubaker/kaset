@@ -800,3 +800,18 @@
 // Channel tabs
 "Channel Section" = "Kanaalsectie";
 "Sort Order" = "Sorteervolgorde";
+
+// Player bar items
+"Small Subscribe Button" = "Kleine knop Abonneren";
+"Previous Video" = "Vorige video";
+"Next Video" = "Volgende video";
+"Back 5 seconds" = "5 seconden terug";
+"Forward 5 seconds" = "5 seconden vooruit";
+"Back 10 seconds" = "10 seconden terug";
+"Forward 10 seconds" = "10 seconden vooruit";
+"Back 15 seconds" = "15 seconden terug";
+"Forward 15 seconds" = "15 seconden vooruit";
+"Back 1 minute" = "1 minuut terug";
+"Forward 1 minute" = "1 minuut vooruit";
+"Item Options" = "Onderdeelopties";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "Voeg ‘Details’ of ‘Avatar en details’ toe aan de balk om te kiezen wat hun twee regels tonen.";

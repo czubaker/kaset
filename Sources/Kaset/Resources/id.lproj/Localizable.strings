@@ -800,3 +800,18 @@
 // Channel tabs
 "Channel Section" = "Bagian Saluran";
 "Sort Order" = "Urutan";
+
+// Player bar items
+"Small Subscribe Button" = "Tombol Berlangganan Kecil";
+"Previous Video" = "Video sebelumnya";
+"Next Video" = "Video berikutnya";
+"Back 5 seconds" = "Mundur 5 detik";
+"Forward 5 seconds" = "Maju 5 detik";
+"Back 10 seconds" = "Mundur 10 detik";
+"Forward 10 seconds" = "Maju 10 detik";
+"Back 15 seconds" = "Mundur 15 detik";
+"Forward 15 seconds" = "Maju 15 detik";
+"Back 1 minute" = "Mundur 1 menit";
+"Forward 1 minute" = "Maju 1 menit";
+"Item Options" = "Opsi Item";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "Tambahkan “Detail” atau “Avatar dan Detail” ke bilah untuk memilih isi kedua barisnya.";

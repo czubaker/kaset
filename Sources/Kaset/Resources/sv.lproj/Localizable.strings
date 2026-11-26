@@ -800,3 +800,18 @@
 // Channel tabs
 "Channel Section" = "Kanalavsnitt";
 "Sort Order" = "Sorteringsordning";
+
+// Player bar items
+"Small Subscribe Button" = "Liten Prenumerera-knapp";
+"Previous Video" = "Föregående video";
+"Next Video" = "Nästa video";
+"Back 5 seconds" = "Tillbaka 5 sekunder";
+"Forward 5 seconds" = "Framåt 5 sekunder";
+"Back 10 seconds" = "Tillbaka 10 sekunder";
+"Forward 10 seconds" = "Framåt 10 sekunder";
+"Back 15 seconds" = "Tillbaka 15 sekunder";
+"Forward 15 seconds" = "Framåt 15 sekunder";
+"Back 1 minute" = "Tillbaka 1 minut";
+"Forward 1 minute" = "Framåt 1 minut";
+"Item Options" = "Objektalternativ";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "Lägg till ”Detaljer” eller ”Avatar och detaljer” i fältet för att välja vad deras två rader visar.";

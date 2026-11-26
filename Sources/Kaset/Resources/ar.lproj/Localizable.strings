@@ -800,3 +800,18 @@
 // Channel tabs
 "Channel Section" = "قسم القناة";
 "Sort Order" = "ترتيب الفرز";
+
+// Player bar items
+"Small Subscribe Button" = "زر اشتراك صغير";
+"Previous Video" = "الفيديو السابق";
+"Next Video" = "الفيديو التالي";
+"Back 5 seconds" = "رجوع 5 ثوانٍ";
+"Forward 5 seconds" = "تقديم 5 ثوانٍ";
+"Back 10 seconds" = "رجوع 10 ثوانٍ";
+"Forward 10 seconds" = "تقديم 10 ثوانٍ";
+"Back 15 seconds" = "رجوع 15 ثانية";
+"Forward 15 seconds" = "تقديم 15 ثانية";
+"Back 1 minute" = "رجوع دقيقة واحدة";
+"Forward 1 minute" = "تقديم دقيقة واحدة";
+"Item Options" = "خيارات العناصر";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "أضف «التفاصيل» أو «الصورة والتفاصيل» إلى الشريط لاختيار ما يعرضه سطراهما.";

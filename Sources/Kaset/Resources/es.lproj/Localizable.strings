@@ -800,3 +800,18 @@
 // Channel tabs
 "Channel Section" = "Sección del canal";
 "Sort Order" = "Orden";
+
+// Player bar items
+"Small Subscribe Button" = "Botón Suscribirse pequeño";
+"Previous Video" = "Vídeo anterior";
+"Next Video" = "Vídeo siguiente";
+"Back 5 seconds" = "Retroceder 5 segundos";
+"Forward 5 seconds" = "Adelantar 5 segundos";
+"Back 10 seconds" = "Retroceder 10 segundos";
+"Forward 10 seconds" = "Adelantar 10 segundos";
+"Back 15 seconds" = "Retroceder 15 segundos";
+"Forward 15 seconds" = "Adelantar 15 segundos";
+"Back 1 minute" = "Retroceder 1 minuto";
+"Forward 1 minute" = "Adelantar 1 minuto";
+"Item Options" = "Opciones de los elementos";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "Añade «Detalles» o «Avatar y detalles» a la barra para elegir qué muestran sus dos líneas.";

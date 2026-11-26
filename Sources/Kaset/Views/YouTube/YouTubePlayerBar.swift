@@ -143,9 +143,10 @@ struct YouTubePlayerBar: View {
             !compact
         case .like, .dislike, .watchLater, .saveToPlaylist:
             self.hasPersonalAccount
-        case .subscribe:
+        case .subscribe, .subscribeIcon:
             self.hasPersonalAccount && self.currentChannelId != nil
-        case .skipBack, .skipForward:
+        case .skipBack, .skipForward, .skipBack5, .skipForward5, .skipBack10, .skipForward10,
+             .skipBack15, .skipForward15, .skipBack60, .skipForward60:
             !self.isUnseekableLive
         case .floatOnTop:
             self.showsFloatOnTopControl
@@ -188,20 +189,29 @@ struct YouTubePlayerBar: View {
                     self.detailsBlock(for: .channelInfo)
                 }
             }
-        case .subscribe:
+        case .subscribe, .subscribeIcon:
             if let channelId = self.currentChannelId {
-                YouTubePlayerBarSubscribeButton(channelId: channelId, client: self.youtubePlayer.youtubeClient)
+                YouTubePlayerBarSubscribeButton(
+                    channelId: channelId,
+                    client: self.youtubePlayer.youtubeClient,
+                    isCompact: item == .subscribeIcon
+                )
             }
         case .like:
             self.likeButton
         case .dislike:
             self.dislikeButton
-        case .skipBack:
-            self.youtubeSeekButton(isForward: false)
+        case .skipBack, .skipForward, .skipBack5, .skipForward5, .skipBack10, .skipForward10,
+             .skipBack15, .skipForward15, .skipBack60, .skipForward60:
+            if let seek = item.seek {
+                YouTubePlayerBarSeekButton(seconds: seek.seconds, isForward: seek.isForward, canSeek: self.canSeek)
+            }
+        case .previousVideo, .nextVideo:
+            YouTubePlayerBarVideoSkipButton(isForward: item == .nextVideo)
         case .playPause:
             self.playPauseButton
-        case .skipForward:
-            self.youtubeSeekButton(isForward: true)
+        case .share:
+            YouTubePlayerBarShareButton()
         case .volume:
             self.volumeButton
         case .fullView:
@@ -464,27 +474,6 @@ struct YouTubePlayerBar: View {
         .playerBarVolumeOverlay(isPresented: self.$showsVolumeOverlay) {
             self.youtubeVolumeOverlay
         }
-    }
-
-    private func youtubeSeekButton(isForward: Bool) -> some View {
-        PlayerBarIconButton(
-            action: {
-                HapticService.playback()
-                if isForward {
-                    self.youtubePlayer.seekForward()
-                } else {
-                    self.youtubePlayer.seekBackward()
-                }
-            },
-            accessibilityLabel: isForward ? String(localized: "Forward 30 seconds") : String(localized: "Back 30 seconds"),
-            icon: {
-                Image(systemName: isForward ? "goforward.30" : "gobackward.30")
-                    .font(.system(size: 16, weight: .regular))
-                    .frame(width: 16, height: 16)
-                    .foregroundStyle(.primary)
-            }
-        )
-        .disabled(!self.canSeek)
     }
 
     private var fullViewButton: some View {

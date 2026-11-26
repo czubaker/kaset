@@ -800,3 +800,18 @@
 // Channel tabs
 "Channel Section" = "채널 섹션";
 "Sort Order" = "정렬 순서";
+
+// Player bar items
+"Small Subscribe Button" = "작은 구독 버튼";
+"Previous Video" = "이전 동영상";
+"Next Video" = "다음 동영상";
+"Back 5 seconds" = "5초 뒤로";
+"Forward 5 seconds" = "5초 앞으로";
+"Back 10 seconds" = "10초 뒤로";
+"Forward 10 seconds" = "10초 앞으로";
+"Back 15 seconds" = "15초 뒤로";
+"Forward 15 seconds" = "15초 앞으로";
+"Back 1 minute" = "1분 뒤로";
+"Forward 1 minute" = "1분 앞으로";
+"Item Options" = "항목 옵션";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "막대에 '세부 정보' 또는 '아바타 및 세부 정보'를 추가하면 두 줄에 표시할 내용을 선택할 수 있습니다.";

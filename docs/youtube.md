@@ -163,6 +163,13 @@ The bottom Liquid Glass bar adapts to the active source. In YouTube mode
   highlights it as a small glass bead, temporarily shows the chapter name/time
   in the player metadata title area, and release-near-chapter scrubs snap to
   that chapter.
+- View → Customize Player Bar… arranges the bar Finder-style. Beyond the
+  standard items, the palette offers skip buttons for 5, 10, 15, and 60
+  seconds each way (alongside the standard 30), Previous Video and Next
+  Video (as the media keys), Share (the video's YouTube link, Copy Link
+  first), and a Small Subscribe Button, an icon the size of the bar's other
+  buttons. Item Options under the bar preview picks the two lines of each
+  details block on the bar; Restore Defaults brings back the standard bar.
 - No shuffle/repeat/lyrics/queue — those are music concepts. Chapters use a
   horizontal scroller with chevron paging controls on the watch page; the shelf
   hugs the cards, and the Chapters header collapses it.

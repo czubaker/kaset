@@ -798,3 +798,18 @@
 // Channel tabs
 "Channel Section" = "頻道區段";
 "Sort Order" = "排序方式";
+
+// Player bar items
+"Small Subscribe Button" = "小訂閱按鈕";
+"Previous Video" = "上一部影片";
+"Next Video" = "下一部影片";
+"Back 5 seconds" = "倒退 5 秒";
+"Forward 5 seconds" = "快轉 5 秒";
+"Back 10 seconds" = "倒退 10 秒";
+"Forward 10 seconds" = "快轉 10 秒";
+"Back 15 seconds" = "倒退 15 秒";
+"Forward 15 seconds" = "快轉 15 秒";
+"Back 1 minute" = "倒退 1 分鐘";
+"Forward 1 minute" = "快轉 1 分鐘";
+"Item Options" = "項目選項";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "將「詳細資訊」或「頭像和詳細資訊」加入播放列，即可選擇它們兩行顯示的內容。";

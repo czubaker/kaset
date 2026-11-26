@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - YouTubeVideo
+
 /// A regular YouTube video as it appears in feeds, search results, and
 /// related lists.
 ///
@@ -58,5 +60,22 @@ struct YouTubeVideo: Identifiable, Hashable {
         self.isShort = isShort
         self.watchedPercent = watchedPercent
         self.feedbackActions = feedbackActions
+    }
+}
+
+// MARK: - Sharing
+
+extension YouTubeVideo {
+    /// The video's page on YouTube, for sharing: Shorts open in the Shorts
+    /// player there, as they do here.
+    var shareURL: URL? {
+        if self.isShort {
+            var components = URLComponents(string: "https://www.youtube.com")
+            components?.path = "/shorts/\(self.videoId)"
+            return components?.url
+        }
+        var components = URLComponents(string: "https://www.youtube.com/watch")
+        components?.queryItems = [URLQueryItem(name: "v", value: self.videoId)]
+        return components?.url
     }
 }

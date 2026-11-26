@@ -75,6 +75,43 @@ struct YouTubeDetailLinesForm: View {
     }
 }
 
+// MARK: - YouTubePlayerBarItemOptions
+
+/// The settings of the YouTube bar's items that have any, in plain sight
+/// under the bar preview: which two lines each details block on the bar
+/// shows. (Clicking a details block on the preview opens the same pickers.)
+struct YouTubePlayerBarItemOptions: View {
+    @Bindable private var settings = SettingsManager.shared
+
+    private static let configurable: [YouTubePlayerBarItem] = [.videoInfo, .channelInfo]
+
+    var body: some View {
+        let items = Self.configurable.filter { self.settings.youtubePlayerBar.contains($0) }
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Item Options", comment: "Player bar customization section with the settings of the items on the bar")
+                .font(.headline)
+            if items.isEmpty {
+                Text(
+                    "Add Details or Avatar and Details to the bar to choose what their two lines show.",
+                    comment: "Player bar customization hint when no item on the bar has settings"
+                )
+                .font(.callout)
+                .foregroundStyle(.secondary)
+            } else {
+                ForEach(items, id: \.self) { item in
+                    HStack(spacing: 16) {
+                        Label(item.title, systemImage: item.systemImage)
+                            .frame(width: 180, alignment: .leading)
+                        YouTubeDetailLinePickers(item: item)
+                            .fixedSize()
+                    }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
 // MARK: - YouTubeWatchPageCustomizationEditor
 
 /// The Watch Page tab of YouTube's customization sheet: which parts of the

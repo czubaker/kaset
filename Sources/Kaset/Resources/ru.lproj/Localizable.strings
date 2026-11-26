@@ -800,3 +800,18 @@
 // Channel tabs
 "Channel Section" = "Раздел канала";
 "Sort Order" = "Порядок сортировки";
+
+// Player bar items
+"Small Subscribe Button" = "Маленькая кнопка «Подписаться»";
+"Previous Video" = "Предыдущее видео";
+"Next Video" = "Следующее видео";
+"Back 5 seconds" = "Назад на 5 секунд";
+"Forward 5 seconds" = "Вперёд на 5 секунд";
+"Back 10 seconds" = "Назад на 10 секунд";
+"Forward 10 seconds" = "Вперёд на 10 секунд";
+"Back 15 seconds" = "Назад на 15 секунд";
+"Forward 15 seconds" = "Вперёд на 15 секунд";
+"Back 1 minute" = "Назад на 1 минуту";
+"Forward 1 minute" = "Вперёд на 1 минуту";
+"Item Options" = "Настройки элементов";
+"Add Details or Avatar and Details to the bar to choose what their two lines show." = "Добавьте на панель «Сведения» или «Аватар и сведения», чтобы выбрать, что показывают их две строки.";

@@ -78,7 +78,7 @@ struct YouTubeWatchPageLayout: Equatable {
         case .subscriberCount:
             return fields.contains(.subscribers)
         case .subscribeButton:
-            return playerBar.contains(.subscribe)
+            return playerBar.contains(.subscribe) || playerBar.contains(.subscribeIcon)
         case .chapters, .comments, .related:
             return false
         }
