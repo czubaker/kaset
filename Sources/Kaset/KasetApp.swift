@@ -938,10 +938,11 @@ struct SettingsView: View {
                     Label(String(localized: "Equalizer"), systemImage: "slider.vertical.3")
                 }
 
+            // Scrobbling services and Discord: what Kaset shares with other apps.
             ScrobblingSettingsView()
                 .environment(self.scrobblingCoordinator)
                 .tabItem {
-                    Label(String(localized: "Scrobbling"), systemImage: "music.note.list")
+                    Label(String(localized: "Integrations"), systemImage: "point.3.connected.trianglepath.dotted")
                 }
 
             // Conditionally rendered (Apple Intelligence is macOS 26+ and

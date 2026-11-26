@@ -92990,6 +92990,430 @@
           }
         }
       }
+    },
+    "Integrations": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عمليات الدمج"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integrationen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integraciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intégrations"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integrasi"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integrazioni"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "連携"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "통합"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integraties"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integracje"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integrações"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Интеграции"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integrationer"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entegrasyonlar"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Інтеграції"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "集成"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "整合"
+          }
+        }
+      }
+    },
+    "Find Lyrics Automatically": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البحث عن الكلمات تلقائيًا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Songtexte automatisch suchen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar letras automáticamente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher les paroles automatiquement"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cari Lirik Secara Otomatis"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerca i testi automaticamente"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "歌詞を自動的に検索"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "가사 자동으로 찾기"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Songteksten automatisch zoeken"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Szukaj tekstów automatycznie"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar Letras Automaticamente"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Искать тексты песен автоматически"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sök efter låttexter automatiskt"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarkı Sözlerini Otomatik Bul"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Шукати тексти пісень автоматично"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动查找歌词"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動尋找歌詞"
+          }
+        }
+      }
+    },
+    "Videos you queue with Play Next or Add to Queue play first, with or without Autoplay.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُشغَّل الفيديوهات التي تضيفها عبر ”تشغيل التالي“ أو ”إضافة إلى قائمة الانتظار“ أولًا، سواء أكان التشغيل التلقائي مفعّلًا أم لا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Videos, die du mit „Als Nächstes abspielen“ oder „Zur Warteschlange hinzufügen“ einreihst, laufen zuerst – mit oder ohne Autoplay."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los vídeos que pongas en cola con «Reproducir a continuación» o «Añadir a la cola» se reproducen primero, con o sin reproducción automática."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les vidéos ajoutées avec « Lire ensuite » ou « Ajouter à la file d’attente » passent en premier, avec ou sans lecture automatique."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video yang Anda antrekan dengan Putar Berikutnya atau Tambahkan ke Antrean diputar lebih dulu, dengan atau tanpa Putar Otomatis."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I video messi in coda con “Riproduci dopo” o “Aggiungi alla coda” vengono riprodotti prima, con o senza riproduzione automatica."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「次に再生」または「キューに追加」で追加したビデオは、自動再生のオン／オフにかかわらず先に再生されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "‘다음에 재생’ 또는 ‘대기열에 추가’로 넣은 비디오는 자동 재생 여부와 관계없이 먼저 재생됩니다."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video’s die je met ‘Hierna afspelen’ of ‘Aan wachtrij toevoegen’ toevoegt, worden eerst afgespeeld, met of zonder automatisch afspelen."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filmy dodane przez „Odtwórz następne” lub „Dodaj do kolejki” odtwarzają się najpierw, z autoodtwarzaniem lub bez."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os vídeos que você enfileira com “Reproduzir a Seguir” ou “Adicionar à Fila” tocam primeiro, com ou sem Reprodução Automática."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Видео, добавленные через «Воспроизвести следующим» или «Добавить в очередь», играют первыми — с автовоспроизведением или без."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Videor du köar med ”Spela upp härnäst” eller ”Lägg till i kö” spelas först, med eller utan Autouppspelning."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“Sonra Çal” veya “Sıraya Ekle” ile sıraya aldığınız videolar, otomatik oynatma açık olsun ya da olmasın önce oynatılır."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Відео, додані через «Відтворити наступним» або «Додати до черги», грають першими — з автовідтворенням чи без."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过“接下来播放”或“添加到队列”加入的视频会优先播放，无论是否开启自动播放。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "透過「接著播放」或「加入佇列」加入的影片會優先播放，無論是否開啟自動播放。"
+          }
+        }
+      }
+    },
+    "Lyrics come from LRCLib, a public lyrics site, which gets each video’s title when Kaset looks its song up.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأتي الكلمات من LRCLib، وهو موقع كلمات عام، ويتلقى عنوان كل فيديو عندما يبحث Kaset عن أغنيته."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Songtexte stammen von LRCLib, einer öffentlichen Songtext-Website, die den Titel jedes Videos erhält, wenn Kaset nach dem Song sucht."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las letras provienen de LRCLib, un sitio público de letras, que recibe el título de cada vídeo cuando Kaset busca su canción."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les paroles proviennent de LRCLib, un site public de paroles, qui reçoit le titre de chaque vidéo lorsque Kaset recherche sa chanson."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lirik berasal dari LRCLib, situs lirik publik, yang menerima judul setiap video saat Kaset mencari lagunya."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I testi provengono da LRCLib, un sito pubblico di testi, che riceve il titolo di ogni video quando Kaset ne cerca il brano."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "歌詞は公開の歌詞サイト LRCLib から取得します。Kaset が曲を検索するとき、各ビデオのタイトルが LRCLib に送られます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "가사는 공개 가사 사이트인 LRCLib에서 가져오며, Kaset이 노래를 찾을 때 각 비디오의 제목이 LRCLib에 전달됩니다."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Songteksten komen van LRCLib, een openbare songtekstsite, die de titel van elke video krijgt wanneer Kaset het nummer opzoekt."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teksty pochodzą z LRCLib, publicznego serwisu z tekstami, który otrzymuje tytuł każdego filmu, gdy Kaset szuka jego utworu."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As letras vêm do LRCLib, um site público de letras, que recebe o título de cada vídeo quando o Kaset procura sua música."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тексты берутся с LRCLib — открытого сайта с текстами песен; когда Kaset ищет песню, он передаёт туда название видео."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Låttexterna kommer från LRCLib, en öppen låttextsajt, som får varje videos titel när Kaset söker efter låten."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarkı sözleri herkese açık bir site olan LRCLib’den gelir; Kaset şarkıyı ararken videonun başlığı LRCLib’e gönderilir."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тексти беруться з LRCLib — відкритого сайту з текстами пісень; коли Kaset шукає пісню, він передає туди назву відео."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "歌词来自公开歌词网站 LRCLib；Kaset 查找歌曲时会把视频标题发送给它。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "歌詞來自公開歌詞網站 LRCLib；Kaset 尋找歌曲時會把影片標題傳送給它。"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

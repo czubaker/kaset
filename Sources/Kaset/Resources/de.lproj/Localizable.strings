@@ -952,3 +952,9 @@
 "Toolbar and Player Bar" = "Symbolleiste und Player-Leiste";
 "Toolbar" = "Symbolleiste";
 "Remove from Toolbar" = "Aus Symbolleiste entfernen";
+
+// Settings organization
+"Integrations" = "Integrationen";
+"Find Lyrics Automatically" = "Songtexte automatisch suchen";
+"Videos you queue with Play Next or Add to Queue play first, with or without Autoplay." = "Videos, die du mit „Als Nächstes abspielen“ oder „Zur Warteschlange hinzufügen“ einreihst, laufen zuerst – mit oder ohne Autoplay.";
+"Lyrics come from LRCLib, a public lyrics site, which gets each video’s title when Kaset looks its song up." = "Songtexte stammen von LRCLib, einer öffentlichen Songtext-Website, die den Titel jedes Videos erhält, wenn Kaset nach dem Song sucht.";

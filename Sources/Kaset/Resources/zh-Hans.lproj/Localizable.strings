@@ -950,3 +950,9 @@
 "Toolbar and Player Bar" = "工具栏和播放器栏";
 "Toolbar" = "工具栏";
 "Remove from Toolbar" = "从工具栏中移除";
+
+// Settings organization
+"Integrations" = "集成";
+"Find Lyrics Automatically" = "自动查找歌词";
+"Videos you queue with Play Next or Add to Queue play first, with or without Autoplay." = "通过“接下来播放”或“添加到队列”加入的视频会优先播放，无论是否开启自动播放。";
+"Lyrics come from LRCLib, a public lyrics site, which gets each video’s title when Kaset looks its song up." = "歌词来自公开歌词网站 LRCLib；Kaset 查找歌曲时会把视频标题发送给它。";

@@ -86,6 +86,14 @@ struct MusicSettingsView: View {
             } header: {
                 Text(String(localized: "Lyrics"))
             }
+
+            Section {
+                Button(String(localized: "Customize Toolbar and Player Bar…")) {
+                    PlayerBarCustomization.shared.present(for: .music)
+                }
+            } header: {
+                Text(String(localized: "Toolbar and Player Bar"))
+            }
         }
         .formStyle(.grouped)
         .frame(minWidth: 400, minHeight: 300)

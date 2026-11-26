@@ -952,3 +952,9 @@
 "Toolbar and Player Bar" = "도구 막대 및 플레이어 막대";
 "Toolbar" = "도구 막대";
 "Remove from Toolbar" = "도구 막대에서 제거";
+
+// Settings organization
+"Integrations" = "통합";
+"Find Lyrics Automatically" = "가사 자동으로 찾기";
+"Videos you queue with Play Next or Add to Queue play first, with or without Autoplay." = "‘다음에 재생’ 또는 ‘대기열에 추가’로 넣은 비디오는 자동 재생 여부와 관계없이 먼저 재생됩니다.";
+"Lyrics come from LRCLib, a public lyrics site, which gets each video’s title when Kaset looks its song up." = "가사는 공개 가사 사이트인 LRCLib에서 가져오며, Kaset이 노래를 찾을 때 각 비디오의 제목이 LRCLib에 전달됩니다.";

@@ -952,3 +952,9 @@
 "Toolbar and Player Bar" = "Knoppenbalk en spelerbalk";
 "Toolbar" = "Knoppenbalk";
 "Remove from Toolbar" = "Verwijder uit knoppenbalk";
+
+// Settings organization
+"Integrations" = "Integraties";
+"Find Lyrics Automatically" = "Songteksten automatisch zoeken";
+"Videos you queue with Play Next or Add to Queue play first, with or without Autoplay." = "Video’s die je met ‘Hierna afspelen’ of ‘Aan wachtrij toevoegen’ toevoegt, worden eerst afgespeeld, met of zonder automatisch afspelen.";
+"Lyrics come from LRCLib, a public lyrics site, which gets each video’s title when Kaset looks its song up." = "Songteksten komen van LRCLib, een openbare songtekstsite, die de titel van elke video krijgt wanneer Kaset het nummer opzoekt.";

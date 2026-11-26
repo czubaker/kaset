@@ -952,3 +952,9 @@
 "Toolbar and Player Bar" = "Панель інструментів і плеєра";
 "Toolbar" = "Панель інструментів";
 "Remove from Toolbar" = "Прибрати з панелі інструментів";
+
+// Settings organization
+"Integrations" = "Інтеграції";
+"Find Lyrics Automatically" = "Шукати тексти пісень автоматично";
+"Videos you queue with Play Next or Add to Queue play first, with or without Autoplay." = "Відео, додані через «Відтворити наступним» або «Додати до черги», грають першими — з автовідтворенням чи без.";
+"Lyrics come from LRCLib, a public lyrics site, which gets each video’s title when Kaset looks its song up." = "Тексти беруться з LRCLib — відкритого сайту з текстами пісень; коли Kaset шукає пісню, він передає туди назву відео.";

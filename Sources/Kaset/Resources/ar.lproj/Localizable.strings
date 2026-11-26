@@ -952,3 +952,9 @@
 "Toolbar and Player Bar" = "شريط الأدوات وشريط المشغل";
 "Toolbar" = "شريط الأدوات";
 "Remove from Toolbar" = "إزالة من شريط الأدوات";
+
+// Settings organization
+"Integrations" = "عمليات الدمج";
+"Find Lyrics Automatically" = "البحث عن الكلمات تلقائيًا";
+"Videos you queue with Play Next or Add to Queue play first, with or without Autoplay." = "تُشغَّل الفيديوهات التي تضيفها عبر ”تشغيل التالي“ أو ”إضافة إلى قائمة الانتظار“ أولًا، سواء أكان التشغيل التلقائي مفعّلًا أم لا.";
+"Lyrics come from LRCLib, a public lyrics site, which gets each video’s title when Kaset looks its song up." = "تأتي الكلمات من LRCLib، وهو موقع كلمات عام، ويتلقى عنوان كل فيديو عندما يبحث Kaset عن أغنيته.";

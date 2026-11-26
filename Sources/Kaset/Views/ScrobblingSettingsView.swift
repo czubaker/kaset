@@ -2,8 +2,8 @@ import SwiftUI
 
 // MARK: - ScrobblingSettingsView
 
-/// Settings view for scrobbling services.
-/// Iterates all registered services from the coordinator, rendering a reusable row for each.
+/// The Integrations tab: scrobbling services, rendered from the coordinator's
+/// registered services, then Discord Rich Presence.
 struct ScrobblingSettingsView: View {
     @Environment(ScrobblingCoordinator.self) private var coordinator
 
@@ -26,7 +26,7 @@ struct ScrobblingSettingsView: View {
         }
         .formStyle(.grouped)
         .frame(minWidth: 400, minHeight: 300)
-        .localizedNavigationTitle("Scrobbling")
+        .localizedNavigationTitle("Integrations")
     }
 }
 
