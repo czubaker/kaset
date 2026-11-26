@@ -45,7 +45,13 @@ struct YouTubeWatchSurfaceView: NSViewRepresentable {
                 selectedVideoId: player.currentVideo?.videoId
             )
         }
-        guard player.surfaceLocation == location else { return }
+        // Read both here, even while the claim waits for the window, so
+        // SwiftUI runs this update again when either changes: a Shorts page
+        // can reach the window before its video is the selected one.
+        let selectedVideoId = player.currentVideo?.videoId
+        guard player.surfaceLocation == location, expectedVideoId == nil || expectedVideoId == selectedVideoId else {
+            return
+        }
         nsView.claimSurfaceIfOnScreen()
     }
 }

@@ -166,4 +166,25 @@ struct YouTubeChannelViewModelTabTests {
         // The reload brought no chips, so the old ones carry the new selection.
         #expect(model.page(for: self.videosTab)?.sortOptions.first(where: \.isSelected)?.title == "Popular")
     }
+
+    @Test("A failed next page waits for Try Again instead of asking again")
+    func failedNextPageWaitsForRetry() async {
+        let client = MockYouTubeClient()
+        client.channelTabPages["mock-videos"] = YouTubeChannelTabPage(videos: [self.video("v1")], continuation: "mock-next")
+        client.channelTabContinuations["mock-next"] = YouTubeChannelTabPage(videos: [self.video("v2")])
+        let model = YouTubeChannelViewModel(channelId: "UCtest", client: client)
+        await model.select(self.videosTab)
+
+        client.error = URLError(.notConnectedToInternet)
+        await model.loadMore()
+        #expect(model.hasLoadMoreFailed)
+
+        client.error = nil
+        await model.loadMore()
+        #expect(model.page(for: self.videosTab)?.videos.map(\.videoId) == ["v1"])
+
+        await model.retryLoadMore()
+        #expect(!model.hasLoadMoreFailed)
+        #expect(model.page(for: self.videosTab)?.videos.map(\.videoId) == ["v1", "v2"])
+    }
 }

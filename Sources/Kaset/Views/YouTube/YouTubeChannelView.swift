@@ -156,7 +156,7 @@ struct YouTubeChannelView: View {
                     .buttonStyle(.interactiveCard)
                     .youtubeVideoContextMenu(for: video)
                 }
-                self.nextPageSentinel(continuation: continuation, count: videos.count)
+                self.nextPageSentinel(continuation: continuation)
             }
         }
     }
@@ -177,7 +177,7 @@ struct YouTubeChannelView: View {
                     .buttonStyle(.interactiveCard)
                     .youtubeVideoContextMenu(for: short)
                 }
-                self.nextPageSentinel(continuation: continuation, count: shorts.count)
+                self.nextPageSentinel(continuation: continuation)
             }
         }
     }
@@ -196,20 +196,28 @@ struct YouTubeChannelView: View {
                     }
                     .buttonStyle(.interactiveCard)
                 }
-                self.nextPageSentinel(continuation: continuation, count: playlists.count)
+                self.nextPageSentinel(continuation: continuation)
             }
         }
     }
 
-    /// Loads the next page as the end of the grid scrolls into view.
+    /// Loads the next page as the end of the grid scrolls into view, once
+    /// per page token; a failed page waits for Try Again.
     @ViewBuilder
-    private func nextPageSentinel(continuation: String?, count: Int) -> some View {
-        if continuation != nil {
-            ProgressView()
-                .controlSize(.small)
-                .task(id: count) {
-                    await self.viewModel.loadMore()
+    private func nextPageSentinel(continuation: String?) -> some View {
+        if let continuation {
+            if self.viewModel.hasLoadMoreFailed {
+                Button(String(localized: "Try Again")) {
+                    Task { await self.viewModel.retryLoadMore() }
                 }
+                .buttonStyle(.bordered)
+            } else {
+                ProgressView()
+                    .controlSize(.small)
+                    .task(id: continuation) {
+                        await self.viewModel.loadMore()
+                    }
+            }
         }
     }
 

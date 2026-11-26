@@ -26,6 +26,9 @@ final class YouTubeChannelViewModel {
     /// Tabs whose first page failed.
     private(set) var tabErrors: [String: LoadingError] = [:]
 
+    /// Tabs whose next page failed; they wait for Try Again.
+    private(set) var loadMoreFailedTabs: Set<String> = []
+
     let channelId: String
     /// Invalidates stale in-flight loads when a newer one starts
     /// (SwiftUI restarts .task during launch/layout churn; latest wins).
@@ -69,6 +72,7 @@ final class YouTubeChannelViewModel {
     func refresh() async {
         self.tabPages = [:]
         self.tabErrors = [:]
+        self.loadMoreFailedTabs = []
         await self.load()
         if let tab = self.selectedTab, tab.kind != .home {
             await self.loadTab(tab)
@@ -90,11 +94,24 @@ final class YouTubeChannelViewModel {
         self.tabPages[tab.params]
     }
 
+    /// Whether the tab on screen's next page failed.
+    var hasLoadMoreFailed: Bool {
+        self.selectedTab.map { self.loadMoreFailedTabs.contains($0.params) } ?? false
+    }
+
+    /// Asks for the tab on screen's next page again after a failure.
+    func retryLoadMore() async {
+        guard let tab = self.selectedTab else { return }
+        self.loadMoreFailedTabs.remove(tab.params)
+        await self.loadMore()
+    }
+
     /// Loads the next page of the tab on screen, once per token.
     func loadMore() async {
         guard let tab = self.selectedTab,
               let token = self.tabPages[tab.params]?.continuation,
-              !self.loadingMoreTabs.contains(tab.params)
+              !self.loadingMoreTabs.contains(tab.params),
+              !self.loadMoreFailedTabs.contains(tab.params)
         else { return }
         let key = tab.params
         let generation = self.tabGenerations[key, default: 0]
@@ -110,8 +127,9 @@ final class YouTubeChannelViewModel {
             page.continuation = next.continuation
             self.tabPages[key] = page
         } catch {
-            guard !(error is CancellationError) else { return }
+            guard !(error is CancellationError), generation == self.tabGenerations[key, default: 0] else { return }
             self.logger.error("Failed to load more of a YouTube channel tab: \(error.localizedDescription)")
+            self.loadMoreFailedTabs.insert(key)
         }
     }
 
@@ -121,6 +139,7 @@ final class YouTubeChannelViewModel {
         let key = tab.params
         let generation = self.bumpGeneration(for: key)
         self.loadingTabs.insert(key)
+        self.loadMoreFailedTabs.remove(key)
         defer {
             if generation == self.tabGenerations[key, default: 0] {
                 self.loadingTabs.remove(key)
@@ -148,6 +167,7 @@ final class YouTubeChannelViewModel {
         let generation = self.bumpGeneration(for: key)
         self.loadingTabs.insert(key)
         self.tabErrors[key] = nil
+        self.loadMoreFailedTabs.remove(key)
         defer {
             if generation == self.tabGenerations[key, default: 0] {
                 self.loadingTabs.remove(key)
