@@ -232,6 +232,8 @@ struct YouTubePlayerBar: View {
             self.youtubeFloatOnTopButton
         case .pictureInPicture:
             self.pictureInPictureButton
+        case .sleepTimer:
+            SleepTimerBarButton()
         case .space, .flexibleSpace:
             PlayerBarSpace(isFlexible: item == .flexibleSpace)
         }

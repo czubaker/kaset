@@ -114,11 +114,11 @@ struct PlayerBarConfigurationTests {
     @Test("The palette offers what's not placed, and spaces always")
     func paletteItems() {
         let layout = Music.standard
-        #expect(layout.paletteItems == [.space, .flexibleSpace])
+        #expect(layout.paletteItems == [.sleepTimer, .space, .flexibleSpace])
 
         var trimmed = layout
         trimmed.remove(from: .trailing, at: 3)
-        #expect(trimmed.paletteItems == [.miniPlayer, .space, .flexibleSpace])
+        #expect(trimmed.paletteItems == [.miniPlayer, .sleepTimer, .space, .flexibleSpace])
     }
 
     @Test("A layout survives encoding, and unknown items from other versions are dropped")

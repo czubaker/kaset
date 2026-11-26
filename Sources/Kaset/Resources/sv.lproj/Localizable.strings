@@ -930,3 +930,11 @@
 "Artist and song" = "Artist och låt";
 "Look up lyrics on LRCLib for every video you open." = "Sök efter låttext på LRCLib för varje video du öppnar.";
 "%@ · LRCLib" = "%@ · LRCLib";
+
+// Sleep timer
+"Sleep Timer" = "Insomningstimer";
+"Turn Off Sleep Timer" = "Stäng av insomningstimer";
+"Pausing in %@" = "Pausar om %@";
+"When the Current Video Ends" = "När den aktuella videon slutar";
+"When the Current Track Ends" = "När det aktuella spåret slutar";
+"Sleep Timer: pausing in %@" = "Insomningstimer: pausar om %@";

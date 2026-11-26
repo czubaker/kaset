@@ -930,3 +930,11 @@
 "Artist and song" = "아티스트와 노래";
 "Look up lyrics on LRCLib for every video you open." = "여는 모든 비디오의 가사를 LRCLib에서 찾습니다.";
 "%@ · LRCLib" = "%@ · LRCLib";
+
+// Sleep timer
+"Sleep Timer" = "잠자기 타이머";
+"Turn Off Sleep Timer" = "잠자기 타이머 끄기";
+"Pausing in %@" = "%@ 후 일시 정지";
+"When the Current Video Ends" = "현재 비디오가 끝나면";
+"When the Current Track Ends" = "현재 곡이 끝나면";
+"Sleep Timer: pausing in %@" = "잠자기 타이머: %@ 후 일시 정지";

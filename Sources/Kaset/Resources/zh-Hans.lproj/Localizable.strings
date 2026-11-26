@@ -928,3 +928,11 @@
 "Artist and song" = "艺人和歌曲";
 "Look up lyrics on LRCLib for every video you open." = "为你打开的每个视频在 LRCLib 上查找歌词。";
 "%@ · LRCLib" = "%@ · LRCLib";
+
+// Sleep timer
+"Sleep Timer" = "睡眠定时器";
+"Turn Off Sleep Timer" = "关闭睡眠定时器";
+"Pausing in %@" = "将在 %@ 后暂停";
+"When the Current Video Ends" = "当前视频结束时";
+"When the Current Track Ends" = "当前曲目结束时";
+"Sleep Timer: pausing in %@" = "睡眠定时器：将在 %@ 后暂停";

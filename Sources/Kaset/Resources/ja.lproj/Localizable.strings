@@ -925,3 +925,11 @@
 "Artist and song" = "アーティストと曲名";
 "Look up lyrics on LRCLib for every video you open." = "開いたすべてのビデオについて LRCLib で歌詞を検索します。";
 "%@ · LRCLib" = "%@ · LRCLib";
+
+// Sleep timer
+"Sleep Timer" = "スリープタイマー";
+"Turn Off Sleep Timer" = "スリープタイマーをオフ";
+"Pausing in %@" = "%@後に一時停止";
+"When the Current Video Ends" = "現在のビデオが終わったとき";
+"When the Current Track Ends" = "現在の曲が終わったとき";
+"Sleep Timer: pausing in %@" = "スリープタイマー：%@後に一時停止";

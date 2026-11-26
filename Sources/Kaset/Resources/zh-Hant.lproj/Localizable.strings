@@ -928,3 +928,11 @@
 "Artist and song" = "藝人和歌曲";
 "Look up lyrics on LRCLib for every video you open." = "為你打開的每部影片在 LRCLib 上尋找歌詞。";
 "%@ · LRCLib" = "%@ · LRCLib";
+
+// Sleep timer
+"Sleep Timer" = "睡眠計時器";
+"Turn Off Sleep Timer" = "關閉睡眠計時器";
+"Pausing in %@" = "將在 %@ 後暫停";
+"When the Current Video Ends" = "目前影片結束時";
+"When the Current Track Ends" = "目前曲目結束時";
+"Sleep Timer: pausing in %@" = "睡眠計時器：將在 %@ 後暫停";

@@ -930,3 +930,11 @@
 "Artist and song" = "Artis dan lagu";
 "Look up lyrics on LRCLib for every video you open." = "Cari lirik di LRCLib untuk setiap video yang Anda buka.";
 "%@ · LRCLib" = "%@ · LRCLib";
+
+// Sleep timer
+"Sleep Timer" = "Pengatur Waktu Tidur";
+"Turn Off Sleep Timer" = "Matikan Pengatur Waktu Tidur";
+"Pausing in %@" = "Jeda dalam %@";
+"When the Current Video Ends" = "Saat Video Ini Berakhir";
+"When the Current Track Ends" = "Saat Lagu Ini Berakhir";
+"Sleep Timer: pausing in %@" = "Pengatur Waktu Tidur: jeda dalam %@";

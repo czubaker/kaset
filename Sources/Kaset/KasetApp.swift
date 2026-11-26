@@ -362,6 +362,7 @@ struct KasetApp: App {
                         playerService: self.playerService,
                         youtubePlayerService: self.youtubePlayerService
                     )
+                    self.configureSleepTimer()
                 }
                 .onChange(of: self.settings.discordRichPresenceEnabled) { _, _ in
                     DiscordRichPresenceService.shared.refreshEnablement()
@@ -504,6 +505,12 @@ struct KasetApp: App {
                     }
                 }
                 .keyboardShortcut("l", modifiers: .command)
+
+                Divider()
+
+                Menu(String(localized: "Sleep Timer")) {
+                    SleepTimerMenuContent()
+                }
             }
 
             // Navigation commands - replace default sidebar toggle
@@ -741,6 +748,43 @@ struct KasetApp: App {
             }
             window.orderOut(nil)
             return
+        }
+    }
+
+    /// Lets the sleep timer see and pause both players: it ends what plays,
+    /// video or music.
+    private func configureSleepTimer() {
+        let playerService = self.playerService
+        let youtubePlayerService = self.youtubePlayerService
+        let arbiter = self.playbackArbiter
+        SleepTimer.shared.pausePlayback = {
+            if youtubePlayerService.isPlaying {
+                youtubePlayerService.pause()
+            }
+            if playerService.isPlaying {
+                Task { await playerService.pause() }
+            }
+        }
+        SleepTimer.shared.nowPlaying = {
+            if arbiter.routesMediaKeysToVideo, let video = youtubePlayerService.currentVideo {
+                return SleepTimer.NowPlaying(
+                    id: video.videoId,
+                    progress: youtubePlayerService.progress,
+                    duration: youtubePlayerService.duration,
+                    isPlaying: youtubePlayerService.isPlaying,
+                    isVideo: true,
+                    isAd: youtubePlayerService.isShowingAd
+                )
+            }
+            guard let track = playerService.currentTrack else { return nil }
+            return SleepTimer.NowPlaying(
+                id: track.videoId,
+                progress: playerService.progress,
+                duration: playerService.duration,
+                isPlaying: playerService.isPlaying,
+                isVideo: false,
+                isAd: playerService.isShowingAd
+            )
         }
     }
 

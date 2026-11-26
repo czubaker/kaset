@@ -930,3 +930,11 @@
 "Artist and song" = "Künstler und Titel";
 "Look up lyrics on LRCLib for every video you open." = "Für jedes geöffnete Video auf LRCLib nach dem Songtext suchen.";
 "%@ · LRCLib" = "%@ · LRCLib";
+
+// Sleep timer
+"Sleep Timer" = "Schlaftimer";
+"Turn Off Sleep Timer" = "Schlaftimer ausschalten";
+"Pausing in %@" = "Pause in %@";
+"When the Current Video Ends" = "Wenn das aktuelle Video endet";
+"When the Current Track Ends" = "Wenn der aktuelle Titel endet";
+"Sleep Timer: pausing in %@" = "Schlaftimer: Pause in %@";

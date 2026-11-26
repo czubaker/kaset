@@ -930,3 +930,11 @@
 "Artist and song" = "Sanatçı ve şarkı";
 "Look up lyrics on LRCLib for every video you open." = "Açtığınız her video için LRCLib’de şarkı sözü arar.";
 "%@ · LRCLib" = "%@ · LRCLib";
+
+// Sleep timer
+"Sleep Timer" = "Uyku Zamanlayıcısı";
+"Turn Off Sleep Timer" = "Uyku Zamanlayıcısını Kapat";
+"Pausing in %@" = "%@ sonra duraklatılacak";
+"When the Current Video Ends" = "Geçerli Video Bittiğinde";
+"When the Current Track Ends" = "Geçerli Parça Bittiğinde";
+"Sleep Timer: pausing in %@" = "Uyku zamanlayıcısı: %@ sonra duraklatılacak";
