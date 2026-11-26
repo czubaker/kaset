@@ -870,3 +870,6 @@
 
 // Members only
 "Members only" = "Только для спонсоров";
+
+// Notification bell
+"Notifications" = "Уведомления";

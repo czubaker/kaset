@@ -542,4 +542,19 @@ final class YouTubeWatchViewModel {
             client: self.client
         )
     }
+
+    /// Picks a notification bell option: shown at once, rolled back if
+    /// YouTube refuses it.
+    func setNotificationPreference(_ option: ChannelNotificationPreference.Option) async {
+        guard let previous = self.data.notificationPreference, previous.current?.id != option.id else { return }
+        self.data.notificationPreference = previous.selecting(option)
+        do {
+            try await self.client.modifyNotificationPreference(params: option.params)
+        } catch {
+            if self.data.notificationPreference == previous.selecting(option) {
+                self.data.notificationPreference = previous
+            }
+            DiagnosticsLogger.api.error("Failed to change a channel's notification preference: \(error.localizedDescription)")
+        }
+    }
 }

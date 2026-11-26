@@ -870,3 +870,6 @@
 
 // Members only
 "Members only" = "회원 전용";
+
+// Notification bell
+"Notifications" = "알림";

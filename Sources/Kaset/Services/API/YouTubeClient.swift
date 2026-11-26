@@ -578,6 +578,12 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         self.cache.invalidate(matching: Self.cachePrefix)
     }
 
+    func modifyNotificationPreference(params: String) async throws {
+        self.logger.info("Changing a channel's notification preference")
+        _ = try await self.request("notification/modify_channel_preference", body: ["params": params], retry: false)
+        self.cache.invalidate(matching: Self.cachePrefix)
+    }
+
     func addToWatchLater(videoId: String) async throws {
         try await self.editWatchLater(actions: [
             ["addedVideoId": videoId, "action": "ACTION_ADD_VIDEO"],
@@ -937,6 +943,7 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         "like/removelike",
         "subscription/subscribe",
         "subscription/unsubscribe",
+        "notification/modify_channel_preference",
         "browse/edit_playlist",
         "playlist/get_add_to_playlist",
         "comment/create_comment",

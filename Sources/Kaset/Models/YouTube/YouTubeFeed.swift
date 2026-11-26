@@ -194,6 +194,8 @@ struct WatchNextData {
     var isSubscribed: Bool?
     /// Continuation token for the video's comments section.
     var commentsContinuation: String?
+    /// The channel's notification bell, when the account is subscribed.
+    var notificationPreference: ChannelNotificationPreference?
 
     init(
         videoTitle: String?,
@@ -205,7 +207,8 @@ struct WatchNextData {
         heatmap: [YouTubeHeatmapMarker] = [],
         descriptionText: String? = nil,
         isSubscribed: Bool? = nil,
-        commentsContinuation: String? = nil
+        commentsContinuation: String? = nil,
+        notificationPreference: ChannelNotificationPreference? = nil
     ) {
         self.videoTitle = videoTitle
         self.viewCountText = viewCountText
@@ -217,6 +220,7 @@ struct WatchNextData {
         self.descriptionText = descriptionText
         self.isSubscribed = isSubscribed
         self.commentsContinuation = commentsContinuation
+        self.notificationPreference = notificationPreference
     }
 
     static let empty = WatchNextData(

@@ -13,6 +13,7 @@ enum WatchNextParser {
         var publishedText: String?
         var channel: YouTubeChannel?
         var isSubscribed: Bool?
+        var notificationPreference: ChannelNotificationPreference?
         var secondaryDescriptionText: String?
 
         let primaryContents = (
@@ -43,6 +44,7 @@ enum WatchNextParser {
                     as? [String: Any]
                 {
                     isSubscribed = subscribeButton["subscribed"] as? Bool
+                    notificationPreference = Self.notificationPreference(from: subscribeButton)
                 }
             }
         }
@@ -70,8 +72,50 @@ enum WatchNextParser {
             heatmap: Self.heatmap(of: data),
             descriptionText: Self.descriptionText(of: data) ?? secondaryDescriptionText,
             isSubscribed: isSubscribed,
-            commentsContinuation: Self.commentsContinuation(of: data)
+            commentsContinuation: Self.commentsContinuation(of: data),
+            notificationPreference: notificationPreference
         )
+    }
+
+    /// The bell's menu from a `subscribeButtonRenderer`: the
+    /// `subscriptionNotificationToggleButtonRenderer` opens a popup whose
+    /// `menuServiceItemRenderer` items carry a label, an icon, `isSelected`, and
+    /// `modifyChannelNotificationPreferenceEndpoint.params` (verified with
+    /// api-explorer on a subscribed channel, November 2026). Items without
+    /// params, such as Unsubscribe, are left out.
+    static func notificationPreference(from subscribeButton: [String: Any]) -> ChannelNotificationPreference? {
+        guard let channelId = subscribeButton["channelId"] as? String,
+              let toggle = (subscribeButton["notificationPreferenceButton"] as? [String: Any])?[
+                  "subscriptionNotificationToggleButtonRenderer"
+              ] as? [String: Any]
+        else { return nil }
+
+        let commands = ((toggle["command"] as? [String: Any])?["commandExecutorCommand"] as? [String: Any])?[
+            "commands"
+        ] as? [[String: Any]] ?? []
+        let menuItems = commands.lazy.compactMap { command in
+            ((((command["openPopupAction"] as? [String: Any])?["popup"] as? [String: Any])?[
+                "menuPopupRenderer"
+            ] as? [String: Any])?["items"]) as? [[String: Any]]
+        }.first ?? []
+
+        let options: [ChannelNotificationPreference.Option] = menuItems.compactMap { item in
+            guard let renderer = item["menuServiceItemRenderer"] as? [String: Any],
+                  let params = ((renderer["serviceEndpoint"] as? [String: Any])?[
+                      "modifyChannelNotificationPreferenceEndpoint"
+                  ] as? [String: Any])?["params"] as? String,
+                  let label = YouTubeItemParser.text(from: renderer["text"])
+            else { return nil }
+            let iconType = (renderer["icon"] as? [String: Any])?["iconType"] as? String ?? ""
+            return ChannelNotificationPreference.Option(
+                level: .init(iconType: iconType),
+                label: label,
+                params: params,
+                isCurrent: renderer["isSelected"] as? Bool ?? false
+            )
+        }
+        guard !options.isEmpty else { return nil }
+        return ChannelNotificationPreference(channelId: channelId, options: options)
     }
 
     /// "Most replayed" samples, from the `macroMarkersListEntity` of type

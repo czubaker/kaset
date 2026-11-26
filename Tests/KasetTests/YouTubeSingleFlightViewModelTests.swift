@@ -446,6 +446,8 @@ private final class SingleFlightYouTubeClient: YouTubeClientProtocol {
         try await self.waitIfNeeded()
     }
 
+    func modifyNotificationPreference(params _: String) async throws {}
+
     func setSubscribed(_: Bool, channelId _: String) async throws {
         try await self.waitIfNeeded()
     }
