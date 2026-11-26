@@ -846,3 +846,11 @@
 "Discord isn't running." = "Discord가 실행 중이 아닙니다.";
 "The connection to Discord failed (error %lld)." = "Discord에 연결하지 못했습니다(오류 %lld).";
 "Discord stopped answering." = "Discord가 응답하지 않습니다.";
+
+// Accent color and app mode
+"Accent Color" = "강조 색상";
+"Show" = "표시";
+"Use Kaset for YouTube and YouTube Music, or only one of them." = "Kaset을 YouTube와 YouTube Music 모두 또는 둘 중 하나에만 사용합니다.";
+"YouTube and YouTube Music" = "YouTube 및 YouTube Music";
+"YouTube Only" = "YouTube만";
+"YouTube Music Only" = "YouTube Music만";

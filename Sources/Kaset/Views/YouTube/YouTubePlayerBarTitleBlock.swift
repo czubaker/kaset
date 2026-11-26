@@ -103,7 +103,9 @@ struct YouTubePlayerBarSubscribeButton: View {
     var isCompact = false
 
     private let subscriptions = YouTubeChannelSubscriptions.shared
-    private static let brandAccent = PackageResourceLookup.brandAccent
+    private static var brandAccent: Color {
+        PackageResourceLookup.brandAccent
+    }
 
     var body: some View {
         let state = self.subscriptions.isSubscribed(to: self.channelId)

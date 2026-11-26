@@ -1,5 +1,7 @@
+import AppKit
 import Foundation
 import Observation
+import SwiftUI
 
 /// Manages user preferences persisted via UserDefaults.
 @MainActor
@@ -44,6 +46,8 @@ final class SettingsManager {
         static let youtubeWatchPage = "settings.youtubeWatchPage"
         static let youtubeSidebarOrder = "settings.youtubeSidebarOrder"
         static let discordRichPresenceEnabled = "settings.discord.richPresence.enabled"
+        static let appMode = "settings.appMode"
+        static let accentColorHex = "settings.accentColorHex"
         #if DEBUG
             static let useLegacyMacOS15UI = "settings.debug.useLegacyMacOS15UI"
         #endif
@@ -266,8 +270,76 @@ final class SettingsManager {
     /// The active content source (YouTube Music or regular YouTube).
     var appSource: AppSource {
         didSet {
+            // A mode that shows one experience keeps the app on it.
+            if let forced = self.appMode.forcedSource, self.appSource != forced {
+                self.appSource = forced
+                return
+            }
             UserDefaults.standard.set(self.appSource.rawValue, forKey: Keys.appSource)
         }
+    }
+
+    /// Which experiences the app shows (General → Show).
+    var appMode: AppMode = SettingsManager.loadAppMode(from: .standard) {
+        didSet {
+            UserDefaults.standard.set(self.appMode.rawValue, forKey: Keys.appMode)
+            if let forced = self.appMode.forcedSource, self.appSource != forced {
+                self.appSource = forced
+            }
+        }
+    }
+
+    nonisolated static func loadAppMode(from defaults: UserDefaults) -> AppMode {
+        defaults.string(forKey: Keys.appMode).flatMap(AppMode.init(rawValue:)) ?? .both
+    }
+
+    /// The app's accent: the root tint of every window, and the brand color
+    /// of Kaset's own controls (`PackageResourceLookup.brandAccent`). Stored
+    /// as sRGB `#RRGGBB` only while it differs from the brand color.
+    var accentColor: Color = SettingsManager.loadAccentColor(from: .standard) {
+        didSet {
+            let hex = Self.hex(from: self.accentColor)
+            if hex == Self.hex(from: PackageResourceLookup.defaultBrandAccent) {
+                UserDefaults.standard.removeObject(forKey: Keys.accentColorHex)
+            } else {
+                UserDefaults.standard.set(hex, forKey: Keys.accentColorHex)
+            }
+        }
+    }
+
+    var isUsingCustomAccent: Bool {
+        Self.hex(from: self.accentColor) != Self.hex(from: PackageResourceLookup.defaultBrandAccent)
+    }
+
+    func resetAccentColor() {
+        self.accentColor = PackageResourceLookup.defaultBrandAccent
+    }
+
+    nonisolated static func loadAccentColor(from defaults: UserDefaults) -> Color {
+        defaults.string(forKey: Keys.accentColorHex).flatMap(self.color(fromHex:)) ?? PackageResourceLookup.defaultBrandAccent
+    }
+
+    /// `#RRGGBB` in sRGB.
+    nonisolated static func hex(from color: Color) -> String {
+        let srgb = NSColor(color).usingColorSpace(.sRGB) ?? PackageResourceLookup.brandAccentNSColor
+        let red = Int((srgb.redComponent * 255).rounded())
+        let green = Int((srgb.greenComponent * 255).rounded())
+        let blue = Int((srgb.blueComponent * 255).rounded())
+        return String(format: "#%02X%02X%02X", red, green, blue)
+    }
+
+    nonisolated static func color(fromHex hex: String) -> Color? {
+        var value = hex
+        if value.hasPrefix("#") {
+            value.removeFirst()
+        }
+        guard value.count == 6, let rgb = Int(value, radix: 16) else { return nil }
+        return Color(
+            .sRGB,
+            red: Double((rgb >> 16) & 0xFF) / 255,
+            green: Double((rgb >> 8) & 0xFF) / 255,
+            blue: Double(rgb & 0xFF) / 255
+        )
     }
 
     /// Whether to show system notifications when the track changes.
@@ -728,9 +800,9 @@ final class SettingsManager {
         if let rawValue = UserDefaults.standard.string(forKey: Keys.appSource),
            let source = AppSource(rawValue: rawValue)
         {
-            self.appSource = source
+            self.appSource = SettingsManager.loadAppMode(from: .standard).forcedSource ?? source
         } else {
-            self.appSource = .music
+            self.appSource = SettingsManager.loadAppMode(from: .standard).forcedSource ?? .music
         }
 
         AppLocalization.setLanguage(self.contentLanguage.languageCode)

@@ -846,3 +846,11 @@
 "Discord isn't running." = "Discord لا يعمل.";
 "The connection to Discord failed (error %lld)." = "فشل الاتصال بـ Discord (الخطأ %lld).";
 "Discord stopped answering." = "توقف Discord عن الاستجابة.";
+
+// Accent color and app mode
+"Accent Color" = "لون التمييز";
+"Show" = "العرض";
+"Use Kaset for YouTube and YouTube Music, or only one of them." = "استخدم Kaset مع YouTube وYouTube Music، أو مع أحدهما فقط.";
+"YouTube and YouTube Music" = "YouTube وYouTube Music";
+"YouTube Only" = "YouTube فقط";
+"YouTube Music Only" = "YouTube Music فقط";

@@ -846,3 +846,11 @@
 "Discord isn't running." = "Discord tidak berjalan.";
 "The connection to Discord failed (error %lld)." = "Koneksi ke Discord gagal (kesalahan %lld).";
 "Discord stopped answering." = "Discord berhenti merespons.";
+
+// Accent color and app mode
+"Accent Color" = "Warna Aksen";
+"Show" = "Tampilkan";
+"Use Kaset for YouTube and YouTube Music, or only one of them." = "Gunakan Kaset untuk YouTube dan YouTube Music, atau hanya salah satunya.";
+"YouTube and YouTube Music" = "YouTube dan YouTube Music";
+"YouTube Only" = "Hanya YouTube";
+"YouTube Music Only" = "Hanya YouTube Music";

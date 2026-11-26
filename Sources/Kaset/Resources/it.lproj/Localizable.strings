@@ -846,3 +846,11 @@
 "Discord isn't running." = "Discord non è in esecuzione.";
 "The connection to Discord failed (error %lld)." = "Connessione a Discord non riuscita (errore %lld).";
 "Discord stopped answering." = "Discord non risponde più.";
+
+// Accent color and app mode
+"Accent Color" = "Colore di evidenziazione";
+"Show" = "Mostra";
+"Use Kaset for YouTube and YouTube Music, or only one of them." = "Usa Kaset per YouTube e YouTube Music, oppure solo per uno dei due.";
+"YouTube and YouTube Music" = "YouTube e YouTube Music";
+"YouTube Only" = "Solo YouTube";
+"YouTube Music Only" = "Solo YouTube Music";

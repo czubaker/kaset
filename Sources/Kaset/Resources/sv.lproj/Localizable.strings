@@ -846,3 +846,11 @@
 "Discord isn't running." = "Discord körs inte.";
 "The connection to Discord failed (error %lld)." = "Anslutningen till Discord misslyckades (fel %lld).";
 "Discord stopped answering." = "Discord svarar inte längre.";
+
+// Accent color and app mode
+"Accent Color" = "Accentfärg";
+"Show" = "Visa";
+"Use Kaset for YouTube and YouTube Music, or only one of them." = "Använd Kaset för YouTube och YouTube Music, eller bara för en av dem.";
+"YouTube and YouTube Music" = "YouTube och YouTube Music";
+"YouTube Only" = "Endast YouTube";
+"YouTube Music Only" = "Endast YouTube Music";

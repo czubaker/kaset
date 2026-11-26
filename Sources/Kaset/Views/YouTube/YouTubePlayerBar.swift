@@ -4,7 +4,9 @@ import SwiftUI
 
 /// The Liquid Glass player bar for inline and detached YouTube playback.
 struct YouTubePlayerBar: View {
-    private static let brandAccent = PackageResourceLookup.brandAccent
+    private static var brandAccent: Color {
+        PackageResourceLookup.brandAccent
+    }
 
     private struct ChapterProgressSpan {
         let chapter: YouTubeChapter

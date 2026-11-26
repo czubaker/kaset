@@ -11,7 +11,9 @@ import SwiftUI
 /// this view owns it. Navigating away while playing hands the surface off
 /// to the floating window (`YouTubeVideoWindowController`).
 struct YouTubeWatchView: View {
-    fileprivate static let brandAccent = PackageResourceLookup.brandAccent
+    fileprivate static var brandAccent: Color {
+        PackageResourceLookup.brandAccent
+    }
 
     let video: YouTubeVideo
 

@@ -23,7 +23,15 @@ enum PackageResourceLookup {
         return NSColor(srgbRed: 1.0, green: 0.0, blue: 0.337, alpha: 1.0)
     }()
 
-    static let brandAccent = Color(nsColor: Self.brandAccentNSColor)
+    /// Kaset's brand color, the accent until the user picks another.
+    static let defaultBrandAccent = Color(nsColor: Self.brandAccentNSColor)
+
+    /// The accent Kaset's own controls use: the user's pick in Settings →
+    /// General, or the brand color. Read it in a view's body so a change
+    /// re-tints it.
+    @MainActor static var brandAccent: Color {
+        SettingsManager.shared.accentColor
+    }
 
     private static let bundleSearchRoots: [Bundle] = {
         var bundles: [Bundle] = [Bundle.main]

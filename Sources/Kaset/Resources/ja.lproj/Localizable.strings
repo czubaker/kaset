@@ -841,3 +841,11 @@
 "Discord isn't running." = "Discord が起動していません。";
 "The connection to Discord failed (error %lld)." = "Discord への接続に失敗しました（エラー %lld）。";
 "Discord stopped answering." = "Discord が応答しなくなりました。";
+
+// Accent color and app mode
+"Accent Color" = "アクセントカラー";
+"Show" = "表示";
+"Use Kaset for YouTube and YouTube Music, or only one of them." = "Kaset を YouTube と YouTube Music の両方、またはどちらか一方で使います。";
+"YouTube and YouTube Music" = "YouTube と YouTube Music";
+"YouTube Only" = "YouTube のみ";
+"YouTube Music Only" = "YouTube Music のみ";

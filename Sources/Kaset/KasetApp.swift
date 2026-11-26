@@ -239,6 +239,7 @@ struct KasetApp: App {
                     youtubeClient: self.sharedYouTubeClient
                 )
                 .id(self.settings.contentLanguage)
+                .tint(self.settings.accentColor)
                 .environment(\.locale, self.settings.contentLanguage.locale)
                 .environment(self.authService)
                 .environment(self.webKitManager)
@@ -385,6 +386,7 @@ struct KasetApp: App {
         Settings {
             SettingsView()
                 .id(self.settings.contentLanguage)
+                .tint(self.settings.accentColor)
                 .environment(\.locale, self.settings.contentLanguage.locale)
                 .environment(self.authService)
                 .environment(self.accountService)
@@ -556,6 +558,7 @@ struct KasetApp: App {
                     }
                 }
                 .keyboardShortcut("y", modifiers: [.command, .shift])
+                .disabled(self.settings.appMode != .both)
 
                 Divider()
 
@@ -870,15 +873,19 @@ struct SettingsView: View {
                     Label(String(localized: "General"), systemImage: "gearshape")
                 }
 
-            MusicSettingsView()
-                .tabItem {
-                    Label(String(localized: "Music"), systemImage: "music.note")
-                }
+            if self.settings.appMode.showsMusic {
+                MusicSettingsView()
+                    .tabItem {
+                        Label(String(localized: "Music"), systemImage: "music.note")
+                    }
+            }
 
-            YouTubeSettingsView()
-                .tabItem {
-                    Label(String(localized: "YouTube"), systemImage: "play.rectangle.fill")
-                }
+            if self.settings.appMode.showsYouTube {
+                YouTubeSettingsView()
+                    .tabItem {
+                        Label(String(localized: "YouTube"), systemImage: "play.rectangle.fill")
+                    }
+            }
 
             EqualizerSettingsView()
                 .tabItem {

@@ -138,7 +138,9 @@ struct YouTubePlayerBarMenu: View {
 
     @Environment(YouTubePlayerService.self) private var player
 
-    private static let brandAccent = PackageResourceLookup.brandAccent
+    private static var brandAccent: Color {
+        PackageResourceLookup.brandAccent
+    }
 
     var body: some View {
         PlayerBarIconMenu(
@@ -215,7 +217,9 @@ struct YouTubeVideoSettingsMenu: View {
 
     @Environment(YouTubePlayerService.self) private var player
 
-    private static let brandAccent = PackageResourceLookup.brandAccent
+    private static var brandAccent: Color {
+        PackageResourceLookup.brandAccent
+    }
 
     var body: some View {
         PlayerBarIconMenu(

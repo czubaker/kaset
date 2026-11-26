@@ -7,7 +7,9 @@ import SwiftUI
 ///
 /// Lives at the bottom of both sidebars, just above the profile section.
 struct SourceToggleView: View {
-    private static let brandAccent = PackageResourceLookup.brandAccent
+    private static var brandAccent: Color {
+        PackageResourceLookup.brandAccent
+    }
 
     @Environment(\.usesLegacyMacOS15UI) private var usesLegacyMacOS15UI
     @Environment(YouTubePlayerService.self) private var youtubePlayer

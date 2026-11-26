@@ -844,3 +844,11 @@
 "Discord isn't running." = "Discord 未运行。";
 "The connection to Discord failed (error %lld)." = "连接 Discord 失败（错误 %lld）。";
 "Discord stopped answering." = "Discord 已停止响应。";
+
+// Accent color and app mode
+"Accent Color" = "强调色";
+"Show" = "显示";
+"Use Kaset for YouTube and YouTube Music, or only one of them." = "将 Kaset 用于 YouTube 和 YouTube Music，或仅用于其中之一。";
+"YouTube and YouTube Music" = "YouTube 和 YouTube Music";
+"YouTube Only" = "仅 YouTube";
+"YouTube Music Only" = "仅 YouTube Music";

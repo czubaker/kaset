@@ -846,3 +846,11 @@
 "Discord isn't running." = "Discord çalışmıyor.";
 "The connection to Discord failed (error %lld)." = "Discord bağlantısı başarısız oldu (hata %lld).";
 "Discord stopped answering." = "Discord yanıt vermeyi bıraktı.";
+
+// Accent color and app mode
+"Accent Color" = "Vurgu Rengi";
+"Show" = "Göster";
+"Use Kaset for YouTube and YouTube Music, or only one of them." = "Kaset’i YouTube ve YouTube Music için ya da yalnızca biri için kullanın.";
+"YouTube and YouTube Music" = "YouTube ve YouTube Music";
+"YouTube Only" = "Yalnızca YouTube";
+"YouTube Music Only" = "Yalnızca YouTube Music";

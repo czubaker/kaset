@@ -6,7 +6,9 @@ import SwiftUI
 
 /// Player bar shown at the bottom of the content area, styled like Apple Music with Liquid Glass.
 struct PlayerBar: View { // swiftlint:disable:this type_body_length
-    private static let brandAccent = PackageResourceLookup.brandAccent
+    private static var brandAccent: Color {
+        PackageResourceLookup.brandAccent
+    }
 
     @Environment(AuthService.self) private var authService
     @Environment(PlayerService.self) private var playerService

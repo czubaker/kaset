@@ -52,6 +52,15 @@ struct GeneralSettingsView: View {
                     }
                 }
                 .help(String(localized: "Choose light or dark mode for Kaset, or match the macOS setting"))
+
+                HStack {
+                    ColorPicker(String(localized: "Accent Color"), selection: self.$settings.accentColor, supportsOpacity: false)
+                    if self.settings.isUsingCustomAccent {
+                        Button(String(localized: "Reset")) {
+                            self.settings.resetAccentColor()
+                        }
+                    }
+                }
             } header: {
                 Text(String(localized: "Appearance"))
             }
@@ -59,6 +68,13 @@ struct GeneralSettingsView: View {
             // MARK: - Behavior Section
 
             Section {
+                Picker(String(localized: "Show"), selection: self.$settings.appMode) {
+                    ForEach(AppMode.allCases) { mode in
+                        Text(mode.displayName).tag(mode)
+                    }
+                }
+                .help(String(localized: "Use Kaset for YouTube and YouTube Music, or only one of them."))
+
                 // Haptic Feedback
                 Toggle("Haptic Feedback", isOn: self.$settings.hapticFeedbackEnabled)
                     .help(String(localized: "Provide tactile feedback for actions on Force Touch trackpads"))
@@ -67,10 +83,12 @@ struct GeneralSettingsView: View {
                 Toggle(String(localized: "Swipe to Go Back"), isOn: self.$settings.swipeToGoBackEnabled)
                     .help(String(localized: "Swipe right on the trackpad to return to the previous page, using the Swipe between pages gesture from System Settings"))
 
-                // Default Launch Page
-                Picker(String(localized: "Default Page on Launch"), selection: self.$settings.defaultLaunchPage) {
-                    ForEach(SettingsManager.LaunchPage.allCases) { page in
-                        Text(page.displayName).tag(page)
+                // Default Launch Page (YouTube Music's pages)
+                if self.settings.appMode.showsMusic {
+                    Picker(String(localized: "Default Page on Launch"), selection: self.$settings.defaultLaunchPage) {
+                        ForEach(SettingsManager.LaunchPage.allCases) { page in
+                            Text(page.displayName).tag(page)
+                        }
                     }
                 }
             } header: {
