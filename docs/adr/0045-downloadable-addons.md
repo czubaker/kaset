@@ -26,10 +26,12 @@ the playback web views through `WKWebExtensionController`).
 - **Install** asks GitHub's API for the latest release, takes the project's
   Safari build, and accepts the download only from `github.com` or
   `*.githubusercontent.com` over HTTPS, at the size and the SHA-256 digest
-  the release lists. Its zip directory is read first, and an archive with
-  links, absolute paths, or `..` steps is refused before anything is
-  written; `ditto` then unpacks it into a temporary folder, which is
-  checked again. The folder with
+  the release lists. Kaset unpacks it itself (`AddonArchive`, with the
+  Compression framework for deflated entries) into a temporary folder:
+  entries come from the zip's central directory, each must match its local
+  header, and an archive with no entries, links, absolute paths, or `..`
+  steps is refused before anything is written. Only the checked entries
+  are written, and the folder is checked again after. The folder with
   `manifest.json` goes through `ExtensionsManager.addExtension`, tagged with
   the addon and its release, and then through the same permission review as
   any extension (#589) before it loads at the next launch.

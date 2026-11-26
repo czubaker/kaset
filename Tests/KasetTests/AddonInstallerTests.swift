@@ -112,7 +112,7 @@ struct AddonInstallerTests {
         #expect(!AddonInstaller.containsOnlyPlainItems(directory))
     }
 
-    @Test("A real zip unpacks with ditto")
+    @Test("A real zip unpacks, compressed entries included")
     func unpacksZips() async throws {
         let directory = try self.makeTemporaryDirectory()
         defer { try? FileManager.default.removeItem(at: directory) }
@@ -128,7 +128,31 @@ struct AddonInstallerTests {
 
         let unpacked = try await AddonInstaller.unpack(archive)
         defer { try? FileManager.default.removeItem(at: unpacked) }
-        #expect(try AddonInstaller.extensionFolder(in: unpacked).lastPathComponent == "Addon")
+        let folder = try AddonInstaller.extensionFolder(in: unpacked)
+        #expect(folder.lastPathComponent == "Addon")
+        let manifest = try String(contentsOf: folder.appendingPathComponent("manifest.json"), encoding: .utf8)
+        #expect(manifest == "{\"name\": \"Test\"}")
+    }
+
+    @Test("An archive with no entries, or one that isn't a zip, is refused")
+    func refusesEmptyArchives() async throws {
+        let directory = try self.makeTemporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        // Only an end-of-central-directory record: no entries at all.
+        var empty = Data([0x50, 0x4B, 0x05, 0x06])
+        empty.append(Data(count: 18))
+        let emptyArchive = directory.appendingPathComponent("empty.zip")
+        try empty.write(to: emptyArchive)
+        let notZip = directory.appendingPathComponent("not.zip")
+        try Data("not a zip".utf8).write(to: notZip)
+
+        for archive in [emptyArchive, notZip] {
+            let before = Self.temporaryAddonItems()
+            await #expect(throws: AddonInstaller.InstallError.badArchive) {
+                _ = try await AddonInstaller.unpack(archive)
+            }
+            #expect(Self.temporaryAddonItems() == before)
+        }
     }
 
     // MARK: Archive checks
@@ -160,8 +184,8 @@ struct AddonInstallerTests {
         try Self.runTool("/usr/bin/zip", ["-q", "-r", "-y", archive.path, "Addon"], in: directory)
 
         let entries = try AddonArchive.entries(of: archive)
-        #expect(entries.contains(AddonArchive.Entry(name: "Addon/manifest.json", isSymbolicLink: false)))
-        #expect(entries.contains(AddonArchive.Entry(name: "Addon/escape", isSymbolicLink: true)))
+        #expect(entries.contains { $0.name == "Addon/manifest.json" && !$0.isSymbolicLink })
+        #expect(entries.contains { $0.name == "Addon/escape" && $0.isSymbolicLink })
         await #expect(throws: AddonInstaller.InstallError.badArchive) {
             _ = try await AddonInstaller.unpack(archive)
         }

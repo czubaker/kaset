@@ -147,18 +147,20 @@ final class AddonInstaller {
 
     // MARK: Unpacking
 
-    /// Unpacks a zip into a new temporary folder with the system's `ditto`.
-    /// The archive's entries are checked first (no links, absolute paths, or
-    /// `..` steps), and the unpacked folder again after.
+    /// Unpacks a zip into a new temporary folder. `AddonArchive` writes only
+    /// the entries it checked (plain files and folders inside the folder),
+    /// and the folder is checked again after.
     nonisolated static func unpack(_ archive: URL) async throws -> URL {
-        guard let entries = try? AddonArchive.entries(of: archive), AddonArchive.isSafe(entries) else {
-            throw InstallError.badArchive
-        }
         let destination = FileManager.default.temporaryDirectory
             .appendingPathComponent("addon-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true)
-        let status = try await self.run("/usr/bin/ditto", arguments: ["-x", "-k", archive.path, destination.path])
-        guard status == 0, Self.containsOnlyPlainItems(destination) else {
+        do {
+            try AddonArchive.extract(archive, to: destination)
+        } catch {
+            try? FileManager.default.removeItem(at: destination)
+            throw InstallError.badArchive
+        }
+        guard Self.containsOnlyPlainItems(destination) else {
             try? FileManager.default.removeItem(at: destination)
             throw InstallError.badArchive
         }
@@ -207,25 +209,6 @@ final class AddonInstaller {
             depth += 1
         }
         throw InstallError.noManifest
-    }
-
-    nonisolated static func run(_ executable: String, arguments: [String]) async throws -> Int32 {
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: executable)
-        process.arguments = arguments
-        process.standardOutput = FileHandle.nullDevice
-        process.standardError = FileHandle.nullDevice
-        return try await withCheckedThrowingContinuation { continuation in
-            process.terminationHandler = { finished in
-                continuation.resume(returning: finished.terminationStatus)
-            }
-            do {
-                try process.run()
-            } catch {
-                process.terminationHandler = nil
-                continuation.resume(throwing: error)
-            }
-        }
     }
 }
 
