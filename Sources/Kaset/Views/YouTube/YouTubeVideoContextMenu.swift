@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 // MARK: - YouTubeVideoContextMenu
@@ -18,37 +19,54 @@ struct YouTubeVideoContextMenu: ViewModifier {
     func body(content: Content) -> some View {
         let canSave = self.authService.hasPersonalAccount
         let feedbackActions = self.sendFeedback == nil ? [] : self.video.feedbackActions
-        if !canSave, feedbackActions.isEmpty, self.removal == nil {
-            content
-        } else {
-            content.contextMenu {
+        content.contextMenu {
+            if canSave {
+                Button {
+                    Task { await YouTubeVideoActions.shared.saveToWatchLater(self.video) }
+                } label: {
+                    Label(String(localized: "Add to Watch Later"), systemImage: "clock")
+                }
+                YouTubeAddToPlaylistMenu(video: self.video)
+            }
+
+            if let removal = self.removal {
+                Divider()
+                Button(role: .destructive, action: removal.action) {
+                    Label(removal.title, systemImage: "minus.circle")
+                }
+            }
+
+            if !feedbackActions.isEmpty {
                 if canSave {
-                    Button {
-                        Task { await YouTubeVideoActions.shared.saveToWatchLater(self.video) }
-                    } label: {
-                        Label(String(localized: "Add to Watch Later"), systemImage: "clock")
-                    }
-                    YouTubeAddToPlaylistMenu(video: self.video)
-                }
-
-                if let removal = self.removal {
                     Divider()
-                    Button(role: .destructive, action: removal.action) {
-                        Label(removal.title, systemImage: "minus.circle")
+                }
+                ForEach(feedbackActions, id: \.kind) { action in
+                    Button {
+                        self.sendFeedback?(action)
+                    } label: {
+                        Label(action.title, systemImage: action.systemImage)
                     }
                 }
+            }
 
-                if !feedbackActions.isEmpty {
-                    if canSave {
-                        Divider()
-                    }
-                    ForEach(feedbackActions, id: \.kind) { action in
-                        Button {
-                            self.sendFeedback?(action)
-                        } label: {
-                            Label(action.title, systemImage: action.systemImage)
-                        }
-                    }
+            if let url = self.video.shareURL {
+                Divider()
+                Button {
+                    ShareContextMenu.showSharePicker(for: url)
+                } label: {
+                    Label(String(localized: "Share"), systemImage: "square.and.arrow.up")
+                }
+                Button {
+                    CopyLinkSharingPickerDelegate.copy(url, to: .general)
+                } label: {
+                    Label(String(localized: "Copy Link"), systemImage: "link")
+                }
+                // YouTube's report form needs the signed-in web session, which
+                // Kaset's API client doesn't hold, so reports go through the site.
+                Button {
+                    NSWorkspace.shared.open(url)
+                } label: {
+                    Label(String(localized: "Report on YouTube…"), systemImage: "flag")
                 }
             }
         }
