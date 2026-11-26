@@ -899,3 +899,8 @@
 // Save playlist
 "Save to Library" = "Bewaren in bibliotheek";
 "Saved" = "Bewaard";
+
+// YouTube notifications inbox
+"%lld new" = "%lld nieuw";
+"Couldn’t load notifications." = "Kan meldingen niet laden.";
+"No notifications" = "Geen meldingen";

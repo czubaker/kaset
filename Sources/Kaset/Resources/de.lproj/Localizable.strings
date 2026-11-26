@@ -899,3 +899,8 @@
 // Save playlist
 "Save to Library" = "In Mediathek sichern";
 "Saved" = "Gesichert";
+
+// YouTube notifications inbox
+"%lld new" = "%lld neu";
+"Couldn’t load notifications." = "Mitteilungen konnten nicht geladen werden.";
+"No notifications" = "Keine Mitteilungen";

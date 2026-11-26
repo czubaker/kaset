@@ -647,6 +647,14 @@ struct MainWindow: View { // swiftlint:disable:this type_body_length
                     .accessibilityIdentifier(AccessibilityID.MainWindow.refreshButton)
                 }
 
+                if self.authService.hasPersonalAccount {
+                    ToolbarItem(id: "notifications", placement: .automatic) {
+                        YouTubeNotificationsButton(viewModel: self.youtubeStore.notifications) { video in
+                            self.youtubeStore.navigationPath.append(.watch(video))
+                        }
+                    }
+                }
+
                 ToolbarItem(id: "homeZoom", placement: .automatic) {
                     self.gridZoomControl
                 }

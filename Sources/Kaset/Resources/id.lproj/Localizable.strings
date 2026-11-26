@@ -899,3 +899,8 @@
 // Save playlist
 "Save to Library" = "Simpan ke Koleksi";
 "Saved" = "Disimpan";
+
+// YouTube notifications inbox
+"%lld new" = "%lld baru";
+"Couldn’t load notifications." = "Tidak dapat memuat notifikasi.";
+"No notifications" = "Tidak ada notifikasi";

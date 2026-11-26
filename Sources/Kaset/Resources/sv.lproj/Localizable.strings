@@ -899,3 +899,8 @@
 // Save playlist
 "Save to Library" = "Spara i biblioteket";
 "Saved" = "Sparad";
+
+// YouTube notifications inbox
+"%lld new" = "%lld nya";
+"Couldn’t load notifications." = "Det gick inte att läsa in notiser.";
+"No notifications" = "Inga notiser";

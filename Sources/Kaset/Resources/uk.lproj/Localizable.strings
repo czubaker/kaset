@@ -899,3 +899,8 @@
 // Save playlist
 "Save to Library" = "Зберегти в медіатеку";
 "Saved" = "Збережено";
+
+// YouTube notifications inbox
+"%lld new" = "Нових: %lld";
+"Couldn’t load notifications." = "Не вдалося завантажити сповіщення.";
+"No notifications" = "Немає сповіщень";

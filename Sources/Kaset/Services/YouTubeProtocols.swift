@@ -157,6 +157,9 @@ protocol YouTubeClientProtocol: Sendable {
     /// one of its `ChannelNotificationPreference` options.
     func modifyNotificationPreference(params: String) async throws
 
+    /// The account's notification inbox: the entries that open a video.
+    func getNotifications() async throws -> [YouTubeNotification]
+
     /// One poll of a live stream's chat.
     func getLiveChat(continuation: String) async throws -> YouTubeLiveChatPage
 

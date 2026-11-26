@@ -22,6 +22,7 @@ final class YouTubeViewModelStore {
     private(set) var subscriptions: YouTubeSubscriptionsViewModel
     private(set) var history: YouTubeHistoryViewModel
     private(set) var playlists: YouTubePlaylistsViewModel
+    private(set) var notifications: YouTubeNotificationsViewModel
 
     init(client: any YouTubeClientProtocol) {
         self.client = client
@@ -32,6 +33,7 @@ final class YouTubeViewModelStore {
         self.subscriptions = YouTubeSubscriptionsViewModel(client: client)
         self.history = YouTubeHistoryViewModel(client: client)
         self.playlists = YouTubePlaylistsViewModel(client: client)
+        self.notifications = YouTubeNotificationsViewModel(client: client)
     }
 
     /// Resets account-scoped state after an account switch.
@@ -58,6 +60,7 @@ final class YouTubeViewModelStore {
         self.subscriptions = YouTubeSubscriptionsViewModel(client: self.client)
         self.history = YouTubeHistoryViewModel(client: self.client)
         self.playlists = YouTubePlaylistsViewModel(client: self.client)
+        self.notifications = YouTubeNotificationsViewModel(client: self.client)
     }
 
     /// Refreshes public guest-safe YouTube surfaces after sign-out.

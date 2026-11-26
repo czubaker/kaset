@@ -899,3 +899,8 @@
 // Save playlist
 "Save to Library" = "보관함에 저장";
 "Saved" = "저장됨";
+
+// YouTube notifications inbox
+"%lld new" = "새 알림 %lld개";
+"Couldn’t load notifications." = "알림을 불러올 수 없습니다.";
+"No notifications" = "알림 없음";

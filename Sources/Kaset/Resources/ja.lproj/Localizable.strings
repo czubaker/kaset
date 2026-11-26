@@ -894,3 +894,8 @@
 // Save playlist
 "Save to Library" = "ライブラリに保存";
 "Saved" = "保存済み";
+
+// YouTube notifications inbox
+"%lld new" = "新着 %lld 件";
+"Couldn’t load notifications." = "通知を読み込めませんでした。";
+"No notifications" = "通知はありません";

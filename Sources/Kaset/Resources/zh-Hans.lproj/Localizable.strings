@@ -897,3 +897,8 @@
 // Save playlist
 "Save to Library" = "保存到资料库";
 "Saved" = "已保存";
+
+// YouTube notifications inbox
+"%lld new" = "%lld 条新通知";
+"Couldn’t load notifications." = "无法载入通知。";
+"No notifications" = "没有通知";

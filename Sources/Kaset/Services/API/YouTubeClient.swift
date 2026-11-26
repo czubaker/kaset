@@ -578,6 +578,15 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         self.cache.invalidate(matching: Self.cachePrefix)
     }
 
+    func getNotifications() async throws -> [YouTubeNotification] {
+        let data = try await self.request(
+            "notification/get_notification_menu",
+            body: ["notificationsMenuRequestType": "NOTIFICATIONS_MENU_REQUEST_TYPE_INBOX"],
+            retry: false
+        )
+        return YouTubeNotificationsParser.parse(data)
+    }
+
     func getLiveChat(continuation: String) async throws -> YouTubeLiveChatPage {
         let data = try await self.request("live_chat/get_live_chat", body: ["continuation": continuation])
         return LiveChatParser.parse(data)
@@ -967,6 +976,7 @@ final class YouTubeClient: YouTubeClientProtocol { // swiftlint:disable:this typ
         "subscription/unsubscribe",
         "notification/modify_channel_preference",
         "live_chat/send_message",
+        "notification/get_notification_menu",
         "browse/edit_playlist",
         "playlist/get_add_to_playlist",
         "comment/create_comment",

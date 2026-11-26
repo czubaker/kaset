@@ -899,3 +899,8 @@
 // Save playlist
 "Save to Library" = "Salva in libreria";
 "Saved" = "Salvata";
+
+// YouTube notifications inbox
+"%lld new" = "%lld nuove";
+"Couldn’t load notifications." = "Impossibile caricare le notifiche.";
+"No notifications" = "Nessuna notifica";
